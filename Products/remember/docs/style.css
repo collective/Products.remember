@@ -1,0 +1,72 @@
+body {
+  background: #f2f2f2;
+  color: #5f4f33;
+  font-family: arial, sans;
+  font-size: 12px;
+  font-style: normal;
+  line-height: normal;
+  text-transform: none;
+}
+
+.docinfo {
+  text-align: left;
+}
+
+
+dt {
+  font-weight: bold;
+}
+
+.literal-block {
+  whitespace: pre;
+  font: 1.2em monospace;
+  font-weight: bold;
+  border: 1px solid black;
+  background-color: #c7c1ab;
+  padding: 4px;
+  margin-right: 10%;
+ }
+
+h1, h2, h3, h4, h5, h6 {
+  color: black;
+  border-bottom: 2px inset black;
+  width: 80%;
+}
+
+div {
+  padding-right: 30px;
+ }
+
+@media projection {
+  h1, h2, h3, h4, h5, h6, hr {
+    page-break-before: always;
+  }
+
+  hr {
+    clear: both;
+    border: 0;
+  }
+
+  h1, h2 {
+    font-size: 50px;
+  }
+
+
+  h1.title {
+    page-break-before: avoid;
+  }
+
+  body{
+    background: url(http://objectrealms.net/images/icon.gif) no-repeat fixed 95% 95%;
+    font-size: 100%;
+  }
+
+  dl, ol, ul {
+    font-size: 1.2em !important;
+    text-align: left;
+    margin: .5em;
+  }
+
+  /* A sort of funny presentation style */
+  / * p {  display: none; } */
+}
