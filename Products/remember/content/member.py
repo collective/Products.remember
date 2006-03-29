@@ -11,6 +11,7 @@ from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IPropertiesProvider
 
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
+from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.utils import stringToList
 from Products.remember.utils import removeAutoRoles
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
@@ -29,7 +30,7 @@ class BaseMember(object):
 
     implements(IUserAuthProvider, IPropertiesProvider)
 
-    archetype_name = portal_type = meta_type = 'Member'
+    archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
 
     # Give a nice icon

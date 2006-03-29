@@ -44,8 +44,7 @@ MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 #                    'MySecondContentType': 'My other permission',
 #                   }
 
-# XXX Hard-coded the 'Member' type to prevent circular import
-ADD_PERMISSIONS = {'Member': ADD_MEMBER_PERMISSION,
+ADD_PERMISSIONS = {config.DEFAULT_MEMBER_TYPE: ADD_MEMBER_PERMISSION,
                    }
 
 # The SITEWIDE_PERMISSIONS dictionary is used for assigning permissions

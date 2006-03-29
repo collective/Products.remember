@@ -14,6 +14,8 @@ PROJECT_NAME           = 'remember'
 SKINS_DIR              = 'skins'
 GLOBALS                = globals()
 
+DEFAULT_MEMBER_TYPE = 'Member'
+
 ALLOWED_MEMBER_ID_PATTERN = re.compile( "^[A-Za-z][A-Za-z0-9_]*$" )
 
 AUTO_ROLES = ('Anonymous', 'Authenticated')
