@@ -152,6 +152,11 @@ class BaseMember(object):
         removeAutoRoles(roles)
         return tuple(roles)
 
+    def valid_groups(self):
+        """ return the set of valid groups """
+        gtool = getToolByName(self, 'portal_groups')
+        return gtool.getGroupIds()
+
     def available_skins(self):
         # give managers the ability to choose any skin
         mtool = getToolByName(self, 'portal_membership')
