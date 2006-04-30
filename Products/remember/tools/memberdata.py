@@ -5,29 +5,37 @@ from zope.interface import implements
 from Products.CMFCore.interfaces import IMemberDataTool
 from Products.CMFCore.ActionProviderBase import ActionProviderBase
 from Products.CMFCore import permissions as cmfcore_permissions
+from Products.CMFCore.utils import getToolByName
+
+from Products.PlonePAS.tools.memberdata import MemberDataTool \
+     as BaseTool
+
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
-class MemberDataContainer(atapi.BaseBTreeFolder):
+class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     """
     Default container for remember Member objects.  Members don't
     actually need to live here any more, but for BBB reasons we are
     still storing them here.
     """
-    filter_content_types = 1
-    allowed_content_types = [DEFAULT_MEMBER_TYPE]
-
     implements(IMemberDataTool)
 
     security = ClassSecurityInfo()
 
     id = 'portal_memberdata'
     archetype_name = meta_type = portal_type = 'MemberDataContainer'
-
+    filter_content_types = 1
+    allowed_content_types = [DEFAULT_MEMBER_TYPE]
     global_allow = 0
+    content_icon = 'user.gif'
 
     manage_options = atapi.BaseBTreeFolder.manage_options + \
                      ActionProviderBase.manage_options
+
+    def __init__(self, **kwargs):
+        atapi.BaseBTreeFolder.__init__(self, self.id, **kwargs)
+        BaseTool.__init__(self)
 
     ###################################################################
     # IMemberDataTool implemenation
@@ -39,7 +47,10 @@ class MemberDataContainer(atapi.BaseBTreeFolder):
         given User object.  Note that we're not actually wrapping the
         User object any longer, we're done w/ that mess.
         """
-        pass
+        mbtool = getToolByName(self, 'membrane_tool')
+        mem = mbtool.getUserAuthProvider(user.getId())
+        if mem is None:
+            return BaseTool.wrapUser(self, user)
 
     security.declareProtected(cmfcore_permissions.ManageProperties,
                               'getMemberDataContents')
@@ -80,7 +91,8 @@ class MemberDataContainer(atapi.BaseBTreeFolder):
         """
         Add a member to the member set w/ the given member data.
         
-        o 'm' is an object whose attributes are the memberdata for the member.
+        o 'm' is an object whose attributes are the memberdata for the
+           member.
 
         o 'id' is the userid of the member.
         """
