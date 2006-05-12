@@ -10,10 +10,12 @@
  <property name="product">remember</property>
  <property name="factory">addMember</property>
  <property name="immediate_view">base_edit</property>
+ <property name="default_view">base_view</property>
  <property name="global_allow">False</property>
  <property name="filter_content_types">False</property>
  <property name="allowed_content_types"/>
  <property name="allow_discussion">False</property>
+ <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="base_edit"/>
  <action title="View" action_id="view" category="object" condition_expr=""
     url_expr="string:${object_url}/base_view" visible="True">
@@ -34,6 +36,4 @@
   <permission value="Modify portal content"/>
   <permission value="Review portal content"/>
  </action>
- <catalog id="portal_catalog" />
- <catalog id="membrane_tool" />
 </object>
