@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
-<object name="Member" meta_type="Factory-based Type Information"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+<object name="Member"
+        meta_type="Factory-based Type Information with dynamic views"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title">Member</property>
  <property
     name="description">A regular non-folderish member content object.</property>
@@ -33,4 +34,6 @@
   <permission value="Modify portal content"/>
   <permission value="Review portal content"/>
  </action>
+ <catalog id="portal_catalog" />
+ <catalog id="membrane_tool" />
 </object>
