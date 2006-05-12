@@ -46,28 +46,6 @@ MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 
 ADD_PERMISSIONS = {config.DEFAULT_MEMBER_TYPE: ADD_MEMBER_PERMISSION,
                    }
-
-# The SITEWIDE_PERMISSIONS dictionary is used for assigning permissions
-# to different roles site-wide.  For example, if you create the new roles
-# 'Czar' and 'Peasant', you could give them the 'Add portal folders' and
-# 'Delete objects' permissions like so:
-#
-# SITEWIDE_PERMISSIONS = (
-#    (['Czar', 'Peasant'], ['Add portal folders', 'Delete objects'']),
-#   )
-#
-# In general, the pattern is
-#
-# SITEWIDE_PERMISSIONS = ( 
-#   ([list of roles], [list of permissions]),
-#   ([second list of roles], [second list of permissions]),
-#  )
-#
-# The site-wide permissions are set in Extensions/Install.py
-
-SITEWIDE_PERMISSIONS = ()
-
-
 def initialize():
     permissions = {}
     types = atapi.listTypes(config.PROJECT_NAME)
