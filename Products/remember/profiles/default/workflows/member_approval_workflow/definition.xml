@@ -3,26 +3,18 @@
              title="Portal Member Workflow: Approval Required"
              state_variable="review_state"
              initial_state="new">
- <permission>remember: Register member</permission>
- <permission>remember: Edit member id</permission>
- <permission>Set own properties</permission>
- <permission>Set own password</permission>
- <permission>Manage users</permission>
- <permission>View</permission>
- <permission>Modify portal content</permission>
  <permission>Mail forgotten password</permission>
+ <permission>Manage users</permission>
+ <permission>Modify portal content</permission>
+ <permission>Set own password</permission>
+ <permission>Set own properties</permission>
+ <permission>View</permission>
+ <permission>remember: Edit member id</permission>
+ <permission>remember: Register member</permission>
  <state state_id="disabled" title="Disabled">
   <exit-transition transition_id="enable_pending"/>
   <exit-transition transition_id="enable_private"/>
   <exit-transition transition_id="enable_public"/>
-  <permission-map name="remember: Edit member id"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="remember: Register member"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -41,6 +33,14 @@
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Edit member id"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Register member"
+                  acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
  </state>
@@ -49,16 +49,6 @@
   <exit-transition transition_id="migrate"/>
   <exit-transition transition_id="register_wrapped_user"/>
   <exit-transition transition_id="trigger"/>
-  <permission-map name="remember: Edit member id"
-                  acquired="False">
-   <permission-role>Anonymous</permission-role>
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="remember: Register member"
-                  acquired="False">
-   <permission-role>Anonymous</permission-role>
-   <permission-role>Manager</permission-role>
-  </permission-map>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -80,6 +70,16 @@
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Edit member id"
+                  acquired="False">
+   <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Register member"
+                  acquired="False">
    <permission-role>Anonymous</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -90,14 +90,6 @@
   <exit-transition transition_id="migrate"/>
   <exit-transition transition_id="register_wrapped_user"/>
   <exit-transition transition_id="trigger"/>
-  <permission-map name="remember: Edit member id"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="remember: Register member"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -116,6 +108,14 @@
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Edit member id"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Register member"
+                  acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
  </state>
@@ -124,14 +124,6 @@
   <exit-transition transition_id="register_private"/>
   <exit-transition transition_id="register_public"/>
   <exit-transition transition_id="register_wrapped_user"/>
-  <permission-map name="remember: Edit member id"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="remember: Register member"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -152,17 +144,19 @@
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
+  <permission-map name="remember: Edit member id"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
  </state>
  <state state_id="private"
         title="Registered user, private profile">
   <exit-transition transition_id="make_public"/>
   <exit-transition transition_id="disable"/>
-  <permission-map name="remember: Edit member id"
-                  acquired="False">
-  </permission-map>
-  <permission-map name="remember: Register member"
-                  acquired="False">
-  </permission-map>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
@@ -189,17 +183,17 @@
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
   </permission-map>
- </state>
- <state state_id="public"
-        title="Registered user, public profile">
-  <exit-transition transition_id="make_private"/>
-  <exit-transition transition_id="disable"/>
   <permission-map name="remember: Edit member id"
                   acquired="False">
   </permission-map>
   <permission-map name="remember: Register member"
                   acquired="False">
   </permission-map>
+ </state>
+ <state state_id="public"
+        title="Registered user, public profile">
+  <exit-transition transition_id="make_private"/>
+  <exit-transition transition_id="disable"/>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
@@ -228,6 +222,12 @@
    <permission-role>Manager</permission-role>
    <permission-role>Member</permission-role>
    <permission-role>Owner</permission-role>
+  </permission-map>
+  <permission-map name="remember: Edit member id"
+                  acquired="False">
+  </permission-map>
+  <permission-map name="remember: Register member"
+                  acquired="False">
   </permission-map>
  </state>
  <transition transition_id="disable" title="Disable member"
@@ -263,23 +263,6 @@
   <guard>
    <guard-permission>Manage users</guard-permission>
    <guard-expression>python:getattr(here,'old_state',None) == 'public'</guard-expression>
-  </guard>
- </transition>
- <transition transition_id="import_fail"
-             title="failed import" new_state="import_fail"
-             trigger="WORKFLOWMETHOD" before_script=""
-             after_script="">
-  <action url="" category="workflow">import_fail</action>
-  <guard>
-  </guard>
- </transition>
- <transition transition_id="make_pending"
-             title="Lock member properties until registered"
-             new_state="pending" trigger="AUTOMATIC"
-             before_script="" after_script="">
-  <action url="" category="workflow">Lock member properties until registered</action>
-  <guard>
-   <guard-expression>python:here.hasUser() or here.isValid()</guard-expression>
   </guard>
  </transition>
  <transition transition_id="make_private"
@@ -329,16 +312,6 @@
   <guard>
    <guard-permission>remember: Register member</guard-permission>
    <guard-expression>here/isValid</guard-expression>
-  </guard>
- </transition>
- <transition transition_id="register_wrapped_user"
-             title="Automatically register a wrapped Member"
-             new_state="public" trigger="AUTOMATIC"
-             before_script="" after_script="">
-  <action url="" category="workflow">Register wrapped user</action>
-  <guard>
-   <guard-role>Owner</guard-role>
-   <guard-expression>python:here.hasUser()</guard-expression>
   </guard>
  </transition>
  <transition transition_id="trigger"
