@@ -1,4 +1,5 @@
 from AccessControl import ClassSecurityInfo
+from Globals import InitializeClass
 
 from zope.interface import implements
 
@@ -104,3 +105,6 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         Delete member data of the specified member.
         """
         pass
+
+atapi.registerType(MemberDataContainer)
+InitializeClass(MemberDataContainer)
