@@ -6,6 +6,7 @@ from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IPropertiesProvider
@@ -281,7 +282,7 @@ class BaseMember(object):
 InitializeClass(BaseMember)
 
 
-class Member(BaseMember, atapi.BaseContent):
+class Member(BrowserDefaultMixin, BaseMember, atapi.BaseContent):
     """
     A regular non-folderish member content object.
     """
