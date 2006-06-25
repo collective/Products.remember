@@ -45,13 +45,13 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     def wrapUser(self, user):
         """
         If possible, returns the Member object that corresponds to the
-        given User object.  Note that we're not actually wrapping the
-        User object any longer, we're done w/ that mess.
+        given User object.
         """
         mbtool = getToolByName(self, 'membrane_tool')
         mem = mbtool.getUserAuthProvider(user.getId())
         if mem is None:
             return BaseTool.wrapUser(self, user)
+        return mem.__of__(self).__of__(user)
 
     security.declareProtected(cmfcore_permissions.ManageProperties,
                               'getMemberDataContents')
@@ -59,7 +59,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         """
         Returns a list containing a dictionary with information about
         the member objects: member_count is the total number of member
-        instances stored in the memberdata- tool while orphan_count is
+        instances stored in the memberdata tool while orphan_count is
         the number of member instances that for one reason or another
         are no longer in the underlying acl_users user folder.
 
