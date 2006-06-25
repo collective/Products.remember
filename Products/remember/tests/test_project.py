@@ -61,9 +61,18 @@ class rememberProjectTest(ArcheSiteTestCase):
         setup_tool.runAllImportSteps()
         # Because we add skins this needs to be called. Um... ick.
         self._refreshSkinData()
-
         self.mbtool = self.portal.membrane_tool
 
+    def addMember(self, id):
+        """
+        Creates a member object, sets to an active state.
+        """
+        mdata = self.portal.portal_memberdata
+        mem = makeContent(mdata, id, config.DEFAULT_MEMBER_TYPE)
+        mem.setEmail('noreply@xxxxxxxxyyyyyy.com')
+        wft = self.portal.portal_workflow
+        wft.doActionFor(mem, 'trigger')
+        return mem
 
 def test_suite():
     suite = unittest.TestSuite()

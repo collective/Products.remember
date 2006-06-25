@@ -21,6 +21,17 @@ class TestRememberInstall(rememberProjectTest):
                                             ACTIVE_STATUS_CATEGORY)
         self.failUnless('private' in states and 'public' in states)
 
+    def testPreferencesURL(self):
+        prefs_url = self.portal.restrictedTraverse('prefs_url')()
+        self.assertEqual(prefs_url,
+                         '%s/personalize_form' % self.portal.absolute_url())
+        mem = self.addMember('henry')
+        self.login('henry')
+        prefs_url = self.portal.restrictedTraverse('prefs_url')()
+        self.assertEqual(prefs_url,
+                         '%s/edit' % mem.absolute_url())
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRememberInstall))
