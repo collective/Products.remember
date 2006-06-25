@@ -1,6 +1,8 @@
 from AccessControl import ClassSecurityInfo
+from AccessControl import Unauthorized
 from AccessControl.PermissionRole import rolesForPermissionOn
 from Globals import InitializeClass
+from Acquisition import aq_base
 
 from zope.interface import implements
 
@@ -8,9 +10,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IPropertiesProvider
 
+from Products.remember.interfaces import IRememberAuthProvider
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.utils import stringToList
@@ -29,7 +31,7 @@ class BaseMember(object):
     """
     security = ClassSecurityInfo()
 
-    implements(IUserAuthProvider, IPropertiesProvider)
+    implements(IRememberAuthProvider, IPropertiesProvider)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -46,6 +48,34 @@ class BaseMember(object):
     listed = 0
 
     default_roles = ('Member',)
+
+    security.declarePrivate('setId')
+    def setId(self, value):
+        """
+        Have to fix up the ownership when the id changes.
+        """
+        self.base_archetype.setId(self, value)
+        self.fixOwnership()
+
+    security.declarePrivate('fixOwnership')
+    def fixOwnership(self, old_id=None):
+        """
+        Member objects should always be owned by the corresponding
+        user, if one exists.
+        """
+        old_id = self.owner_info()['id']
+        roles = self.get_local_roles_for_userid(old_id)
+        self.manage_delLocalRoles([old_id])
+        user = self.getUser()
+        if user is not None:
+            self.changeOwnership(user, 1)
+            self.manage_setLocalRoles(user.getId(), roles)
+
+    security.declarePrivate('getUser')
+    def getUser(self):
+        uf = getToolByName(self, 'acl_users')
+        user = uf.getUser(self.getId())
+        return user.__of__(self)
 
     security.declarePrivate('getDefaultRoles')
     def getDefaultRoles(self):
