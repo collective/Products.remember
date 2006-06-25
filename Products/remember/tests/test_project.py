@@ -8,10 +8,9 @@ from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.CMFPlone.tests import PloneTestCase
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
-from Products.remember.Extensions.Install import install as installProduct
 
 import Products.remember.config as config
-from Products.remember.utils import parseDependencies, doc_file
+from Products.remember.utils import parseDependencies
 
 # Dynamic bootstapping based on product config
 def installConfiguredProducts():
@@ -48,7 +47,11 @@ def makeContent(container, id, portal_type, title=None):
 class rememberProjectTest(ArcheSiteTestCase):
     def afterSetUp(self):
         ArcheSiteTestCase.afterSetUp(self)
-        installProduct(self.portal)
+        setup_tool = self.portal.portal_setup
+        setup_tool.setImportContext('profile-membrane:default')
+        setup_tool.runAllImportSteps()
+        setup_tool.setImportContext('profile-remember:default')
+        setup_tool.runAllImportSteps()
         # Because we add skins this needs to be called. Um... ick.
         self._refreshSkinData()
 
