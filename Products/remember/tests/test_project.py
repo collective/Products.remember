@@ -9,6 +9,10 @@ from Products.CMFCore.utils  import getToolByName
 from Products.CMFPlone.tests import PloneTestCase
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
 
+from Products.Five import zcml
+
+import Products.membrane
+import Products.remember
 import Products.remember.config as config
 from Products.remember.utils import parseDependencies
 
@@ -46,6 +50,9 @@ def makeContent(container, id, portal_type, title=None):
 # class inorder to assert things about your Product.
 class rememberProjectTest(ArcheSiteTestCase):
     def afterSetUp(self):
+        zcml.load_config('configure.zcml', package=Products.membrane)
+        zcml.load_config('configure.zcml', package=Products.remember)
+        
         ArcheSiteTestCase.afterSetUp(self)
         setup_tool = self.portal.portal_setup
         setup_tool.setImportContext('profile-membrane:default')
@@ -55,10 +62,8 @@ class rememberProjectTest(ArcheSiteTestCase):
         # Because we add skins this needs to be called. Um... ick.
         self._refreshSkinData()
 
-    def test_stuff(self):
-        pass
+        self.mbtool = self.portal.membrane_tool
 
-    #{ProjectTest, code, insertBefore}#
 
 def test_suite():
     suite = unittest.TestSuite()
