@@ -5,6 +5,9 @@ import ZConfig
 
 from config import AUTO_ROLES
 
+import logging
+logger = logging.getLogger('remember')
+
 def stringToList(s):
     if s is None:
         return []
@@ -32,3 +35,22 @@ def parseDependencies():
     config, handler = ZConfig.loadConfig(schema,
                                          conf_file('depends.conf'))
     return config, handler
+
+def log(message, summary='', severity=logging.INFO):
+    logger.log(severity, '%s \n%s', summary, message)
+
+def log_exc():
+    """Dump an exception to the log"""
+    import traceback
+    import sys
+
+    s = sys.exc_info()[:2]  # don't assign the traceback to s (otherwise will generate a circular reference)
+    if s[0] == None:
+        summary = 'None'
+    else:
+        if type(s[0]) == type(''):
+            summary = s[0]
+        else:
+            summary = str(s[1])
+
+    logger.log(logging.ERROR, '%s \n%s', summary, '\n'.join(traceback.format_exception(*sys.exc_info())))

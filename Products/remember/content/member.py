@@ -19,6 +19,7 @@ from Products.remember.utils import stringToList
 from Products.remember.utils import removeAutoRoles
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
+from Products.remember.Extensions.workflow import triggerAutomaticTransitions
 
 from member_schema import content_schema
 metadata_schema = atapi.ExtensibleMetadata.schema.copy()
@@ -308,6 +309,24 @@ class BaseMember(object):
             return True
         else:
             return False
+
+    #######################################################################
+    # Overrides of base class mutators that trigger workflow transitions
+    #######################################################################
+    def update(self, **kwargs):
+        # XXX Need to remove this once we have real events
+        ret = self.base_archetype.update(self, **kwargs)
+        # invoke any automated workflow transitions after update
+        triggerAutomaticTransitions(self)
+
+    def at_post_edit_script(self):
+        # XXX Need to remove this once we have real events
+        # invoke any automated workflow transitions after update
+        triggerAutomaticTransitions(self)
+    
+    # we are doing the same thing on create
+    at_post_create_script = at_post_edit_script
+
 
 InitializeClass(BaseMember)
 

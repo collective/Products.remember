@@ -232,7 +232,7 @@
  </state>
  <transition transition_id="disable" title="Disable member"
              new_state="disabled" trigger="USER"
-             before_script="" after_script="">
+             before_script="disable" after_script="">
   <action url="" category="workflow">Disable member</action>
   <guard>
    <guard-permission>Manage users</guard-permission>
@@ -240,7 +240,8 @@
  </transition>
  <transition transition_id="enable_pending"
              title="Re-enable member" new_state="pending"
-             trigger="USER" before_script="" after_script="">
+             trigger="USER" before_script=""
+             after_script="enable">
   <action url="" category="workflow">Re-enable member</action>
   <guard>
    <guard-permission>Manage users</guard-permission>
@@ -249,7 +250,8 @@
  </transition>
  <transition transition_id="enable_private"
              title="Re-enable member" new_state="private"
-             trigger="USER" before_script="" after_script="">
+             trigger="USER" before_script=""
+             after_script="enable">
   <action url="" category="workflow">Re-enable member</action>
   <guard>
    <guard-permission>Manage users</guard-permission>
@@ -282,15 +284,6 @@
   <action url="" category="workflow">Make member profile public</action>
   <guard>
    <guard-role>Owner</guard-role>
-   <guard-role>Manager</guard-role>
-  </guard>
- </transition>
- <transition transition_id="migrate"
-             title="Migrate from pre-1.0 CMF MemberData"
-             new_state="public" trigger="USER"
-             before_script="" after_script="">
-  <action url="" category="workflow">Migrate from pre-1.0 CMF MemberData</action>
-  <guard>
    <guard-role>Manager</guard-role>
   </guard>
  </transition>
@@ -383,4 +376,10 @@
   <guard>
   </guard>
  </variable>
+ <script script_id="disable" type="External Method"
+         filename="" module="remember.workflow"
+         function="disable"/>
+ <script script_id="enable" type="External Method"
+         filename="" module="remember.workflow"
+         function="enable"/>
 </dc-workflow>

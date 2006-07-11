@@ -44,9 +44,6 @@
  </state>
  <state state_id="new" title="Newly created member">
   <exit-transition transition_id="auto_register"/>
-  <exit-transition transition_id="import_fail"/>
-  <exit-transition transition_id="migrate"/>
-  <exit-transition transition_id="register_wrapped_user"/>
   <exit-transition transition_id="trigger"/>
   <permission-map name="Mail forgotten password"
                   acquired="False">
@@ -205,7 +202,7 @@
  </transition>
  <transition transition_id="disable" title="Disable member"
              new_state="disabled" trigger="USER"
-             before_script="" after_script="">
+             before_script="disable" after_script="">
   <action url="" category="workflow">Disable member</action>
   <guard>
    <guard-permission>Manage users</guard-permission>
@@ -213,7 +210,8 @@
  </transition>
  <transition transition_id="enable_private"
              title="Re-enable member" new_state="private"
-             trigger="USER" before_script="" after_script="">
+             trigger="USER" before_script=""
+             after_script="enable">
   <action url="" category="workflow">Re-enable member</action>
   <guard>
    <guard-permission>Manage users</guard-permission>
@@ -222,7 +220,8 @@
  </transition>
  <transition transition_id="enable_public"
              title="Re-enable member" new_state="public"
-             trigger="USER" before_script="" after_script="">
+             trigger="USER" before_script=""
+             after_script="enable">
   <action url="" category="workflow">Re-enable member</action>
   <guard>
    <guard-permission>Manage users</guard-permission>
@@ -318,4 +317,10 @@
   <guard>
   </guard>
  </variable>
+ <script script_id="disable" type="External Method"
+         filename="" module="remember.workflow"
+         function="disable"/>
+ <script script_id="enable" type="External Method"
+         filename="" module="remember.workflow"
+         function="enable"/>
 </dc-workflow>
