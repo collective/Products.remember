@@ -21,7 +21,7 @@
   </action>
   <action title="Preferences" action_id="preferences" category="user"
      condition_expr="python:member"
-     url_expr="portal/prefs_url" visible="True">
+     url_expr="string:${portal/prefs_url}" visible="True">
    <permission>View</permission>
   </action>
   <action title="Add to favorites" action_id="addFavorite" category="user"
