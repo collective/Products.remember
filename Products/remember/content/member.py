@@ -338,5 +338,8 @@ class Member(BrowserDefaultMixin, BaseMember, atapi.BaseContent):
     security = ClassSecurityInfo()
     base_archetype = atapi.BaseContent
 
+    def __call__(self, *args, **kwargs):
+        return self.getId()
+
 atapi.registerType(Member)
 InitializeClass(Member)
