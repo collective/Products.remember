@@ -4,4 +4,6 @@
             class="Products.remember.tools.memberdata.MemberDataContainer"/>
   <required tool_id="portal_membership"
             class="Products.remember.tools.membership.MembershipTool"/>
+  <required tool_id="portal_registration"
+            class="Products.remember.tools.registration.RegistrationTool"/>
 </tool-setup>
