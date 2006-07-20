@@ -24,6 +24,9 @@ from Products.remember.Extensions.workflow import triggerAutomaticTransitions
 from member_schema import content_schema
 metadata_schema = atapi.ExtensibleMetadata.schema.copy()
 
+import logging
+logger = logging.getLogger('remember')
+
 _marker = []
 
 class BaseMember(object):

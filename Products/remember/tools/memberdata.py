@@ -14,6 +14,8 @@ from Products.PlonePAS.tools.memberdata import MemberDataTool \
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
+search_catalog = 'membrane_tool'
+
 class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     """
     Default container for remember Member objects.  Members don't
@@ -105,6 +107,92 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         Delete member data of the specified member.
         """
         pass
+        
+    def searchForMembers( self, REQUEST=None, **kw ):
+        """
+        Do a catalog search on a sites members. If a 'brains' argument is set
+        to a True value, search will return only member_catalog metadata.
+        Otherwise, memberdata objects returned.
+
+        If 'brains' is a False value and a 'portal_only' parameter is passed
+        in with a True value then only members from the portal's acl_users
+        folder will be returned.
+        """
+
+        if REQUEST:
+            search_dict = getattr(REQUEST, 'form', REQUEST)
+        else:
+            REQUEST = {}
+            search_dict = kw
+
+        results=[]
+        catalog=getToolByName(self, search_catalog)
+
+        # no reason to iterate over all those indexes
+        try:
+            from sets import Set
+            indexes=Set(catalog.indexes())
+            indexes = indexes & Set(search_dict.keys())
+        except:
+            # Unless we are on 2.3
+            catalog.indexes()
+
+        query={}
+
+        def dateindex_query(field_value, field_usage):
+            usage, val = field_usage.split(':')
+            return { 'query':  field_value, usage:val }
+
+        def zctextindex_query(field_value):
+            # Auto Globbing
+            if not field_value.endswith('*') and field_value.find(' ') == -1:
+                field_value += '*'
+            return field_value
+
+        special_query = dict((
+            ( 'DateIndex',    dateindex_query ),
+            ( 'ZCTextIndex',  zctextindex_query )
+            ))
+
+        if search_dict:
+            # Make a indexname: fxToApply dict
+            idx_fx = dict(\
+                [(x.id, special_query[x.meta_type])\
+                 for x in catalog.Indexes.objectValues()\
+                 if (x.meta_type in special_query.keys() and x.id in indexes)]\
+                )
+
+            for i in indexes:
+                val=search_dict.get(i, None)
+                usage_val = search_dict.get('%s_usage' %i)
+                if type(val) == type([]):
+                    val = filter(None, val)
+
+                if (i in idx_fx.keys() and val):
+                    if usage_val:
+                        val = idx_fx[i](val, usage_val)
+                    else:
+                        val = idx_fx[i](val)
+
+                if val:
+                    query.update({i:val})
+
+        results=catalog(query) 
+
+        if results and not (search_dict.get('brains', False) or \
+                            REQUEST.get('brains', False)):
+            if search_dict.get('portal_only', False) or \
+                   REQUEST.get('portal_only', False):
+                res = []
+                for r in results:
+                    mem = r.getObject()
+                    if mem._isPortalUser():
+                        res.append(mem)
+                results = res
+            else:
+                results = [r.getObject() for r in results]
+
+        return filter(None, results)
 
 atapi.registerType(MemberDataContainer)
 InitializeClass(MemberDataContainer)
