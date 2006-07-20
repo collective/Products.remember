@@ -14,6 +14,26 @@ from Products.PlonePAS.tools.memberdata import MemberDataTool \
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
+schema = atapi.BaseFolderSchema + atapi.Schema((
+         atapi.TextField('description',
+              default_content_type = 'text/plain',
+              default_output_type = 'text/html',
+              widget = atapi.TextAreaWidget(rows = 5)),
+
+         atapi.StringField('defaultType',
+                     default = DEFAULT_MEMBER_TYPE,
+                     vocabulary = 'getAllowedMemberTypes',
+                     read_permission = cmfcore_permissions.View,
+                     widget = atapi.SelectionWidget(
+                          label='Default member type',
+                          label_msgid='label_default_member_type',
+                          description="Choose default member type.",
+                          description_msgid='help_default_member_type',
+                          i18n_domain='remember',
+                          ),
+                     ),
+    ))
+
 search_catalog = 'membrane_tool'
 
 class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
@@ -32,6 +52,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     allowed_content_types = [DEFAULT_MEMBER_TYPE]
     global_allow = 0
     content_icon = 'user.gif'
+    schema = schema
 
     manage_options = atapi.BaseBTreeFolder.manage_options + \
                      ActionProviderBase.manage_options
@@ -39,6 +60,15 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     def __init__(self, **kwargs):
         atapi.BaseBTreeFolder.__init__(self, self.id, **kwargs)
         BaseTool.__init__(self)
+
+    def manage_afterAdd(self, item, container):
+        """
+        have to set the default member type here instead of at the
+        class level b/c we need a context to access the tools to get
+        at all of the info we need
+        """
+        atapi.BaseBTreeFolder.manage_afterAdd(self, item, container)
+        self.setDefaultType(DEFAULT_MEMBER_TYPE)
 
     ###################################################################
     # IMemberDataTool implemenation
@@ -107,7 +137,14 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         Delete member data of the specified member.
         """
         pass
-        
+
+    def getAllowedMemberTypes(self):
+        """
+        Return the allow types from the membrane tool
+        """
+        mbtool = getToolByName(self, 'membrane_tool')
+        return mbtool.listMembraneTypes()
+
     def searchForMembers( self, REQUEST=None, **kw ):
         """
         Do a catalog search on a sites members. If a 'brains' argument is set
