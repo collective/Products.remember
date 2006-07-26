@@ -87,6 +87,10 @@
                   value="1" />
               <input
                   type="hidden"
+                  name="is_reg_form"
+                  value="1" />
+              <input
+                  type="hidden"
                   name="fieldset"
                   value="default"
                   tal:attributes="value fieldset" />

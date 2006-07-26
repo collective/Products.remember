@@ -139,8 +139,11 @@ class BaseMember(object):
         if form.has_key('password'):
             password = form.get('password', None)
             confirm = form.get('confirm_password', None)
-
-            if not password:
+            
+            # test to see if we are on the reg_form so we don't have
+            # to enter a password on the base_edit form
+            is_reg_form = int(form.get('is_reg_form', 0))
+            if is_reg_form and not password:
                 errors['password'] = \
                     self.translate('Input is required but no input given.',
                                    default='You did not enter a password.')
@@ -298,6 +301,32 @@ class BaseMember(object):
             return 'Yes'
         else:
             return 'No'
+
+    #######################################################################
+    # Password methods
+    #######################################################################
+    security.declarePublic('showPasswordOnRegistration')
+    def showPasswordOnRegistration(self):
+        """Indicates if the password fields should be visible on
+           the join_form.
+        """
+        # XXX don't think we need to check this anymore
+        #if self.hasUser():
+        #    return 0
+        site_props = self.portal_properties.site_properties
+        return not site_props.validate_email
+
+    # dummy method
+    def _setConfirmPassword(self, value):
+        pass
+
+    # dummy method
+    def _getConfirmPassword(self):
+        return ''
+
+    def _setPassword(self, password):
+        if password:
+            self.getField('password').set(self, password)
 
     #######################################################################
     # IUserAuthProvider implementation
