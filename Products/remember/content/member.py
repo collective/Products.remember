@@ -11,6 +11,8 @@ from Products.Archetypes import public as atapi
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.membrane.interfaces import IPropertiesProvider
+from Products.membrane.interfaces import IGroupsProvider
+from Products.membrane.interfaces import IGroupAwareRolesProvider
 
 from Products.remember.interfaces import IRememberAuthProvider
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
@@ -35,7 +37,8 @@ class BaseMember(object):
     """
     security = ClassSecurityInfo()
 
-    implements(IRememberAuthProvider, IPropertiesProvider)
+    implements(IRememberAuthProvider, IPropertiesProvider, IGroupsProvider, \
+        IGroupAwareRolesProvider)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -302,9 +305,6 @@ class BaseMember(object):
         else:
             return 'No'
 
-    #######################################################################
-    # Password methods
-    #######################################################################
     security.declarePublic('showPasswordOnRegistration')
     def showPasswordOnRegistration(self):
         """Indicates if the password fields should be visible on
@@ -327,6 +327,13 @@ class BaseMember(object):
     def _setPassword(self, password):
         if password:
             self.getField('password').set(self, password)
+            mtool = getToolByName(self, 'portal_membership')
+            # XXX Change the authentication cookie for the member so they can
+            # log in with the new password.  There must be a better way to
+            # this.
+            # Only reset the credentials the member initiates it
+            if mtool.getAuthenticatedMember().getUserName() == self.getUserName():
+                mtool.credentialsChanged(password)
 
     #######################################################################
     # IUserAuthProvider implementation

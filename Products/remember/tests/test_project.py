@@ -62,6 +62,21 @@ class rememberProjectTest(ArcheSiteTestCase):
         # Because we add skins this needs to be called. Um... ick.
         self._refreshSkinData()
         self.mbtool = self.portal.membrane_tool
+        
+        # set up some default members
+        
+        # blank member
+        self.blank_member = self.addMember('blank_member')
+        
+        # basic portal member
+        portal_member = self.addMember('portal_member')
+        portal_member.setRoles('Member')
+        self.portal_member = portal_member
+        
+        # admin member
+        admin_member = self.addMember('admin_user')
+        admin_member.setRoles(['Manager','Member'])
+        self.admin_member = admin_member
 
     def addMember(self, id):
         """
