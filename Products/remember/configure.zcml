@@ -4,7 +4,7 @@
 
   <include package=".browser" />
 
-  <adapter for=".interfaces.IRememberAuthProvider"
+  <adapter for=".interfaces.IRememberAuthentication"
            provides="Products.membrane.interfaces.IUserRelated"
            factory=".content.useridprovider.UserIdProvider"
            />

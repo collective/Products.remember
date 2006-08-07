@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.Five import BrowserView
 
-from Products.remember.interfaces import IRememberAuthProvider
+from Products.remember.interfaces import IRememberAuthentication
 
 class PrefsUrlComputer(BrowserView):
     """
@@ -12,7 +12,7 @@ class PrefsUrlComputer(BrowserView):
     def getPrefsUrl(self):
         mtool = getToolByName(self.context, 'portal_membership')
         member = mtool.getAuthenticatedMember()
-        if IRememberAuthProvider.providedBy(member):
+        if IRememberAuthentication.providedBy(member):
             # we're a remember type
             return "%s/edit" % member.absolute_url()
         portal_url = getToolByName(self.context, 'portal_url')()

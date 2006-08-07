@@ -1,6 +1,6 @@
-from Products.membrane.interfaces import IUserAuthProvider
+from Products.membrane.interfaces import IUserAuthentication
 
-class IRememberAuthProvider(IUserAuthProvider):
+class IRememberAuthentication(IUserAuthentication):
     """
     Marks remember auth providers so we can use a custom user id
     provider.
