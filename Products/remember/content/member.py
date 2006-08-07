@@ -13,10 +13,8 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.membrane.interfaces import IPropertiesProvider
 from Products.membrane.interfaces import IGroupsProvider
 from Products.membrane.interfaces import IGroupAwareRolesProvider
-from Products.membrane.interfaces import IUserAuthProvider
-from Products.membrane.interfaces import IUserRoles
 
-from Products.remember.interfaces import IRememberAuthentication
+from Products.remember.interfaces import IRememberAuthProvider
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.utils import stringToList
@@ -39,8 +37,8 @@ class BaseMember(object):
     """
     security = ClassSecurityInfo()
 
-    implements(IRememberAuthentication, IUserAuthProvider, IPropertiesProvider,\
-        IGroupsProvider, IGroupAwareRolesProvider, IUserRoles)
+    implements(IRememberAuthProvider, IPropertiesProvider, IGroupsProvider, \
+        IGroupAwareRolesProvider)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -338,7 +336,7 @@ class BaseMember(object):
                 mtool.credentialsChanged(password)
 
     #######################################################################
-    # IUserAuthentication implementation
+    # IUserAuthProvider implementation
     #######################################################################
     def getUserName(self):
         return self.getId()
