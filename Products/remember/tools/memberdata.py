@@ -14,24 +14,30 @@ from Products.PlonePAS.tools.memberdata import MemberDataTool \
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
-schema = atapi.BaseFolderSchema + atapi.Schema((
-         atapi.TextField('description',
-              default_content_type = 'text/plain',
-              default_output_type = 'text/html',
-              widget = atapi.TextAreaWidget(rows = 5)),
+schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
 
-         atapi.StringField('defaultType',
-                     default = DEFAULT_MEMBER_TYPE,
-                     vocabulary = 'getAllowedMemberTypes',
-                     read_permission = cmfcore_permissions.View,
-                     widget = atapi.SelectionWidget(
-                          label='Default member type',
-                          label_msgid='label_default_member_type',
-                          description="Choose default member type.",
-                          description_msgid='help_default_member_type',
-                          i18n_domain='remember',
-                          ),
-                     ),
+    # use MetadataStorage so as not to conflict w/ the 'description'
+    # property used for old-school MemberData objects
+    atapi.TextField(
+        'description',
+        default_content_type = 'text/plain',
+        default_output_type = 'text/html',
+        widget = atapi.TextAreaWidget(rows = 5),
+        storage = atapi.MetadataStorage(),),
+
+    atapi.StringField(
+        'defaultType',
+        default = DEFAULT_MEMBER_TYPE,
+        vocabulary = 'getAllowedMemberTypes',
+        read_permission = cmfcore_permissions.View,
+        widget = atapi.SelectionWidget(
+            label='Default member type',
+            label_msgid='label_default_member_type',
+            description="Choose default member type.",
+            description_msgid='help_default_member_type',
+            i18n_domain='remember',
+            ),
+        ),
     ))
 
 search_catalog = 'membrane_tool'
@@ -69,6 +75,24 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         """
         atapi.BaseBTreeFolder.manage_afterAdd(self, item, container)
         self.setDefaultType(DEFAULT_MEMBER_TYPE)
+
+    def _nope(self):
+        """
+        Need to negate the 'description' attribute that is inherited
+        from the PortalFolderBase class in our superclass hierarchy.
+        """
+        raise AttributeError
+
+    def _setDescription(self, description):
+        """
+        Undo the property hack that covers up the inherited description
+        value.
+        """
+        del MemberDataContainer.description
+        self.description = description
+
+    description = property(fget = _nope,
+                           fset = _setDescription)
 
     ###################################################################
     # IMemberDataTool implemenation

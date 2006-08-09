@@ -1,9 +1,6 @@
 import os, sys
 import unittest
 
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.CMFPlone.tests import PloneTestCase
@@ -15,6 +12,7 @@ import Products.membrane
 import Products.remember
 import Products.remember.config as config
 from Products.remember.utils import parseDependencies
+from Products.remember.tools.memberdata import MemberDataContainer
 
 # Dynamic bootstapping based on product config
 def installConfiguredProducts():
@@ -57,6 +55,14 @@ class rememberProjectTest(ArcheSiteTestCase):
         setup_tool = self.portal.portal_setup
         setup_tool.setImportContext('profile-membrane:default')
         setup_tool.runAllImportSteps()
+
+        # XXX: ugly hack to work around interference from the inherited
+        # 'description' attribute
+        if type(MemberDataContainer.description) != property:
+            MemberDataContainer.description = property(
+                fget = MemberDataContainer._nope,
+                fset = MemberDataContainer._setDescription)
+
         setup_tool.setImportContext('profile-remember:default')
         setup_tool.runAllImportSteps()
         # Because we add skins this needs to be called. Um... ick.
@@ -93,6 +99,3 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(rememberProjectTest))
     return suite
-
-if __name__ == '__main__':
-    framework()

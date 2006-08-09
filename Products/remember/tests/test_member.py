@@ -14,9 +14,6 @@ from Products.remember.config import DEFAULT_MEMBER_TYPE
 
 from Products.CMFCore.utils import getToolByName
 
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 class TestMember(rememberProjectTest):
 
     def testCreateNewMember(self):
@@ -94,6 +91,3 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestMember))
     return suite
-
-if __name__ == '__main__':
-    framework()

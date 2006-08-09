@@ -9,9 +9,6 @@ from Products.membrane.utils import generateCategorySetIdForType
 
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 class TestRememberInstall(rememberProjectTest):
 
     def testActiveWFStates(self):
@@ -36,6 +33,3 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRememberInstall))
     return suite
-
-if __name__ == '__main__':
-    framework()
