@@ -16,25 +16,38 @@ from Products.CMFCore.utils import getToolByName
 
 class TestMember(rememberProjectTest):
 
+    def getUser(self):
+        """
+        Not simply stored as an attribute b/c we need a newly
+        generated user object to be sure we get fresh state
+        """
+        mem_id = self.portal_member.getId()
+        return self.portal.acl_users.getUser(mem_id)
+        
     def testCreateNewMember(self):
-        wf_tool = getToolByName(self.portal, 'portal_workflow')
+        wftool = getToolByName(self.portal, 'portal_workflow')
         mdata = self.portal.portal_memberdata
+        uf = self.portal.acl_users
         id = 'newmember'
         password = 'secret'
         mem = makeContent(mdata, id, DEFAULT_MEMBER_TYPE)
-        review_state = wf_tool.getInfoFor(mem, 'review_state')
+        review_state = wftool.getInfoFor(mem, 'review_state')
         self.failUnless(review_state == 'new')
         values = {'fullname': 'New Member',
                   'email': 'noreply@xxxxxxxxyyyyyy.com',
                   'password': password,
                   'confirm_password': password,
                   }
-        #transaction.get().commit(True) # processForm needs subtxn commit 
+        user = uf.authenticate(id, password, self.portal.REQUEST)
+        self.failUnless(user is None)
+
+        # processForm triggers the state change to an active state
         mem.processForm(values=values)
         self.failUnless(mem.getId() == id)
-        self.failUnless(mem.getPassword() == password)
-        review_state = wf_tool.getInfoFor(mem, 'review_state')
+        review_state = wftool.getInfoFor(mem, 'review_state')
         self.failUnless(review_state == 'public')
+        user = uf.authenticate(id, password, self.portal.REQUEST)
+        self.failIf(user is None)
         
     def testMemberTitle(self):
         # title should be fullname, w/ failover to member id
@@ -53,12 +66,20 @@ class TestMember(rememberProjectTest):
         test_roles = str('Reviewer')
         test_roles_tuple = ('Reviewer',)
         self.portal_member.setRoles(test_roles)
-        self.failUnless(self.portal_member.getRoles() == test_roles_tuple)
+        self.assertEqual(self.portal_member.getRoles(), test_roles_tuple)
+
+        user_roles = test_roles_tuple + ('Authenticated',)
+        self.assertEqual(self.getUser().getRoles(), list(user_roles))
 
     def testMemberPassword(self):
         # test member's password
-        self.portal_member._setPassword('newpasswd')
-        self.assertEqual(self.portal_member.getPassword(), 'newpasswd')
+        passwd = 'newpasswd'
+        mem_id = self.portal_member.getId()
+        self.portal_member._setPassword(passwd)
+        user = self.portal.acl_users.authenticate(mem_id,
+                                                  passwd,
+                                                  self.portal.REQUEST)
+        self.assertEqual(user.getId(), mem_id)
 
     def testMemberDomains(self):
         # test member's domains
@@ -70,10 +91,10 @@ class TestMember(rememberProjectTest):
         email = 'test@test.com'
         self.portal_member.setEmail(email)
         self.assertEqual(self.portal_member.getEmail(), email)
+        self.assertEqual(self.getUser().getProperty('email'), email)
 
     def testMemberLoginTime(self):
         # test member's login time
-        self.portal_member
         new_login_time = DateTime()
         self.portal_member.setLast_login_time(new_login_time)
         self.assertEqual(self.portal_member.getLast_login_time(), new_login_time)

@@ -1,6 +1,6 @@
 from Products.Archetypes import public as atapi
 from Products.CMFCore import permissions as cmfcore_permissions
-
+from Products.membrane import permissions as membrane_permissions
 import config
 
 # This file is used to set up permissions for your product.
@@ -8,11 +8,11 @@ import config
 # Add a new member
 ADD_PERMISSION = ADD_MEMBER_PERMISSION = cmfcore_permissions.AddPortalMember
 # Register a new member, i.e. "activate" a membership
-REGISTER_PERMISSION = 'membrane: Register member'
+REGISTER_PERMISSION = membrane_permissions.REGISTER_PERMISSION
 # Disable a membership
 DISABLE_PERMISSION = cmfcore_permissions.ManageUsers
 # Modify the member's ID -- should only happen during preregistration
-EDIT_ID_PERMISSION = 'membrane: Edit member id'
+EDIT_ID_PERMISSION = membrane_permissions.EDIT_ID_PERMISSION
 # Modify the member's general properties
 EDIT_PROPERTIES_PERMISSION = cmfcore_permissions.SetOwnProperties
 # Change a member's password

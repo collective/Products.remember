@@ -1,3 +1,5 @@
+import bcrypt
+
 from AccessControl import ClassSecurityInfo
 from AccessControl import Unauthorized
 from AccessControl.PermissionRole import rolesForPermissionOn
@@ -39,8 +41,9 @@ class BaseMember(object):
     """
     security = ClassSecurityInfo()
 
-    implements(IRememberAuthProvider, IUserAuthentication, IPropertiesProvider, \
-        IGroupsProvider, IGroupAwareRolesProvider, IUserRoles)
+    implements(IRememberAuthProvider, IUserAuthentication,
+               IPropertiesProvider, IGroupsProvider,
+               IGroupAwareRolesProvider, IUserRoles)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -55,6 +58,7 @@ class BaseMember(object):
 
     # for Plone compatibility -- managed by workflow state
     listed = 0
+
 
     default_roles = ('Member',)
 
@@ -72,13 +76,20 @@ class BaseMember(object):
         Member objects should always be owned by the corresponding
         user, if one exists.
         """
-        old_id = self.owner_info()['id']
         roles = self.get_local_roles_for_userid(old_id)
         self.manage_delLocalRoles([old_id])
         user = self.getUser()
         if user is not None:
             self.changeOwnership(user, 1)
+            if 'Owner' not in roles:
+                roles += ('Owner',)
             self.manage_setLocalRoles(user.getId(), roles)
+
+    security.declareProtected(VIEW_PUBLIC_PERMISSION, 'hasUser')
+    def hasUser(self):
+        uf = getToolByName(self, 'acl_users')
+        if uf.getUser(self.getId()) is not None:
+            return True
 
     security.declarePrivate('getUser')
     def getUser(self):
@@ -312,9 +323,6 @@ class BaseMember(object):
         """Indicates if the password fields should be visible on
            the join_form.
         """
-        # XXX don't think we need to check this anymore
-        #if self.hasUser():
-        #    return 0
         site_props = self.portal_properties.site_properties
         return not site_props.validate_email
 
@@ -328,17 +336,16 @@ class BaseMember(object):
 
     def _setPassword(self, password):
         if password:
-            self.getField('password').set(self, password)
+            hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+            self.getField('password').set(self, hashed)
             mtool = getToolByName(self, 'portal_membership')
-            # XXX Change the authentication cookie for the member so they can
-            # log in with the new password.  There must be a better way to
-            # this.
-            # Only reset the credentials the member initiates it
-            if mtool.getAuthenticatedMember().getUserName() == self.getUserName():
+            # Reset the credentials if the current member initiates
+            mem = mtool.getAuthenticatedMember()
+            if mem.getUserName() == self.getUserName():
                 mtool.credentialsChanged(password)
 
     #######################################################################
-    # IUserAuthProvider implementation
+    # IUserAuthentication implementation
     #######################################################################
     def getUserName(self):
         return self.getId()
@@ -346,7 +353,9 @@ class BaseMember(object):
     def verifyCredentials(self, credentials):
         login = credentials.get('login')
         password = credentials.get('password')
-        if login == self.getUserName() and password == self.getPassword():
+        hashed = self.getPassword()
+        if login == self.getUserName() and \
+               bcrypt.hashpw(password, hashed) == hashed:
             return True
         else:
             return False

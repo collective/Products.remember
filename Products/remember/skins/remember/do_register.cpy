@@ -11,7 +11,7 @@
 new_context = context.portal_factory.doCreate(context, id)
 new_context.processForm()
 
-userCreated = new_context.acl_users.getUserById(new_context.getMemberId())
+userCreated = new_context.hasUser()
 
 portal = new_context.portal_url.getPortalObject()
 state.setContext(portal)

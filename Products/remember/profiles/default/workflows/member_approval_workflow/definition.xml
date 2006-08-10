@@ -9,8 +9,8 @@
  <permission>Set own password</permission>
  <permission>Set own properties</permission>
  <permission>View</permission>
- <permission>remember: Edit member id</permission>
- <permission>remember: Register member</permission>
+ <permission>membrane: Edit member id</permission>
+ <permission>membrane: Register member</permission>
  <state state_id="disabled" title="Disabled">
   <exit-transition transition_id="enable_pending"/>
   <exit-transition transition_id="enable_private"/>
@@ -35,11 +35,11 @@
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Edit member id"
+  <permission-map name="membrane: Edit member id"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Register member"
+  <permission-map name="membrane: Register member"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -73,14 +73,13 @@
    <permission-role>Anonymous</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Edit member id"
+  <permission-map name="membrane: Edit member id"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Register member"
+  <permission-map name="membrane: Register member"
                   acquired="False">
-   <permission-role>Anonymous</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
  </state>
@@ -110,11 +109,11 @@
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Edit member id"
+  <permission-map name="membrane: Edit member id"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Register member"
+  <permission-map name="membrane: Register member"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -144,11 +143,11 @@
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Edit member id"
+  <permission-map name="membrane: Edit member id"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Register member"
+  <permission-map name="membrane: Register member"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -183,11 +182,13 @@
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
   </permission-map>
-  <permission-map name="remember: Edit member id"
+  <permission-map name="membrane: Edit member id"
                   acquired="False">
+   <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Register member"
+  <permission-map name="membrane: Register member"
                   acquired="False">
+   <permission-role>Manager</permission-role>
   </permission-map>
  </state>
  <state state_id="public"
@@ -223,11 +224,13 @@
    <permission-role>Member</permission-role>
    <permission-role>Owner</permission-role>
   </permission-map>
-  <permission-map name="remember: Edit member id"
+  <permission-map name="membrane: Edit member id"
                   acquired="False">
+   <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="remember: Register member"
+  <permission-map name="membrane: Register member"
                   acquired="False">
+   <permission-role>Manager</permission-role>
   </permission-map>
  </state>
  <transition transition_id="disable" title="Disable member"

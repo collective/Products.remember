@@ -77,7 +77,16 @@ class rememberProjectTest(ArcheSiteTestCase):
         # basic portal member
         portal_member = self.addMember('portal_member')
         portal_member.setRoles('Member')
+        password = 'secret'
+        values = {'fullname': 'Portal Member',
+                  'email': 'noreply@xxxxxxxxyyyyyy.com',
+                  'password': password,
+                  'confirm_password': password,
+                  }
+        # processForm triggers the state change to an active state
+        portal_member.processForm(values=values)
         self.portal_member = portal_member
+
         
         # admin member
         admin_member = self.addMember('admin_user')
