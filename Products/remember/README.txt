@@ -14,5 +14,6 @@ REQUIREMENTS
 
 - Zope 2.9.3
 - Plone 2.5
-- membrane
-- py-bcrypt
+- membrane  (http://svn.plone.org/svn/collective/membrane/trunk)
+- py-bcrypt (http://www.mindrot.org/py-bcrypt.html or 
+             http://cheeseshop.python.org/pypi/bcrypt/0.1)
