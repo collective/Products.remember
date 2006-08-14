@@ -9,4 +9,9 @@
            factory=".content.useridprovider.UserIdProvider"
            />
 
+  <adapter for=".interfaces.IRememberGroupsProvider"
+           provides="Products.membrane.interfaces.IMembraneUserGroups"
+           factory=".content.groups.Groups"
+           />
+
 </configure>

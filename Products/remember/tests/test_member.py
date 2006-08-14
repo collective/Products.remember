@@ -84,7 +84,8 @@ class TestMember(rememberProjectTest):
     def testMemberDomains(self):
         # test member's domains
         self.portal_member.setDomains('127.0.0.1\r\n127.0.0.2\r\n  ')
-        self.assertEqual(self.portal_member.getDomains(), ('127.0.0.1', '127.0.0.2'))
+        self.assertEqual(self.portal_member.getDomains(),
+                         ('127.0.0.1', '127.0.0.2'))
 
     def testMemberEmail(self):
         # test member's email
@@ -97,16 +98,26 @@ class TestMember(rememberProjectTest):
         # test member's login time
         new_login_time = DateTime()
         self.portal_member.setLast_login_time(new_login_time)
-        self.assertEqual(self.portal_member.getLast_login_time(), new_login_time)
+        self.assertEqual(self.portal_member.getLast_login_time(),
+                         new_login_time)
 
     def testMemberRolesInContext(self):
         portal_member_user = self.portal_member.getUser()
         self.folder.invokeFactory(id='folder1', type_name='Folder')
         folder1 = self.folder['folder1']
         folder1.changeOwnership(self.portal_member)
-        folder1.manage_addLocalRoles(portal_member_user.getUserName(), ('Reviewer',))
-        self.failUnless('Reviewer' in portal_member_user.getRolesInContext(folder1))
+        folder1.manage_addLocalRoles(portal_member_user.getUserName(),
+                                     ('Reviewer',))
+        self.failUnless('Reviewer' in
+                        portal_member_user.getRolesInContext(folder1))
 
+    def testMemberGroups(self):
+        admingrp = 'Administrators'
+        user = self.getUser()
+        self.failIf(admingrp in user.getGroups())
+        self.portal_member.setGroups((admingrp,))
+        user = self.getUser()
+        self.failUnless(admingrp in user.getGroups())
 
 def test_suite():
     suite = unittest.TestSuite()
