@@ -171,13 +171,13 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
 
     def searchForMembers( self, REQUEST=None, **kw ):
         """
-        Do a catalog search on a sites members. If a 'brains' argument is set
-        to a True value, search will return only member_catalog metadata.
-        Otherwise, memberdata objects returned.
+        Do a catalog search on a sites members. If a 'brains' argument
+        is set to a True value, search will return only member_catalog
+        metadata.  Otherwise, memberdata objects returned.
 
-        If 'brains' is a False value and a 'portal_only' parameter is passed
-        in with a True value then only members from the portal's acl_users
-        folder will be returned.
+        If 'brains' is a False value and a 'portal_only' parameter is
+        passed in with a True value then only members from the
+        portal's acl_users folder will be returned.
         """
 
         if REQUEST:
