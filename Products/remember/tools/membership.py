@@ -1,6 +1,7 @@
 import logging
 from AccessControl import ClassSecurityInfo
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import ManageUsers
 from Products.PlonePAS.tools.membership import MembershipTool as BaseTool
 
 logger = logging.getLogger('remember')
@@ -14,6 +15,11 @@ class MembershipTool(BaseTool):
     security = ClassSecurityInfo()
 
     def _getMemberDataContainer(self):
+        """
+        Currently returns the portal_memberdata instance.  Soon will
+        be replaced by a utility that determines where to put each new
+        member object.
+        """
         md_path = getattr(self, 'memberdata_container_path', None)
         if md_path is None:
             mdc = getToolByName(self, 'portal_memberdata')
@@ -22,43 +28,52 @@ class MembershipTool(BaseTool):
 
     security.declarePrivate('addMember')
     def addMember(self, id, password, roles, domains, properties=None):
-        '''Adds a new member to the user folder.  Security checks will have
-        already been performed.  Called by portal_registration.
-        '''
-
-        member_type = 'Member'
-        typeName = None #str(self._getMemberDataContainer().getTypeName())
-        if typeName:
-            member_type = typeName
-        self._getMemberDataContainer().invokeFactory(member_type,id)
-        member=getattr(self._getMemberDataContainer().aq_explicit,id)
+        """
+        Adds a new member to the user folder.  Security checks will
+        have already been performed.  Called by portal_registration.
+        """
+        mdc = self._getMemberDataContainer()
+        member_type = mdc.getDefaultType()
+        mdc.invokeFactory(member_type, id)
+        member = mdc._getOb(id)
         logger.info('\n\n the props be:\n\n' + str(properties))
-        member.edit(password=password,roles=roles,domains=domains,**(properties or {}))
+        member.edit(password=password, roles=roles,
+                    domains=domains, **(properties or {}))
     
-    #security.declareProtected(ManageUsers, 'deleteMembers')
+    security.declareProtected(ManageUsers, 'deleteMembers')
     def deleteMembers(self, members, delete_memberareas=1,
                       delete_localroles=1):
         """Delete members specified by member_ids.
         """
-        # Delete the member objects from the member data container
-        self._getMemberDataContainer().manage_delObjects(members)
-        
+        # Delete the member objects
+        dels = {}
+        mbtool = getToolByName(self, 'membrane_tool')
+        membrains = mbtool(getId=members)
+        for brain in membrains:
+            if dels.has_key(brain.parent_path):
+                dels[brain.parent_path].append(brain.getId)
+            else:
+                dels[brain.parent_path] = [brain.getId]
+        for parent_path, del_ids in dels.items():
+            parent = self.unrestrictedTraverse(parent_path)
+            parent.manage_delObjects(del_ids)
+
+        mem_ids = [b.getId for b in membrains]
         # Delete members' home folders including all content items.
         if delete_memberareas:
-            for member_id in members:
-                 self.deleteMemberArea(member_id)
+            for mem_id in mem_ids:
+                 self.deleteMemberArea(mem_id)
 
         # Delete members' local roles.
         if delete_localroles:
             utool = getToolByName(self, 'portal_url', None)
-            self.deleteLocalRoles( utool.getPortalObject(), members,
+            self.deleteLocalRoles( utool.getPortalObject(), mem_ids,
                                    reindex=1, recursive=1 )
 
-    def searchForMembers( self, REQUEST=None, **kw ):
+    def searchForMembers(self, REQUEST=None, **kw):
         """
-        here for backwards compatibility; member searching is better
-        accomplished using the member_catalog, which this ultimately
-        delegates to
+        Here for backwards compatibility; ultimately delegates to the
+        membrane_tool.
         """
         if type(REQUEST) == type({}):
             param = REQUEST # folder_localroles_form passes a dict here as REQUEST
@@ -69,7 +84,7 @@ class MembershipTool(BaseTool):
             param = kw
 
         # mapping from older lookup names to the indexes that exist
-        # in the member_catalog
+        # in the membrane_tool
         key_map = {'name': 'getId',
                    'email': 'getEmail',
                    'roles': 'getFilteredRoles',
