@@ -6,6 +6,8 @@ from DateTime import DateTime
 from test_project import rememberProjectTest
 from test_project import makeContent
 
+from Products.CMFPlone.tests import dummy
+
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
@@ -118,6 +120,14 @@ class TestMember(rememberProjectTest):
         self.portal_member.setGroups((admingrp,))
         user = self.getUser()
         self.failUnless(admingrp in user.getGroups())
+
+    def testMemberPortrait(self):
+        self.portal_member.setPortrait(dummy.Image())
+        self.assertEqual(self.portal_member.getPortrait().data, dummy.GIF)
+        user = self.getUser()
+        user_props = self.acl_users.mutable_properties.getPropertiesForUser(user)
+        self.assertEqual(self.portal_member.getPortrait().data,
+                         user_props.getProperty('portrait').data)
 
 def test_suite():
     suite = unittest.TestSuite()
