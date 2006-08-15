@@ -124,10 +124,8 @@ class TestMember(rememberProjectTest):
     def testMemberPortrait(self):
         self.portal_member.setPortrait(dummy.Image())
         self.assertEqual(self.portal_member.getPortrait().data, dummy.GIF)
-        user = self.getUser()
-        user_props = self.acl_users.mutable_properties.getPropertiesForUser(user)
         self.assertEqual(self.portal_member.getPortrait().data,
-                         user_props.getProperty('portrait').data)
+                         self.getUser().getProperty('portrait').data)
 
 def test_suite():
     suite = unittest.TestSuite()
