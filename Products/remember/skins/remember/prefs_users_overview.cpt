@@ -164,7 +164,7 @@
                     <td>
               <a href="prefs_user_details"
              tal:attributes="href this_user/absolute_url">
-            <tal:block replace="structure portal/user.gif"/>&nbsp;<span tal:replace="this_user/getId">username</span>
+            <tal:block replace="structure portal/user.gif"/>&nbsp;<span tal:replace="this_user/getUserName">username</span>
             (<span tal:replace="fullname">Full Name</span>)
               </a>
               <input type="hidden" name="users.id:records" tal:attributes="value userid" />

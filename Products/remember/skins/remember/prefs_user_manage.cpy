@@ -8,6 +8,8 @@
 ##title=Edit users
 ##
 
+from Products.CMFPlone import PloneMessageFactory as _
+
 acl_users = context.acl_users
 mtool = context.portal_membership
 getMemberById = mtool.getMemberById
@@ -21,9 +23,10 @@ for user in users:
         continue
 
     member = getMemberById(user.id)
-    # If email address was changed, set the new one
-    if user.email != member.getProperty('email'):
-        setMemberProperties(member, email=user.email)
+    if hasattr(user, 'email'):
+        # If email address was changed, set the new one
+        if user.email != member.getProperty('email'):
+            setMemberProperties(member, email=user.email)
 
     # If reset password has been checked email user a new password
     if hasattr(user, 'resetpassword'):
@@ -40,4 +43,5 @@ if delete:
     # deletion
     mtool.deleteMembers(delete, delete_memberareas=0, delete_localroles=1)
 
-return state.set(portal_status_message=context.translate('Changes applied.'))
+context.plone_utils.addPortalMessage(_(u'Changes applied.'))
+return state
