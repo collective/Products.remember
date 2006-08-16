@@ -13,6 +13,7 @@ from Products.Archetypes import public as atapi
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
 from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
+from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
 
 from Products.PlonePAS.interfaces.plugins import IUserManagement
 from Products.PlonePAS.interfaces.group import IGroupManagement

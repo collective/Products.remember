@@ -182,7 +182,8 @@
                  size="15"
                  name="users.email:records"
                  value=""
-                 tal:attributes="value email;" />
+                 tal:attributes="value email;
+                                 disabled python:this_user.canWriteProperty('email') and default or 'disabled';" />
             </td>
 
             <td class="listingCheckbox"
@@ -193,7 +194,8 @@
                  name="users.roles:list:records"
                  value="Manager"
                              tal:attributes="value portal_role;
-                                 checked python:test(portal_role in user_roles, 'checked', nothing);" />
+                                             checked python:test(portal_role in user_roles, 'checked', nothing);
+                                             disabled python:this_user.canAssignRole(portal_role) and default or 'disabled';" />
             </td>
 
             <td class="listingCheckbox">
@@ -201,7 +203,8 @@
                  class="noborder"
                  name="users.resetpassword:records"
                              value=""
-                             tal:attributes="value userid;" />
+                             tal:attributes="value userid;
+                                             disabled python:this_user.canPasswordSet() and default or 'disabled';" />
             </td>
 
             <td class="listingCheckbox">
@@ -209,7 +212,8 @@
                              class="noborder notify"
                              name="delete:list"
                              value=""
-                             tal:attributes="value userid;" />
+                             tal:attributes="value userid;
+                                             disabled python:this_user.canDelete() and default or 'disabled';" />
             </td>
           </tr>
         </tal:block>
