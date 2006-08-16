@@ -111,6 +111,7 @@ plone_schema = atapi.Schema((
                 write_permission=EDIT_PROPERTIES_PERMISSION,
                 vocabulary='editors',
                 enforceVocabulary=1,
+                default='Kupu',
                 widget=atapi.SelectionWidget(
                     format='select',
                     label='Content editor',
@@ -249,6 +250,9 @@ plone_schema = atapi.Schema((
 ##################
 ## SECURITY_SCHEMA
 ##################
+
+# password fields show up (or not) by virtue of the
+# 'showPasswordField' method on the member object
 security_schema = atapi.Schema((
     atapi.StringField('password',
                 mutator='_setPassword',
@@ -259,10 +263,10 @@ security_schema = atapi.Schema((
                     label='Password',
                     label_msgid='label_password',
                     description="Minimum 5 characters",
-                    visible = {'view' : 'invisible' },
                     description_msgid='help_password_creation',
                     i18n_domain='plone',
-                    condition="object/showPasswordOnRegistration",
+                    visible = {'view' : 'invisible'},
+                    condition="object/showPasswordField",
                     ),
                 regfield=1,
                 user_property=True,
@@ -281,7 +285,8 @@ security_schema = atapi.Schema((
                         "passwords are identical.",
                     description_msgid='help_confirm_password',
                     i18n_domain='plone',
-                    condition="object/showPasswordOnRegistration",
+                    visible = {'view' : 'invisible'},
+                    condition="object/showPasswordField",
                     ),
                 regfield=1,
                 user_property=True,

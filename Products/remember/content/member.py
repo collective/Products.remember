@@ -12,6 +12,15 @@ from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
+from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
+
+from Products.PlonePAS.interfaces.plugins import IUserManagement
+from Products.PlonePAS.interfaces.group import IGroupManagement
+from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
+from Products.PlonePAS.interfaces.capabilities import IDeleteCapability, IPasswordSetCapability
+from Products.PlonePAS.interfaces.capabilities import IGroupCapability, IAssignRoleCapability
+from Products.PlonePAS.interfaces.capabilities import IManageCapabilities
+
 from Products.membrane.interfaces import IPropertiesProvider
 from Products.membrane.interfaces import IGroupAwareRolesProvider
 from Products.membrane.interfaces import IUserRoles
@@ -43,7 +52,8 @@ class BaseMember(object):
 
     implements(IRememberAuthProvider, IUserAuthentication,
                IPropertiesProvider, IRememberGroupsProvider,
-               IGroupAwareRolesProvider, IUserRoles)
+               IGroupAwareRolesProvider, IUserRoles,
+               IManageCapabilities)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -58,7 +68,6 @@ class BaseMember(object):
 
     # for Plone compatibility -- managed by workflow state
     listed = 0
-
 
     default_roles = ('Member',)
 
@@ -318,11 +327,13 @@ class BaseMember(object):
         else:
             return 'No'
 
-    security.declarePublic('showPasswordOnRegistration')
-    def showPasswordOnRegistration(self):
+    security.declarePublic('showPasswordField')
+    def showPasswordField(self):
         """Indicates if the password fields should be visible on
-           the join_form.
+           either the reg_form or base_edit
         """
+        if self.hasUser():
+            return False
         site_props = self.portal_properties.site_properties
         return not site_props.validate_email
 
@@ -344,6 +355,7 @@ class BaseMember(object):
             if mem.getUserName() == self.getUserName():
                 mtool.credentialsChanged(password)
 
+
     #######################################################################
     # IUserAuthentication implementation
     #######################################################################
@@ -359,6 +371,114 @@ class BaseMember(object):
             return True
         else:
             return False
+
+
+    #######################################################################
+    # IManageCapabilities implementation
+    #######################################################################
+    def canDelete(self):
+        """True iff user can be removed from the Plone UI."""
+        # IUserManagement provides doDeleteUser
+        plugins = self._getPlugins()
+        managers = plugins.listPlugins(IUserManagement)
+        if managers:
+            for mid, manager in managers:
+                if IDeleteCapability.providedBy(manager):
+                    return manager.allowDeletePrincipal(self.getId())
+        return 0
+
+
+    def canPasswordSet(self):
+        """True iff user can change password."""
+        # IUserManagement provides doChangeUser
+        plugins = self._getPlugins()
+        managers = plugins.listPlugins(IUserManagement)
+        if managers:
+            for mid, manager in managers:
+                if IPasswordSetCapability.providedBy(manager):
+                    return manager.allowPasswordSet(self.getId())
+        return 0
+
+
+    def passwordInClear(self):
+        """True iff password can be retrieved in the clear (not hashed.)
+
+        False for PAS. It provides no API for getting passwords,
+        though it would be possible to add one in the future.
+        """
+        return 0
+
+    def _memberdataHasProperty(self, prop_name):
+        mdata = getToolByName(self, 'portal_memberdata', None)
+        if mdata:
+            return mdata.hasProperty(prop_name)
+        return 0
+
+
+    def canWriteProperty(self, prop_name):
+        """True iff the member/group property named in 'prop_name'
+        can be changed.
+        """
+        if not IPluggableAuthService.providedBy(self.acl_users):
+            # not PAS; Memberdata is writable
+            return self._memberdataHasProperty(prop_name)
+        else:
+            # it's PAS
+            user = self.getUser()
+            sheets = getattr(user, 'getOrderedPropertySheets', lambda: None)()
+            if not sheets:
+                return self._memberdataHasProperty(prop_name)
+
+            for sheet in sheets:
+                if not sheet.hasProperty(prop_name):
+                    continue
+                if IMutablePropertySheet.providedBy(sheet):
+                    return 1
+                else:
+                    break  # shadowed by read-only
+        return 0
+
+
+    def canAddToGroup(self, group_id):
+        """True iff member can be added to group."""
+        # IGroupManagement provides IGroupCapability
+        plugins = self._getPlugins()
+        managers = plugins.listPlugins(IGroupManagement)
+        if managers:
+            for mid, manager in managers:
+                if IGroupCapability.providedBy(manager):
+                    return manager.allowGroupAdd(self.getId(), group_id)
+        return 0
+
+    def canRemoveFromGroup(self, group_id):
+        """True iff member can be removed from group."""
+        # IGroupManagement provides IGroupCapability
+        plugins = self._getPlugins()
+        managers = plugins.listPlugins(IGroupManagement)
+        if managers:
+            for mid, manager in managers:
+                if IGroupCapability.providedBy(manager):
+                    return manager.allowGroupRemove(self.getId(), group_id)
+        return 0
+
+
+    def canAssignRole(self, role_id):
+        """True iff member can be assigned role. Role id is string."""
+        # IRoleAssignerPlugin provides IAssignRoleCapability
+        plugins = self._getPlugins()
+        managers = plugins.listPlugins(IRoleAssignerPlugin)
+        if managers:
+            for mid, manager in managers:
+                if IAssignRoleCapability.providedBy(manager):
+                    return manager.allowRoleAssign(self.getId(), role_id)
+        return 0
+
+    ## plugin getters
+
+    security.declarePrivate('_getPlugins')
+    def _getPlugins(self):
+        return self.acl_users.plugins
+
 
     #######################################################################
     # Overrides of base class mutators that trigger workflow transitions

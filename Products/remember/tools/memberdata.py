@@ -76,6 +76,10 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         atapi.BaseBTreeFolder.manage_afterAdd(self, item, container)
         self.setDefaultType(DEFAULT_MEMBER_TYPE)
 
+    ###################################################################
+    # Ugly property hack to mask the unused 'description' attribute
+    # inherited from PortalFolderBase
+    ###################################################################    
     def _nope(self):
         """
         Need to negate the 'description' attribute that is inherited
