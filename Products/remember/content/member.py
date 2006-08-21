@@ -348,7 +348,9 @@ class BaseMember(object):
 
     def _setPassword(self, password):
         if password:
-            hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+            if not hasattr(self, "member_salt"):
+                self.member_salt = bcrypt.gensalt()
+            hashed = bcrypt.hashpw(password, self.member_salt)
             self.getField('password').set(self, hashed)
             mtool = getToolByName(self, 'portal_membership')
             # Reset the credentials if the current member initiates
@@ -368,7 +370,7 @@ class BaseMember(object):
         password = credentials.get('password')
         hashed = self.getPassword()
         if login == self.getUserName() and \
-               bcrypt.hashpw(password, hashed) == hashed:
+               bcrypt.hashpw(password, self.member_salt) == hashed:
             return True
         else:
             return False
