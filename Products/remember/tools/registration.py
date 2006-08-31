@@ -8,6 +8,8 @@ from Products.CMFCore.utils import getToolByName, _checkPermission
 from Products.CMFCore import CMFCorePermissions
 from Products.CMFPlone.RegistrationTool import RegistrationTool as BaseTool
 
+from Products.remember.permissions import MAIL_PASSWORD_PERMISSION
+
 # - remove '1', 'l', and 'I' to avoid confusion
 # - remove '0', 'O', and 'Q' to avoid confusion
 # - remove vowels to avoid spelling words
