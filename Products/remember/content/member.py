@@ -492,6 +492,8 @@ class BaseMember(object):
         # invoke any automated workflow transitions after update
         triggerAutomaticTransitions(self)
 
+    edit = update
+
     def at_post_edit_script(self):
         # XXX Need to remove this once we have real events
         # invoke any automated workflow transitions after update
