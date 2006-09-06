@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="membership-properties"
+              version="20060905-01"
+              handler="Products.remember.exportimport.membership_properties.importMembershipProperties"
+              title="Membership Properties">
+  <dependency step="toolset"/>
+    Import Membership properties
+ </import-step>
+</import-steps>

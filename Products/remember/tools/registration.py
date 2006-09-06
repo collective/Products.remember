@@ -3,9 +3,12 @@ import random, re, md5
 from AccessControl import ClassSecurityInfo, getSecurityManager, \
      PermissionRole, Unauthorized
 from Globals import InitializeClass
+from DateTime import DateTime
 
+from Products.CMFDefault.RegistrationTool import _checkEmail
 from Products.CMFCore.utils import getToolByName, _checkPermission
 from Products.CMFCore import CMFCorePermissions
+
 from Products.CMFPlone.RegistrationTool import RegistrationTool as BaseTool
 
 from Products.remember.permissions import MAIL_PASSWORD_PERMISSION
@@ -77,5 +80,46 @@ class RegistrationTool(BaseTool):
                 return BaseTool.mailPassword(self, forgotten_userid, REQUEST)
         raise(Unauthorized)
 
+    def validateMailConfirmation(self, id):
+        """Validate before mailing the registration confirmation key
+        to the member's email."""
+        membership = getToolByName(self, 'portal_membership')
+        member = membership.getMemberById(id)
+
+        if member is None:
+            return 'The username you entered could not be found.'
+
+        wft = getToolByName(self, 'portal_workflow')
+        if wft.getInfoFor(member, 'review_state') != 'unconfirmed':
+            return 'This user has already been confirmed.'
+
+        if (membership.confirm_expire and
+            DateTime() - member.created() > membership.confirm_expire):
+            return 'Your registration has expired.'
+
+        # assert that we can actually get an email address, otherwise
+        # the template will be made with a blank To:, this is bad
+        if not member.getProperty('email'):
+            return 'That user does not have an email address.'
+
+        check, msg = _checkEmail(member.getProperty('email'))
+        if not check:
+            return msg
+
+    def mailConfirmation(self, id):
+        """Send a mail with the confirmation key."""
+        # Rather than have the template try to use the mailhost, we will
+        # render the message ourselves and send it from here (where we
+        # don't need to worry about 'UseMailHost' permissions).
+        membership = getToolByName(self, 'portal_membership')
+        member = membership.getMemberById(id)
+
+        mail_text = self.mail_confirmation_template(
+            member_id=member.getId(),
+            member_email=member.getProperty('email'),
+            confirmationKey=member.getConfirmationKey())
+
+        host = self.MailHost
+        host.send(mail_text)
 
 InitializeClass(RegistrationTool)

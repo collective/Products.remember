@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<object name="portal_membership" meta_type="Membership Tool">
+ <property name="confirm_expire" type="int">30</property>
+</object>

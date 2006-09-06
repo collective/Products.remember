@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<export-steps>
+ <export-step id="membership-properties"
+              handler="Products.remember.exportimport.membership_properties.exportMembershipProperties"
+              title="Membership properties">
+   Export Membership properties
+ </export-step>
+</export-steps>

@@ -2,6 +2,8 @@
 <object name="portal_types" meta_type="Plone Types Tool">
   <object name="Member"
           meta_type="Factory-based Type Information with dynamic views" />
+  <object name="ConfirmationMember"
+          meta_type="Factory-based Type Information with dynamic views" />
   <object name="MemberDataContainer"
           meta_type="Factory-based Type Information" />
 </object>

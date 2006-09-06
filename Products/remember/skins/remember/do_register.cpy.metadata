@@ -4,4 +4,5 @@ validators = validate_base
 [actions]
 action.success = traverse_to:string:registered
 action.pending = traverse_to:string:pending
+action.unconfirmed = traverse_to:string:mail_confirmation
 action.prefs = redirect_to:string:prefs_users_overview

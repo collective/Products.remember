@@ -1,0 +1,55 @@
+<metal:block define-macro="master">
+
+  <html xmlns="http://www.w3.org/1999/xhtml"
+        xml:lang="en-US"
+        lang="en-US"
+        xmlns:tal="http://xml.zope.org/namespaces/tal"
+        xmlns:metal="http://xml.zope.org/namespaces/metal"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        metal:use-macro="here/main_template/macros/master"
+        i18n:domain="plone">
+
+    <body>
+      <div metal:fill-slot="main">
+
+        <h1>Mail Registration Confirmation Form</h1>
+
+        <form name="edit_form"
+              method="post"
+              enctype="multipart/form-data"
+	      tal:define="errors options/state/getErrors;"
+              tal:attributes="action python:here.absolute_url()+'/'+template.id">
+
+	  <div class="field"
+	       tal:define="error errors/id|nothing;
+			   value request/id|string:;
+			   value python:not error and value or '';"
+               tal:attributes="class python: test(error, 'field error', 'field');">
+	    <label>User Name</label>
+	    <div class="formHelp"></div>
+            <div tal:content="error">Validation Error</div>
+	    <input type="text"
+		   name="id"
+		   value=""
+		   tal:attributes="value value;" />
+	  </div>
+
+          <div class="formControls">
+            <input
+               type="hidden"
+               name="form.submitted"
+               value="1" />
+            <input
+               class="context"
+               tabindex=""
+               type="submit"
+               name="form.button.send"
+               value="Send Confirmation"
+               tal:attributes="tabindex tabindex/next;" />
+	  </div>
+
+        </form>
+      </div>
+    </body>
+  </html>
+</metal:block>
