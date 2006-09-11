@@ -1,9 +1,0 @@
-[default]
-title = Confirm Registration
-
-[validators]
-validators = validate_reg_confirm
-
-[actions]
-action.failure = traverse_to:string:confirm_reg_form
-action.success = traverse_to:string:confirmRegistration

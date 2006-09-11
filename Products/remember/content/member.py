@@ -5,7 +5,6 @@ from AccessControl import Unauthorized
 from AccessControl.PermissionRole import rolesForPermissionOn
 from Globals import InitializeClass
 from Acquisition import aq_base
-from DateTime import DateTime
 
 from zope.interface import implements
 
@@ -39,7 +38,6 @@ from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
 
 from member_schema import content_schema
-from member_schema import confirm_schema
 metadata_schema = atapi.ExtensibleMetadata.schema.copy()
 
 import logging
@@ -520,17 +518,3 @@ class Member(BrowserDefaultMixin, BaseMember, atapi.BaseContent):
 
 atapi.registerType(Member)
 InitializeClass(Member)
-
-class ConfirmationMember(Member):
-    """A member requiring confirmation through email."""
-    archetype_name = portal_type = meta_type = 'ConfirmationMember'
-
-    schema = Member.schema + confirm_schema
-
-    def generateConfirmationKey(self):
-        """Generate a key to be used for registration confirmation."""
-        return bcrypt.gensalt()
-
-atapi.registerType(ConfirmationMember)
-InitializeClass(ConfirmationMember)
-        

@@ -1,9 +1,0 @@
-[default]
-title = Mail Registration Confirmation
-
-[validators]
-validators = validate_mail_confirmation
-
-[actions]
-action.failure = traverse_to:string:mail_confirmation_form
-action.success = traverse_to:string:mail_confirmation

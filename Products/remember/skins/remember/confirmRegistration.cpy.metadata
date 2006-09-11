@@ -1,5 +1,0 @@
-[default]
-proxy=Manager
-
-[actions]
-action.success=redirect_to:string:login_form

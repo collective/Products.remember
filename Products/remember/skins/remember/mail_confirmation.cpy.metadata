@@ -1,5 +1,0 @@
-[default]
-proxy=Manager
-
-[actions]
-action.success=traverse_to:string:mail_confirmation_response

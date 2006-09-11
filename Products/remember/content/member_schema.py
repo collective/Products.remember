@@ -427,16 +427,3 @@ login_info_schema = atapi.Schema((
 
 content_schema = id_schema + contact_schema + plone_schema + \
                  security_schema + login_info_schema
-
-confirm_schema = atapi.Schema((
-    atapi.StringField(
-            'confirmationKey',
-            mode='r',
-            default_method='generateConfirmationKey',
-            read_permission=REGISTER_PERMISSION,
-            widget=atapi.StringWidget(
-                label="Confirmation Key",
-                description="Enter the registration confirmation key "
-                "you recieved in your registration email here.")),
-    ))
-        
