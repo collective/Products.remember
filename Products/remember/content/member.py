@@ -45,6 +45,11 @@ logger = logging.getLogger('remember')
 
 _marker = []
 
+# Establish the field order
+member_schema = content_schema + metadata_schema
+# metadata_schema doesn't override any fields in content_schema
+member_schema = member_schema + content_schema
+
 class BaseMember(object):
     """
     Abstract member object base class.
@@ -63,7 +68,7 @@ class BaseMember(object):
     content_icon = "user.gif"
     
     # Note that we override BaseContent.schema
-    schema = content_schema + metadata_schema
+    schema = member_schema
     
     global_allow = 0
 
