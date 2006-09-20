@@ -1,5 +1,3 @@
-import bcrypt
-
 from AccessControl import ClassSecurityInfo
 from AccessControl import Unauthorized
 from AccessControl.PermissionRole import rolesForPermissionOn
@@ -7,6 +5,8 @@ from Globals import InitializeClass
 from Acquisition import aq_base
 
 from zope.interface import implements
+from zope.app.annotation.interfaces import IAttributeAnnotatable
+from zope.component import getMultiAdapter
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
@@ -29,6 +29,7 @@ from Products.membrane.interfaces import IUserAuthentication
 
 from Products.remember.interfaces import IRememberAuthProvider
 from Products.remember.interfaces import IRememberGroupsProvider
+from Products.remember.interfaces import IHashPW
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.utils import stringToList
@@ -59,7 +60,7 @@ class BaseMember(object):
     implements(IRememberAuthProvider, IUserAuthentication,
                IPropertiesProvider, IRememberGroupsProvider,
                IGroupAwareRolesProvider, IUserRoles,
-               IManageCapabilities)
+               IManageCapabilities, IAttributeAnnotatable)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -353,9 +354,8 @@ class BaseMember(object):
 
     def _setPassword(self, password):
         if password:
-            if not hasattr(self, "member_salt"):
-                self.member_salt = bcrypt.gensalt()
-            hashed = bcrypt.hashpw(password, self.member_salt)
+            hasher = getMultiAdapter((self, self), IHashPW)
+            hashed = hasher.hashPassword(password)
             self.getField('password').set(self, hashed)
             mtool = getToolByName(self, 'portal_membership')
             # Reset the credentials if the current member initiates
@@ -374,8 +374,9 @@ class BaseMember(object):
         login = credentials.get('login')
         password = credentials.get('password')
         hashed = self.getPassword()
+        hasher = getMultiAdapter((self, self), IHashPW)
         if login == self.getUserName() and \
-               bcrypt.hashpw(password, self.member_salt) == hashed:
+               hasher.hashPassword(password) == hashed:
             return True
         else:
             return False

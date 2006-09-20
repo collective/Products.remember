@@ -1,3 +1,5 @@
+from zope.interface import Interface
+
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IGroupsProvider
 
@@ -15,4 +17,13 @@ class IRememberGroupsProvider(IGroupsProvider):
     def getGroups(self):
         """
         Returns the groups this member belongs to.
+        """
+
+class IHashPW(Interface):
+    """
+    Hashes a password for member objects
+    """
+    def hashPassword(password):
+        """
+        Returns a hashed version of the password
         """

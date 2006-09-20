@@ -14,4 +14,10 @@
            factory=".content.groups.Groups"
            />
 
+  <adapter for=".interfaces.IRememberAuthProvider
+		zope.app.annotation.interfaces.IAnnotatable"
+	   provides=".interfaces.IHashPW"
+	   factory=".content.bcrypt_hash.BCryptHash"
+	   />
+
 </configure>
