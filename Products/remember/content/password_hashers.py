@@ -19,6 +19,8 @@ class BCryptHash(object):
 
     def __init__(self, context):
         self.context = context
+        if self.bcrypt is None:
+            return
         annotations = IAnnotations(context)
         storage = annotations.setdefault(ANNOT_KEY,
                                          PersistentMapping())
