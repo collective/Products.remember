@@ -1,7 +1,7 @@
 import os, sys
 import unittest
 
-from test_project import rememberProjectTest
+from test_project import RememberProjectTest
 
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
@@ -9,7 +9,7 @@ from Products.membrane.utils import generateCategorySetIdForType
 
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
-class TestRememberInstall(rememberProjectTest):
+class TestRememberInstall(RememberProjectTest):
 
     def testActiveWFStates(self):
         cat_set = generateCategorySetIdForType(DEFAULT_MEMBER_TYPE)

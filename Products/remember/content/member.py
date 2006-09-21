@@ -6,7 +6,8 @@ from Acquisition import aq_base
 
 from zope.interface import implements
 from zope.app.annotation.interfaces import IAttributeAnnotatable
-from zope.component import getMultiAdapter
+from zope.app.annotation.interfaces import IAnnotations
+from zope.component import getAdapter
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
@@ -32,11 +33,14 @@ from Products.remember.interfaces import IRememberGroupsProvider
 from Products.remember.interfaces import IHashPW
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 from Products.remember.config import DEFAULT_MEMBER_TYPE
+from Products.remember.config import ANNOT_KEY
+from Products.remember.config import HASHERS
 from Products.remember.utils import stringToList
 from Products.remember.utils import removeAutoRoles
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
+
 
 from member_schema import content_schema
 metadata_schema = atapi.ExtensibleMetadata.schema.copy()
@@ -352,11 +356,30 @@ class BaseMember(object):
     def _getConfirmPassword(self):
         return ''
 
+    def _getHashType(self):
+        """
+        Return the hash type to use
+        """
+        mbtool = getToolByName(self, 'membrane_tool')
+        annot = IAnnotations(mbtool)
+        try:
+            return annot[ANNOT_KEY]['hash_type']
+        except KeyError:
+            for hash_type in HASHERS:
+                hasher = getAdapter(self, IHashPW, hash_type)
+                if hasher.isAvailable():
+                    return hash_type
+        return None
+
     def _setPassword(self, password):
         if password:
-            hasher = getMultiAdapter((self, self), IHashPW)
+            hash_type = self._getHashType()
+            if hash_type is None:
+                raise ValueError('Invalid hash_type: None')
+            hasher = getAdapter(self, IHashPW, hash_type)
             hashed = hasher.hashPassword(password)
-            self.getField('password').set(self, hashed)
+            hash_type_with_password = hash_type + ':' + hashed
+            self.getField('password').set(self, hash_type_with_password)
             mtool = getToolByName(self, 'portal_membership')
             # Reset the credentials if the current member initiates
             mem = mtool.getAuthenticatedMember()
@@ -373,8 +396,12 @@ class BaseMember(object):
     def verifyCredentials(self, credentials):
         login = credentials.get('login')
         password = credentials.get('password')
-        hashed = self.getPassword()
-        hasher = getMultiAdapter((self, self), IHashPW)
+        try:
+            hash_type, hashed = self.getPassword().split(':', 1)
+        except ValueError:
+            raise ValueError('Error parsing hash type. '
+                             'Please run migration')
+        hasher = getAdapter(self, IHashPW, hash_type)
         if login == self.getUserName() and \
                hasher.hashPassword(password) == hashed:
             return True

@@ -27,3 +27,7 @@ class IHashPW(Interface):
         """
         Returns a hashed version of the password
         """
+    def isAvailable():
+        """
+        Returns if the specified encryption mechanism is supported
+        """

@@ -34,6 +34,13 @@ def installConfiguredProducts():
 
 installConfiguredProducts()
 
+pmem_password = 'secret'
+pmem_values = {'fullname': 'Portal Member',
+               'email': 'noreply@xxxxxxxxyyyyyy.com',
+               'password': pmem_password,
+               'confirm_password': pmem_password,
+               }
+
 
 # util for making content in a container
 def makeContent(container, id, portal_type, title=None):
@@ -46,7 +53,7 @@ def makeContent(container, id, portal_type, title=None):
 
 # This is the test case. You will have to add test_<methods> to your
 # class inorder to assert things about your Product.
-class rememberProjectTest(ArcheSiteTestCase):
+class RememberProjectTest(ArcheSiteTestCase):
     def afterSetUp(self):
         zcml.load_config('configure.zcml', package=Products.membrane)
         zcml.load_config('configure.zcml', package=Products.remember)
@@ -77,14 +84,9 @@ class rememberProjectTest(ArcheSiteTestCase):
         # basic portal member
         portal_member = self.addMember('portal_member')
         portal_member.setRoles('Member')
-        password = 'secret'
-        values = {'fullname': 'Portal Member',
-                  'email': 'noreply@xxxxxxxxyyyyyy.com',
-                  'password': password,
-                  'confirm_password': password,
-                  }
+
         # processForm triggers the state change to an active state
-        portal_member.processForm(values=values)
+        portal_member.processForm(values=pmem_values)
         self.portal_member = portal_member
 
         
@@ -106,5 +108,5 @@ class rememberProjectTest(ArcheSiteTestCase):
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(rememberProjectTest))
+    suite.addTest(unittest.makeSuite(RememberProjectTest))
     return suite

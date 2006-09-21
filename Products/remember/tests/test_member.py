@@ -3,7 +3,7 @@ import unittest
 
 from DateTime import DateTime
 
-from test_project import rememberProjectTest
+from test_project import RememberProjectTest
 from test_project import makeContent
 
 from Products.CMFPlone.tests import dummy
@@ -16,7 +16,7 @@ from Products.remember.config import DEFAULT_MEMBER_TYPE
 
 from Products.CMFCore.utils import getToolByName
 
-class TestMember(rememberProjectTest):
+class TestMember(RememberProjectTest):
 
     def getUser(self):
         """
