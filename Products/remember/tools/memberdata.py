@@ -20,6 +20,7 @@ schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
     # property used for old-school MemberData objects
     atapi.TextField(
         'description',
+        default = 'Container for Members',
         default_content_type = 'text/plain',
         default_output_type = 'text/html',
         widget = atapi.TextAreaWidget(rows = 5),
@@ -66,6 +67,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     def __init__(self, **kwargs):
         atapi.BaseBTreeFolder.__init__(self, self.id, **kwargs)
         BaseTool.__init__(self)
+        self.title = 'Member Profiles'
 
     def manage_afterAdd(self, item, container):
         """
