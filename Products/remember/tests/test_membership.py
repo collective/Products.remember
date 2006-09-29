@@ -1,7 +1,7 @@
 import os, sys
 import unittest
 
-from test_project import RememberProjectTest
+from base import RememberTestBase
 
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
@@ -9,10 +9,10 @@ from Products.membrane.utils import generateCategorySetIdForType
 
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
-class TestMembershipTool(RememberProjectTest):
+class TestMembershipTool(RememberTestBase):
 
     def afterSetUp(self):
-        RememberProjectTest.afterSetUp(self)
+        RememberTestBase.afterSetUp(self)
         self.mtool = self.portal.portal_membership
         self.uf = self.portal.acl_users
 

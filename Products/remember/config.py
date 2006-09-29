@@ -22,4 +22,4 @@ AUTO_ROLES = ('Anonymous', 'Authenticated')
 
 ANNOT_KEY = 'Products.remember'
 
-HASHERS = ['bcrypt', 'sha']
+HASHERS = ['bcrypt', 'hmac_sha', 'sha']

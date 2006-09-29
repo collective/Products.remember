@@ -2,6 +2,7 @@ from zope.interface import Interface
 
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IGroupsProvider
+from Products.membrane.interfaces import IMembraneTool
 
 class IRememberAuthProvider(IUserAuthProvider):
     """
@@ -31,3 +32,10 @@ class IHashPW(Interface):
         """
         Returns if the specified encryption mechanism is supported
         """
+
+class IRememberMembraneTool(IMembraneTool):
+    """
+    Create a new interface to allow configuration of remember on the membrane tool
+    at setup time
+    """
+    

@@ -8,10 +8,12 @@ from Products.remember.interfaces import IHashPW
 from Products.remember.config import HASHERS
 from Products.remember.config import ANNOT_KEY
 
-from test_project import RememberProjectTest
-from test_project import pmem_values
+from base import RememberTestBase
+from base import mem_data
 
-class TestHasher(RememberProjectTest):
+MEM_DATA = mem_data['portal_member']
+
+class TestHasher(RememberTestBase):
     """ 
     test the different hashing methods available
     """
@@ -26,14 +28,14 @@ class TestHasher(RememberProjectTest):
             annot = IAnnotations(mbtool)
             annot.setdefault(ANNOT_KEY, {})['hash_type'] = htype
             member.setRoles('Member')
-            member.processForm(values=pmem_values)
+            member.processForm(values=MEM_DATA)
 
             password = member.getPassword()
             hash_type, hashed = password.split(':', 1)
 
             self.assertEqual(htype, hash_type)
             self.failUnless(member.verifyCredentials(dict(login=login_id,
-                                                          **pmem_values)))
+                                                          **MEM_DATA)))
 
 def test_suite():
     suite = unittest.TestSuite()

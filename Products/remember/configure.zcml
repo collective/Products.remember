@@ -3,6 +3,7 @@
            i18n_domain="remember">
 
   <include package=".browser" />
+  <include package=".exportimport" />
 
   <adapter for=".interfaces.IRememberAuthProvider"
            provides="Products.membrane.interfaces.IUserRelated"
@@ -24,6 +25,12 @@
 	   provides=".interfaces.IHashPW"
 	   name="sha"
 	   factory=".content.password_hashers.SHAHash"
+	   />
+
+  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+	   provides=".interfaces.IHashPW"
+	   name="hmac_sha"
+	   factory=".content.password_hashers.HMACHash"
 	   />
 
 </configure>

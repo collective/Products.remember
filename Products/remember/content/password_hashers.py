@@ -1,4 +1,5 @@
 import sha
+import hmac
 
 from persistent.mapping import PersistentMapping
 from zope.app.annotation.interfaces import IAnnotations
@@ -50,6 +51,30 @@ class SHAHash(object):
         Return a hashed version of password using SHA
         """
         return sha.new(password).hexdigest()
+    
+    def isAvailable(self):
+        return True
+
+class HMACHash(object):
+    """
+    Adapts from IAnnotatable to IHashPW. Uses SHA to hash the password
+    """
+    implements(IHashPW)
+
+    def __init__(self, context):
+        self.context = context
+        key = str(context)
+        annotations = IAnnotations(context)
+        storage = annotations.setdefault(ANNOT_KEY,
+                                         PersistentMapping())
+        storage.setdefault('hmac_key', key)
+        self.storage = storage
+    
+    def hashPassword(self, password):
+        """
+        Return a hashed version of password using SHA
+        """
+        return hmac.new(self.storage['hmac_key'], password, sha).hexdigest()
     
     def isAvailable(self):
         return True

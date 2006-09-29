@@ -3,8 +3,8 @@ import unittest
 
 from DateTime import DateTime
 
-from test_project import RememberProjectTest
-from test_project import makeContent
+from base import RememberTestBase
+from base import makeContent
 
 from Products.CMFPlone.tests import dummy
 
@@ -16,7 +16,7 @@ from Products.remember.config import DEFAULT_MEMBER_TYPE
 
 from Products.CMFCore.utils import getToolByName
 
-class TestMember(RememberProjectTest):
+class TestMember(RememberTestBase):
 
     def getUser(self):
         """
@@ -125,7 +125,7 @@ class TestMember(RememberProjectTest):
         self.portal_member.setPortrait(dummy.Image())
         self.assertEqual(self.portal_member.getPortrait().data, dummy.GIF)
         self.assertEqual(self.portal_member.getPortrait().data,
-                         self.getUser().getProperty('portrait').data)
+                             self.getUser().getProperty('portrait'))
 
 def test_suite():
     suite = unittest.TestSuite()
