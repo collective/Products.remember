@@ -118,6 +118,10 @@ class ZTCLayer:
 
         txn.commit()
 
+    @classmethod
+    def tearDown(cls):
+        pass
+
 class RememberProfileLayer(ZTCLayer):
     @classmethod
     def setUp(cls):
@@ -155,6 +159,8 @@ class RememberProfileLayer(ZTCLayer):
         admin_member.setRoles(['Manager','Member'])
 
         txn.commit()
+
+   
 
 # This is the test case. You will have to add test_<methods> to your
 # class inorder to assert things about your Product.
