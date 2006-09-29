@@ -56,8 +56,6 @@ mem_data = {
      },
     }
 
-logfile=file('/tmp/remember_test.log', 'w')
-
 # util for making content in a container
 def makeContent(container, id, portal_type, title=None):
     container.invokeFactory(id=id, type_name=portal_type)
@@ -88,8 +86,6 @@ class ZTCLayer:
         Do all of the ZTC setup that would normally be happening in
         the ZTC base class (copied from ZopeTestCase.ZopeTestCase).
         """
-
-        print >> logfile, 'setUp:  ZTCLayer'
 
         txn.begin()
         app = ZopeTestCase.app()
@@ -122,11 +118,6 @@ class ZTCLayer:
 
         txn.commit()
 
-    @classmethod
-    def tearDown(cls):
-        print >> logfile, 'tearDown:  ZTCLayer'
-
-
 class RememberProfileLayer(ZTCLayer):
     @classmethod
     def setUp(cls):
@@ -135,7 +126,6 @@ class RememberProfileLayer(ZTCLayer):
         this layer is for tests that are non-destructive. destructive tests need
         to go in a sub-layer
         """
-        print >> logfile, 'setUp:  RememberProfileLayer'
 
         txn.begin()
         app = ZopeTestCase.app()
@@ -166,11 +156,6 @@ class RememberProfileLayer(ZTCLayer):
 
         txn.commit()
 
-    @classmethod
-    def tearDown(cls):
-        print >> logfile, 'tearDown: RememberProfileLayer'
-
-
 # This is the test case. You will have to add test_<methods> to your
 # class inorder to assert things about your Product.
 class RememberTestBase(ArcheSiteTestCase):
@@ -180,9 +165,6 @@ class RememberTestBase(ArcheSiteTestCase):
         return globals()['addMember'](self.portal, name)
 
     def afterSetUp(self):
-        print >> logfile, 'afterSetup: %s' \
-              % str(self.__class__).split('.')[-1]
-
         ArcheSiteTestCase.afterSetUp(self)
         # Because we add skins this needs to be called. Um... ick.
         self._refreshSkinData()

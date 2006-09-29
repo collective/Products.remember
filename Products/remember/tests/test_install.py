@@ -3,7 +3,6 @@ import unittest
 
 from base import RememberTestBase
 from base import ZTCLayer
-from base import logfile
 
 from zope.app.annotation.interfaces import IAnnotations
 
