@@ -261,5 +261,13 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
 
         return filter(None, results)
 
+    def _getPortrait(self, member_id):
+        uf = getToolByName(self, 'acl_users')
+        user = uf.getUserById(member_id)
+        portrait = user.getProperty('portrait', None)
+        if portrait is None:
+            return BaseTool._getPortrait(self, member_id)
+        return portrait
+
 atapi.registerType(MemberDataContainer)
 InitializeClass(MemberDataContainer)

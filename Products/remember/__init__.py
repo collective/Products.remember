@@ -12,10 +12,14 @@ __docformat__ = 'text/restructured'
 # __init__.py is used to register global tools, services, and
 # configuration information
 
+from OFS.Image import Image
+
 from Products.Archetypes import public as atapi
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.DirectoryView import registerDirectory
 from Products.CMFPlone.interfaces import IPloneSiteRoot
+
+from Products.PlonePAS.sheet import PropertySchema
 
 from Products.GenericSetup import EXTENSION
 from Products.GenericSetup import profile_registry
@@ -62,3 +66,7 @@ def initialize(context):
                                      EXTENSION,
                                      for_=IPloneSiteRoot,
                                      )
+
+    # register image property type for user property sheets
+    PropertySchema.addType('image',
+                           lambda x: x is None or isinstance(x, Image))

@@ -124,8 +124,8 @@ class TestMember(RememberTestBase):
     def testMemberPortrait(self):
         self.portal_member.setPortrait(dummy.Image())
         self.assertEqual(self.portal_member.getPortrait().data, dummy.GIF)
-        self.assertEqual(self.portal_member.getPortrait().data,
-                             self.getUser().getProperty('portrait'))
+        self.assertEqual(self.portal_member.getPortrait(),
+                         self.getUser().getProperty('portrait'))
 
 def test_suite():
     suite = unittest.TestSuite()
