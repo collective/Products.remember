@@ -33,4 +33,9 @@
 	   factory=".content.password_hashers.HMACHash"
 	   />
 
+  <adapter for="Products.membrane.interfaces.IUserRelated"
+       provides="Products.membrane.interfaces.IUserChanger"
+       factory=".content.member.Member"
+       />
+
 </configure>

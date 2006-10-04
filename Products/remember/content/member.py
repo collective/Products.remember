@@ -31,6 +31,8 @@ from Products.membrane.interfaces import IUserAuthentication
 from Products.remember.interfaces import IRememberAuthProvider
 from Products.remember.interfaces import IRememberGroupsProvider
 from Products.remember.interfaces import IHashPW
+from Products.membrane.interfaces import IUserChanger
+
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.config import ANNOT_KEY
@@ -40,7 +42,6 @@ from Products.remember.utils import removeAutoRoles
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
-
 
 from member_schema import content_schema
 metadata_schema = atapi.ExtensibleMetadata.schema.copy()
@@ -64,7 +65,8 @@ class BaseMember(object):
     implements(IRememberAuthProvider, IUserAuthentication,
                IPropertiesProvider, IRememberGroupsProvider,
                IGroupAwareRolesProvider, IUserRoles,
-               IManageCapabilities, IAttributeAnnotatable)
+               IManageCapabilities, IAttributeAnnotatable,
+               IUserChanger)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -386,6 +388,8 @@ class BaseMember(object):
             if mem.getUserName() == self.getUserName():
                 mtool.credentialsChanged(password)
 
+    # provide implementation of IUserChanger
+    setPassword = _setPassword
 
     #######################################################################
     # IUserAuthentication implementation
