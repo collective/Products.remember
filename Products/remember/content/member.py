@@ -31,7 +31,7 @@ from Products.membrane.interfaces import IUserAuthentication
 from Products.remember.interfaces import IRememberAuthProvider
 from Products.remember.interfaces import IRememberGroupsProvider
 from Products.remember.interfaces import IHashPW
-from Products.membrane.interfaces import IUserChanger
+from Products.remember.interfaces import IRememberUserChanger
 
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 from Products.remember.config import DEFAULT_MEMBER_TYPE
@@ -66,7 +66,7 @@ class BaseMember(object):
                IPropertiesProvider, IRememberGroupsProvider,
                IGroupAwareRolesProvider, IUserRoles,
                IManageCapabilities, IAttributeAnnotatable,
-               IUserChanger)
+               IRememberUserChanger)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -387,9 +387,6 @@ class BaseMember(object):
             mem = mtool.getAuthenticatedMember()
             if mem.getUserName() == self.getUserName():
                 mtool.credentialsChanged(password)
-
-    # provide implementation of IUserChanger
-    setPassword = _setPassword
 
     #######################################################################
     # IUserAuthentication implementation

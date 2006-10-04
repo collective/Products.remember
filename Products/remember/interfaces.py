@@ -1,5 +1,7 @@
 from zope.interface import Interface
 
+from Products.Archetypes.interfaces import IReferenceable
+
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IGroupsProvider
 from Products.membrane.interfaces import IMembraneTool
@@ -38,4 +40,13 @@ class IRememberMembraneTool(IMembraneTool):
     Create a new interface to allow configuration of remember on the membrane tool
     at setup time
     """
-    
+
+class IRememberUserChanger(IReferenceable):
+    """
+    IRemember user changer uses the _setPassword method
+    This is the mutator function for the member object
+    """
+    def _setPassword(password):
+        """
+        Modify the password on the member object
+        """

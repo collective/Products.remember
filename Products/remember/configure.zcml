@@ -38,4 +38,9 @@
        factory=".content.member.Member"
        />
 
+  <adapter for=".interfaces.IRememberUserChanger"
+       provides="Products.membrane.interfaces.IMembraneUserChanger"
+       factory=".content.rememberuserchanger.RememberUserChanger"
+       />
+
 </configure>
