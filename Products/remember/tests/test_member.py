@@ -127,6 +127,31 @@ class TestMember(RememberTestBase):
         self.assertEqual(self.portal_member.getPortrait(),
                          self.getUser().getProperty('portrait'))
 
+    def testMemberPasswordChange(self):
+        # create a member's password
+        mtool = self.portal.portal_membership
+        mem = self.portal_member
+        # need to login to set authenticated user
+        self.login('portal_member')
+        passwd = 'newpasswd'
+        mem._setPassword(passwd)
+        oldhash = mem.getPassword()
+
+        # now modify the password at the same level as the password form
+        newpasswd = 'newerpasswd'
+        mtool.setPassword(newpasswd)
+
+        # verify that the password changed
+        newhash = mem.getPassword()
+        self.failIfEqual(oldhash, newhash)
+
+        # and now verify that the user can login with the changed password
+        mem_id = mem.getId()
+        user = self.portal.acl_users.authenticate(mem_id,
+                                                  newpasswd,
+                                                  self.portal.REQUEST)        
+        self.assertEqual(mem_id, user.getId())
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestMember))
