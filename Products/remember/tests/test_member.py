@@ -152,6 +152,17 @@ class TestMember(RememberTestBase):
                                                   self.portal.REQUEST)        
         self.assertEqual(mem_id, user.getId())
 
+    def testEmailPasswordCheckbox(self):
+        """ 
+        test to see if the "Send a mail with the password"
+        checkbox appears on joining, but not on editting
+        preferences once logged in
+        """
+        # in addition, a test should be written to verify that for a 
+        # member that is not in the acl_users list,
+        # the password field should be shown
+        self.failIf(self.portal_member.showPasswordField())
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestMember))

@@ -302,7 +302,7 @@ security_schema = atapi.Schema((
                     label_msgid='label_mail_password',
                     description='',
                     i18n_domain='plone',
-                    condition="object/showPasswordOnRegistration",
+                    condition="object/showPasswordField",
                     ),
                 regfield=1,
                 user_property=True,

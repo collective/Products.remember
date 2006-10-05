@@ -350,13 +350,6 @@ class BaseMember(object):
         site_props = self.portal_properties.site_properties
         return not site_props.validate_email
 
-    def showPasswordOnRegistration(self):
-        """
-        gives the option to mail password on registration,
-        but should not show up in the member preferences
-        """        
-        return not self.hasUser()
-
     # dummy method
     def _setConfirmPassword(self, value):
         pass
