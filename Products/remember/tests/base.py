@@ -155,7 +155,7 @@ class RememberProfileLayer(ZTCLayer):
         portal_member.setRoles('Member')
 
         # admin member
-        admin_member = addMember(app.plone, 'admin_user')
+        admin_member = addMember(app.plone, 'admin_member')
         admin_member.setRoles(['Manager','Member'])
 
         txn.commit()
