@@ -6,6 +6,10 @@ THOROUGHLY BEFORE COMMITTING TO THE PROCESS.  AND ALWAYS HAVE A BACKUP
 THAT YOU CAN SAFELY REVERT TO IF SOMETHING GOES WRONG.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+Thanks to Ross Patterson for providing the initial CMFMember->remember
+migration code, which was integrated into remember (with some
+modifications) by Rob Miller.
+
 This package contains code required to do a migration from a Plone
 2.1.x site running CMFMember to a Plone 2.5.x site running remember.
 The process for performing a migration is as follows:
