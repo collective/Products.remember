@@ -14,8 +14,6 @@ from Products.CMFCore.utils  import getToolByName
 from Products.CMFPlone.tests import PloneTestCase
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
 
-from Products.Five import zcml
-
 import Products.membrane
 import Products.remember
 import Products.remember.config as config
