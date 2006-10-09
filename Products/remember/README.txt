@@ -2,6 +2,8 @@ remember
 
 A membrane-based Plone member implementation.
 
+For questions and support, please see the remember mailing list:
+http://www.openplans.org/projects/remember/lists/remember/
 
 ============
 REQUIREMENTS
