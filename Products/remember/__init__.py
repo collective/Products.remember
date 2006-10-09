@@ -27,6 +27,9 @@ from Products.GenericSetup import profile_registry
 from permissions import initialize as initialize_permissions
 import config
 
+if config.CMFMEMBER_MIGRATION_SUPPORT:
+    import cmfmember
+
 # Register the skins directory
 registerDirectory(config.SKINS_DIR, config.GLOBALS)
 
