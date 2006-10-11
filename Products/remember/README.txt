@@ -16,5 +16,8 @@ REQUIREMENTS
 Optional:
 
 - contentmigration (if migrating an existing CMFMember site)
+  (currently requires a special branch:
+   http://svn.plone.org/svn/collective/contentmigration/branches/rossp-extensions)
+
 - py-bcrypt (http://www.mindrot.org/py-bcrypt.html or 
              http://cheeseshop.python.org/pypi/bcrypt/0.1)
