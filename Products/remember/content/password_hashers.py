@@ -5,14 +5,40 @@ from persistent.mapping import PersistentMapping
 from zope.app.annotation.interfaces import IAnnotations
 from zope.interface import implements
 
+from AccessControl.AuthEncoding import pw_encrypt
+from AccessControl.AuthEncoding import pw_validate
+
 from Products.remember.config import ANNOT_KEY
 from Products.remember.interfaces import IHashPW
 
-class BCryptHash(object):
+
+class BaseHash(object):
     """
-    Adapts from IAnnotatable to IHashPW. Uses bcrypt to hash the password
+    Abstract base class for actual hashing implementations.
     """
     implements(IHashPW)
+
+    def __init__(self, context):
+        self.context = context
+
+    def isAvailable(self):
+        return True
+
+    def hashPassword(self, password):
+        raise NotImplementedError
+
+    def validate(self, reference, attempt):
+        """
+        Check to see if the reference is a hash of the attempt.
+        """
+        return self.hashPassword(attempt) == reference
+
+
+class BCryptHash(BaseHash):
+    """
+    Adapts from IAnnotatable to IHashPW. Uses bcrypt to hash the
+    password
+    """
     try:
         import bcrypt
     except ImportError:
@@ -27,40 +53,32 @@ class BCryptHash(object):
                                          PersistentMapping())
         storage.setdefault('bcrypt_salt', self.bcrypt.gensalt())
         self.storage = storage
-    
+
+    def isAvailable(self):
+        return self.bcrypt is not None
+
     def hashPassword(self, password):
         """
         Return a hashed version of password using bcrypt
         """
         return self.bcrypt.hashpw(password, self.storage['bcrypt_salt'])
 
-    def isAvailable(self):
-        return self.bcrypt is not None
 
-class SHAHash(object):
+class SHAHash(BaseHash):
     """
     Adapts from IAnnotatable to IHashPW. Uses SHA to hash the password
     """
-    implements(IHashPW)
-
-    def __init__(self, context):
-        self.context = context
-    
     def hashPassword(self, password):
         """
         Return a hashed version of password using SHA
         """
         return sha.new(password).hexdigest()
     
-    def isAvailable(self):
-        return True
 
-class HMACHash(object):
+class HMACHash(BaseHash):
     """
     Adapts from IAnnotatable to IHashPW. Uses SHA to hash the password
     """
-    implements(IHashPW)
-
     def __init__(self, context):
         self.context = context
         key = str(context)
@@ -75,6 +93,21 @@ class HMACHash(object):
         Return a hashed version of password using SHA
         """
         return hmac.new(self.storage['hmac_key'], password, sha).hexdigest()
-    
-    def isAvailable(self):
-        return True
+
+
+class ZAuthHash(BaseHash):
+    """
+    Adapts from IAnnotatable to IHashPW. Uses Zope 2's
+    AccessControl.AuthEncoding module to hash the password.
+    """
+    def hashPassword(self, password):
+        """
+        Delegate to AccessControl.AuthEncoding.
+        """
+        return pw_encrypt(password)
+
+    def validate(self, reference, attempt):
+        """
+        Check to see if the reference is a hash of the attempt.
+        """
+        return pw_validate(reference, attempt)

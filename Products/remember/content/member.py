@@ -404,7 +404,7 @@ class BaseMember(object):
                              'Please run migration')
         hasher = getAdapter(self, IHashPW, hash_type)
         if login == self.getUserName() and \
-               hasher.hashPassword(password) == hashed:
+               hasher.validate(hashed, password):
             return True
         else:
             return False

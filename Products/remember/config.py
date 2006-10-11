@@ -22,6 +22,6 @@ AUTO_ROLES = ('Anonymous', 'Authenticated')
 
 ANNOT_KEY = 'Products.remember'
 
-HASHERS = ['bcrypt', 'hmac_sha', 'sha']
+HASHERS = ['bcrypt', 'hmac_sha', 'zauth', 'sha']
 
 CMFMEMBER_MIGRATION_SUPPORT = False

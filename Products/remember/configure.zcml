@@ -23,14 +23,20 @@
 
   <adapter for="zope.app.annotation.interfaces.IAnnotatable"
 	   provides=".interfaces.IHashPW"
-	   name="sha"
-	   factory=".content.password_hashers.SHAHash"
+	   name="hmac_sha"
+	   factory=".content.password_hashers.HMACHash"
 	   />
 
   <adapter for="zope.app.annotation.interfaces.IAnnotatable"
 	   provides=".interfaces.IHashPW"
-	   name="hmac_sha"
-	   factory=".content.password_hashers.HMACHash"
+	   name="zauth"
+	   factory=".content.password_hashers.ZAuthHash"
+	   />
+
+  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+	   provides=".interfaces.IHashPW"
+	   name="sha"
+	   factory=".content.password_hashers.SHAHash"
 	   />
 
   <adapter for="Products.membrane.interfaces.IUserRelated"

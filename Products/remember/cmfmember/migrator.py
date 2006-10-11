@@ -2,6 +2,7 @@
 contentish members to migrate from CMFMember to remember."""
 
 from Acquisition import aq_base
+from AccessControl.AuthEncoding import is_encrypted
 
 from Products.CMFCore.utils import getToolByName
 
@@ -69,6 +70,18 @@ class CMFMemberMigrator(TranslocatingInplaceMigrator,
         kwargs = getattr(self, 'schema', {})
         kwargs['password'] = self.old.getPassword()
         self.schema = kwargs
+
+    def migrate_password(self):
+        """If the original password was encrypted, we don't want to
+        re-encrypt during the migration."""
+        # migration will have already happened correctly if the
+        # password wasn't encrypted
+        old_pw = self.old.getPassword()
+        if is_encrypted(old_pw):
+            field = self.new.getField('password')
+            new_pw = "zauth:%s" % old_pw
+            field.set(self.new, new_pw) # don't use mutator!
+            
             
 def registerCMFMemberMigrator(migrator, klass, project_name):
     """Register a migrator for migrating CMFMember based content to

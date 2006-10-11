@@ -26,13 +26,19 @@ class IHashPW(Interface):
     """
     Hashes a password for member objects
     """
+    def isAvailable():
+        """
+        Returns if the specified encryption mechanism is supported
+        """
+
     def hashPassword(password):
         """
         Returns a hashed version of the password
         """
-    def isAvailable():
+
+    def validate(reference, attempt):
         """
-        Returns if the specified encryption mechanism is supported
+        Returns True is attempt hashes to reference, False otherwise.
         """
 
 class IRememberMembraneTool(IMembraneTool):
