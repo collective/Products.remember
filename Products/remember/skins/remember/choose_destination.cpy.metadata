@@ -1,0 +1,6 @@
+[default]
+title = Choose member operation destination
+
+[actions]
+action.view = traverse_to_action:string:view
+action.edit = traverse_to_action:string:edit

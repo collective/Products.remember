@@ -163,6 +163,28 @@ class TestMember(RememberTestBase):
         # the password field should be shown
         self.failIf(self.portal_member.showPasswordField())
 
+    def testPrivateWorkflowTransitions(self):
+        """
+        verify that the member object states transition correctly
+        """
+        self.loginAsPortalOwner()
+        m = self.portal_member
+        wft = getToolByName(m, 'portal_workflow')
+
+        def verifyState(state):
+            shouldBePrivate = (state == 'private')
+            self.failUnless(state == wft.getInfoFor(m, 'review_state'))
+            self.failUnless(shouldBePrivate == m.getMakePrivate())
+
+        verifyState('public')
+
+        m.setMakePrivate('1')
+        verifyState('private')
+
+        m.setMakePrivate('0')
+        verifyState('public')
+        
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestMember))

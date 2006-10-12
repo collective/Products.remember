@@ -10,10 +10,13 @@ from zope.component import getMultiAdapter
 
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
 
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
 from Products.GenericSetup.testing import DummySetupEnviron
 from Products.GenericSetup import profile_registry, EXTENSION
+
+from Products.CMFFormController.ControllerState import ControllerState
 
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
@@ -163,10 +166,47 @@ class TestRememberMembraneToolXMLAdapter(RememberTestBase):
         # clear the bogus annotation
         del annot[ANNOT_KEY]
 
+class TestCMFFormControllerAction(RememberTestBase):
+    """
+    an action should be added on the CMFFormController that contains a redirect
+    to the edit page after saving a member's preferences
+    """
+    
+    def testAdditionalActionImported(self):
+        """
+        additional traverse to action should exist on the cmf form controller
+        """
+        cf = getToolByName(self.portal, 'portal_form_controller')
+        actions = cf.listFormActions()
+        self.failUnless(actions)
 
+        for action in actions:
+            arg = action.getActionArg()
+            if arg == 'string:choose_destination':
+                break
+        else:
+            self.fail('no choose_destination traversal action found')
+
+    def testForEditAction(self):
+        """
+        verify that an edit page is returned after a member edit
+        has been validated
+        """
+        self.loginAsPortalOwner()
+        mem = self.portal_member
+        state = ControllerState(id=mem.id, context=mem, button=None,
+                                status='success', next_action=None)
+        mem.REQUEST.set('controller_state', state)
+
+        page_template = self.portal.portal_skins.remember.base_edit
+        nextPage = page_template.getNext(state, mem.REQUEST)
+        self.failUnless('<form name="edit_form"' in nextPage)
+        self.failUnless('Changes saved.' in nextPage)
+ 
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRememberInstall))
     suite.addTest(unittest.makeSuite(TestRememberMembraneToolXMLAdapter))
     suite.addTest(unittest.makeSuite(TestRememberProfiles))
+    suite.addTest(unittest.makeSuite(TestCMFFormControllerAction))
     return suite

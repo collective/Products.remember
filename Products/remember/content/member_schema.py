@@ -384,6 +384,24 @@ security_schema = atapi.Schema((
                                            ),
                     user_property=True,
                     ),
+
+    atapi.BooleanField('make_private',
+                default=0,
+                mode='w',
+                searchable = 0,
+                mutator='setMakePrivate',
+                accessor='getMakePrivate',
+                write_permission=EDIT_PASSWORD_PERMISSION,
+                widget=atapi.BooleanWidget(
+                    label='Set your profile to private',
+                    label_msgid='label_make_private',
+                    description='',
+                    i18n_domain='plone',
+                    condition='object/condMakePrivate',
+                    ),
+                user_property=True,
+                ),
+
     ))
 
 ####################

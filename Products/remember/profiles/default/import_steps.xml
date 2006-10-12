@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<import-steps>
+
+  <import-step id="portal_form_controller"
+    version="20061009-01"
+    handler="Products.CMFFormController.exportimport.importCMFFormController"
+    title="FormController Tool">
+    Install redirect for member edits
+  </import-step>
+	       
+</import-steps>

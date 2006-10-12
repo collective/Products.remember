@@ -11,7 +11,7 @@ from AccessControl.Permissions import view
 
 from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
-from Products.CMFPlone.tests import PloneTestCase
+from Products.PloneTestCase.PloneTestCase import PloneTestCase
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
 
 import Products.membrane
@@ -158,18 +158,16 @@ class RememberProfileLayer(ZTCLayer):
 
         txn.commit()
 
-   
-
 # This is the test case. You will have to add test_<methods> to your
 # class inorder to assert things about your Product.
-class RememberTestBase(ArcheSiteTestCase):
+class RememberTestBase(PloneTestCase):
     layer = RememberProfileLayer
 
     def addMember(self, name):
         return globals()['addMember'](self.portal, name)
 
     def afterSetUp(self):
-        ArcheSiteTestCase.afterSetUp(self)
+        PloneTestCase.afterSetUp(self)
         # Because we add skins this needs to be called. Um... ick.
         self._refreshSkinData()
 

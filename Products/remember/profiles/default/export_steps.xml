@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<export-steps>
+  <export-step id="portal_form_controller"
+    handler="Products.CMFFormController.exportimport.exportCMFFormController"
+    title="FormController Tool">
+    Export redirect for member edits
+  </export-step>
+</export-steps>

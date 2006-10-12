@@ -536,6 +536,44 @@ class BaseMember(object):
     # we are doing the same thing on create
     at_post_create_script = at_post_edit_script
 
+    def condMakePrivate(self):
+        """
+        show the checkbox iff the member is in a public or private state
+        and has valid transitions
+        """
+        wft = getToolByName(self, 'portal_workflow')
+        state = wft.getInfoFor(self, 'review_state')
+        if state == 'public':
+            transition = 'make_private'
+        elif state == 'private':
+            transition = 'make_public'
+        else:
+            return False
+        for d in wft.getTransitionsFor(self):
+            try:
+                if d['id'] == transition: return True
+            except KeyError:
+                pass
+        return False
+            
+    def getMakePrivate(self):
+        """
+        returns True if the member workflow state is private
+        """
+        wft = getToolByName(self, 'portal_workflow')
+        return wft.getInfoFor(self, 'review_state') == 'private'
+
+    def setMakePrivate(self, val):
+        """
+        set the make private visiblity flag
+        """
+        isPrivate = self.getMakePrivate()
+        shouldBePrivate = bool(int(val))
+        if isPrivate != shouldBePrivate:
+            state = shouldBePrivate and 'make_private' or 'make_public'
+            wft = getToolByName(self, 'portal_workflow')
+            wft.doActionFor(self, state)
+
 
 InitializeClass(BaseMember)
 
