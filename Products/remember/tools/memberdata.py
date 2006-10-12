@@ -178,7 +178,8 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     def searchForMembers( self, REQUEST=None, **kw ):
         """
         Do a catalog search on a sites members. If a 'brains' argument
-        is set to a True value, search will return only member_catalog
+        is set to a True value or not set, 
+        search will return only member_catalog
         metadata.  Otherwise, memberdata objects returned.
 
         If 'brains' is a False value and a 'portal_only' parameter is
@@ -198,8 +199,12 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         # no reason to iterate over all those indexes
         try:
             from sets import Set
-            indexes=Set(catalog.indexes())
-            indexes = indexes & Set(search_dict.keys())
+
+            # XXX: this is () -- should it be?
+            indexes=Set(catalog.indexes()) 
+#            indexes = indexes & Set(search_dict.keys()) # switched to union (|)...should it be?
+            indexes = indexes | Set(search_dict.keys())
+
         except:
             # Unless we are on 2.3
             catalog.indexes()
@@ -246,7 +251,8 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
 
         results=catalog(query) 
 
-        if results and not (search_dict.get('brains', False) or \
+        # return brains by default, otherwise get the objects
+        if results and not (search_dict.get('brains', True) or \
                             REQUEST.get('brains', False)):
             if search_dict.get('portal_only', False) or \
                    REQUEST.get('portal_only', False):
