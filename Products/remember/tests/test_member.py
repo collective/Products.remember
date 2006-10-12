@@ -104,6 +104,7 @@ class TestMember(RememberTestBase):
                          new_login_time)
 
     def testMemberRolesInContext(self):
+        self.loginAsPortalOwner()
         portal_member_user = self.portal_member.getUser()
         self.folder.invokeFactory(id='folder1', type_name='Folder')
         folder1 = self.folder['folder1']
@@ -131,8 +132,6 @@ class TestMember(RememberTestBase):
         # create a member's password
         mtool = self.portal.portal_membership
         mem = self.portal_member
-        # need to login to set authenticated user
-        self.login('portal_member')
         passwd = 'newpasswd'
         mem._setPassword(passwd)
         oldhash = mem.getPassword()
@@ -167,8 +166,9 @@ class TestMember(RememberTestBase):
         """
         verify that the member object states transition correctly
         """
-        self.loginAsPortalOwner()
-        m = self.portal_member
+        member_name = 'portal_member'
+        m = getattr(self, member_name)
+
         wft = getToolByName(m, 'portal_workflow')
 
         def verifyState(state):

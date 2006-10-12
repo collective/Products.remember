@@ -69,6 +69,8 @@ def addMember(context, name):
     mdata = getToolByName(context, 'portal_memberdata')
     wft = getToolByName(context, 'portal_workflow')
     mem = makeContent(mdata, name, config.DEFAULT_MEMBER_TYPE)
+    # ensure ownership is properly assigned
+    mem.setId(name)
     data = mem_data.get(name, mem_data['default'])
     mem.update(**data)
     return mem
@@ -179,3 +181,5 @@ class RememberTestBase(PloneTestCase):
         self.blank_member = mtool.getMemberById('blank_member')
         self.portal_member = mtool.getMemberById('portal_member')
         self.admin_member = mtool.getMemberById('admin_member')
+
+        self.login('portal_member')

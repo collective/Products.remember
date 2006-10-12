@@ -90,11 +90,12 @@ class TestRememberInstall(RememberTestBase):
         self.failUnless('private' in states and 'public' in states)
 
     def testPreferencesURL(self):
+        self.login('test_user_1_')
         prefs_url = self.portal.restrictedTraverse('prefs_url')()
         self.assertEqual(prefs_url,
                          '%s/personalize_form' % self.portal.absolute_url())
-        mem = self.addMember('henry')
-        self.login('henry')
+        mem = self.portal_member
+        self.login('portal_member')
         prefs_url = self.portal.restrictedTraverse('prefs_url')()
         self.assertEqual(prefs_url,
                          '%s/edit' % mem.absolute_url())
@@ -192,7 +193,6 @@ class TestCMFFormControllerAction(RememberTestBase):
         verify that an edit page is returned after a member edit
         has been validated
         """
-        self.loginAsPortalOwner()
         mem = self.portal_member
         state = ControllerState(id=mem.id, context=mem, button=None,
                                 status='success', next_action=None)
