@@ -1,3 +1,5 @@
+from sets import Set
+
 from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
 
@@ -178,15 +180,13 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     def searchForMembers( self, REQUEST=None, **kw ):
         """
         Do a catalog search on a sites members. If a 'brains' argument
-        is set to a True value or not set, 
-        search will return only member_catalog
-        metadata.  Otherwise, memberdata objects returned.
+        is set to a True value, search will return only member_catalog
+        metadata.  Otherwise, full member objects are returned.
 
         If 'brains' is a False value and a 'portal_only' parameter is
         passed in with a True value then only members from the
         portal's acl_users folder will be returned.
         """
-
         if REQUEST:
             search_dict = getattr(REQUEST, 'form', REQUEST)
         else:
@@ -196,18 +196,9 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         results=[]
         catalog=getToolByName(self, search_catalog)
 
-        # no reason to iterate over all those indexes
-        try:
-            from sets import Set
-
-            # XXX: this is () -- should it be?
-            indexes=Set(catalog.indexes()) 
-#            indexes = indexes & Set(search_dict.keys()) # switched to union (|)...should it be?
-            indexes = indexes | Set(search_dict.keys())
-
-        except:
-            # Unless we are on 2.3
-            catalog.indexes()
+        # only iterate over the indexes we're searching on
+        indexes=Set(catalog.indexes()) 
+        indexes = indexes & Set(search_dict.keys())
 
         query={}
 
@@ -251,8 +242,8 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
 
         results=catalog(query) 
 
-        # return brains by default, otherwise get the objects
-        if results and not (search_dict.get('brains', True) or \
+        # return objects by default
+        if results and not (search_dict.get('brains', False) or \
                             REQUEST.get('brains', False)):
             if search_dict.get('portal_only', False) or \
                    REQUEST.get('portal_only', False):
