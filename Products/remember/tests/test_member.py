@@ -166,8 +166,7 @@ class TestMember(RememberTestBase):
         """
         verify that the member object states transition correctly
         """
-        member_name = 'portal_member'
-        m = getattr(self, member_name)
+        m = self.portal_member
 
         wft = getToolByName(m, 'portal_workflow')
 
