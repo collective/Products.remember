@@ -39,7 +39,7 @@
     <indexed_attr value="getReview_state"/>
   </index>
 
-  <index name="getLast_login_time" meta_type="FieldIndex">
+  <index name="getLast_login_time" meta_type="DateIndex">
     <indexed_attr value="getLast_login_time"/>
   </index>
 
