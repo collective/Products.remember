@@ -202,6 +202,23 @@ class TestCMFFormControllerAction(RememberTestBase):
         nextPage = page_template.getNext(state, mem.REQUEST)
         self.failUnless('<form name="edit_form"' in nextPage)
         self.failUnless('Changes saved.' in nextPage)
+
+
+class TestSearchIndicesInstalled(RememberTestBase):
+    """
+    verify that the search indices for the membrane tool are installed
+    """
+    def testIndicesExist(self):
+        """
+        check the list of indices are present in membrane tool search indices
+        """
+        membrane_idxs = self.mbtool.indexes()
+        remember_idxs = \
+            'getId getFullname getEmail getRoles getGroups getReview_state'
+        remember_idxs = remember_idxs.split()
+        for idx in remember_idxs:
+            self.failUnless(idx in membrane_idxs)
+
  
 def test_suite():
     suite = unittest.TestSuite()
@@ -209,4 +226,5 @@ def test_suite():
     suite.addTest(unittest.makeSuite(TestRememberMembraneToolXMLAdapter))
     suite.addTest(unittest.makeSuite(TestRememberProfiles))
     suite.addTest(unittest.makeSuite(TestCMFFormControllerAction))
+    suite.addTest(unittest.makeSuite(TestSearchIndicesInstalled))
     return suite
