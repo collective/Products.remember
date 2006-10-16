@@ -219,6 +219,33 @@ class TestSearchIndicesInstalled(RememberTestBase):
         for idx in remember_idxs:
             self.failUnless(idx in membrane_idxs)
 
+    def testSearchAll(self):
+        """
+        verify that searching without any constraints returns all members
+        """
+        results = self.mtool.searchForMembers()
+        self.assertEqual(len(results), 3)
+
+    def testSearchByName(self):
+        """
+        check searching for members for different queries
+        """
+        results = self.mtool.searchForMembers(name='portal_member')
+        self.assertEqual(len(results), 1)
+        self.assertEqual('portal_member', results[0].getId())
+
+    def testSearchByNameWithLoginTime(self):
+        """
+        search for the last login time, similar to how the search page does it
+        on the form
+        """
+        self.portal_member.setLoginTimes()
+        dt = DateTime('2/1/2000')
+        results = self.mtool.searchForMembers(name='portal_member',
+                                              getLast_login_time=dt)
+        self.assertEqual(len(results), 1)
+        self.assertEqual('portal_member', results[0].getId())
+        
  
 def test_suite():
     suite = unittest.TestSuite()
