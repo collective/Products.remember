@@ -17,7 +17,7 @@
   </index>
 
   <index name="getEmail" meta_type="ZCTextIndex">
-    <indexed_attr value="UID"/>
+    <indexed_attr value="getEmail"/>
     <extra name="index_type" value="Cosine Measure"/>
     <extra name="lexicon_id" value="lexicon"/>
   </index>
