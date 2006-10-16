@@ -254,8 +254,7 @@ class TestSearchIndicesInstalled(RememberTestBase):
         """
         results = self.mtool.searchForMembers(
             email='noreply@xxxxxxxxyyyyyy.com')
-        self.assertEqual(len(results), 1)
-        self.assertEqual('portal_member', results[0].getId())
+        self.assertEqual(len(results), 3)
         
  
 def test_suite():
