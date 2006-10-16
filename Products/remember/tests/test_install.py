@@ -239,10 +239,21 @@ class TestSearchIndicesInstalled(RememberTestBase):
         search for the last login time, similar to how the search page does it
         on the form
         """
-        self.portal_member.setLoginTimes()
+        self.mtool.setLoginTimes()
         dt = DateTime('2/1/2000')
-        results = self.mtool.searchForMembers(name='portal_member',
-                                              getLast_login_time=dt)
+        results = self.mtool.searchForMembers(
+            name='portal_member',
+            getLast_login_time=dt,
+            getLast_login_time_usage='range:min')
+        self.assertEqual(len(results), 1)
+        self.assertEqual('portal_member', results[0].getId())
+
+    def testSearchByEmail(self):
+        """
+        search by another search criteria, in this case email
+        """
+        results = self.mtool.searchForMembers(
+            email='noreply@xxxxxxxxyyyyyy.com')
         self.assertEqual(len(results), 1)
         self.assertEqual('portal_member', results[0].getId())
         
