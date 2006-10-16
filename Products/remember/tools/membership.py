@@ -1,5 +1,6 @@
 import logging
 from AccessControl import ClassSecurityInfo
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import ManageUsers
 from Products.PlonePAS.tools.membership import MembershipTool as BaseTool
@@ -87,13 +88,18 @@ class MembershipTool(BaseTool):
         # in the membrane_tool
         key_map = {'name': 'getId',
                    'email': 'getEmail',
-                   'roles': 'getFilteredRoles',
+                   'roles': 'getRoles',
                    'groupname': 'getGroups', # XXX this is a case sensitive search, but is case insensitive in standard plone 2.1
-                   'last_login_time': 'getLastLoginTime',
+                   'last_login_time': 'getLast_login_time',
                    }
+
         for key in key_map.keys():
             if param.has_key(key):
                 # swap old parameter for what the catalog expects
                 param[key_map[key]] = param.pop(key)
                 
         return self._getMemberDataContainer().searchForMembers(REQUEST, **param)
+
+    def setLoginTimes(self):
+        self.getAuthenticatedMember().setLast_login_time(DateTime())
+
