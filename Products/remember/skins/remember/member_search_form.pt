@@ -11,7 +11,7 @@
 
     <p i18n:translate="description_member_search">
     This search form enables you to find users by specifying one or more
-    search criteria.
+    search criteria.  unless someone set you up da bomb
     </p>
 
   	<form action="member_search_results"
@@ -31,8 +31,8 @@
                 </div>
     
                 <input type="text"
-                       id="login"
-                       name="login"
+                       id="name"
+                       name="name"
                        size="25"
                        tabindex=""
                        tal:attributes="tabindex tabindex/next;"
