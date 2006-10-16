@@ -42,7 +42,6 @@
   <index name="getLast_login_time" meta_type="FieldIndex">
     <indexed_attr value="getLast_login_time"/>
   </index>
-  
 
   <column value="getId"/>
   <column value="getFullname"/>
