@@ -21,29 +21,9 @@
     <extra name="index_type" value="Cosine Measure"/>
     <extra name="lexicon_id" value="lexicon"/>
   </index>
-  
-  <index name="getRoles" meta_type="FieldIndex">
-    <indexed_attr value="getRoles"/>
-  </index>
-
-  <index name="getGroups" meta_type="FieldIndex">
-    <indexed_attr value="getGroups"/>
-  </index>
-
-  <index name="getReview_state" meta_type="FieldIndex">
-    <indexed_attr value="getReview_state"/>
-  </index>
-
-  <index name="getLast_login_time" meta_type="DateIndex">
-    <indexed_attr value="getLast_login_time"/>
-  </index>
 
   <column value="getId"/>
   <column value="getFullname"/>
   <column value="getEmail"/>
-  <column value="getRoles"/>
-  <column value="getGroups"/>
-  <column value="getReview_state"/>
-  <column value="getLast_login_time"/>
 
 </object>
