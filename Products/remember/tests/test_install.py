@@ -248,6 +248,18 @@ class TestSearchIndicesInstalled(RememberTestBase):
         self.assertEqual(len(results), 1)
         self.assertEqual('portal_member', results[0].getId())
 
+    def testSearchLoginTimeCheckbox(self):
+        """
+        search for the last login time for members that haven't logged in yet
+        this simulates the "not logged in since specified" checkbox on the
+        search form
+        """
+        self.mtool.setLoginTimes()
+        results = self.mtool.searchForMembers(
+            getLast_login_time=DateTime('2/1/2000'),
+            getLast_login_time_usage='range:max')
+        self.assertEqual(len(results), 2)
+
     def testSearchByEmail(self):
         """
         search by another search criteria, in this case email
