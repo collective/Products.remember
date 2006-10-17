@@ -325,20 +325,13 @@ class BaseMember(object):
                 else:
                     raise ValueError, 'The property %s does not exist' % id
 
-            # If the tool has an empty property and we have a user_value, use it
+            # If the tool has an empty property and we have a
+            # user_value, use it
             if not tool_value and user_value is not _marker:
                 return user_value
 
             # Otherwise return the tool value
             return tool_value
-
-    def isListed(self):
-        # XXX this is rather inflexible...
-        roles = rolesForPermissionOn('View', self)
-        if 'Member' in roles:
-            return 'Yes'
-        else:
-            return 'No'
 
     security.declarePublic('showPasswordField')
     def showPasswordField(self):
