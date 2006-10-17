@@ -76,6 +76,9 @@ class MembershipTool(BaseTool):
         Here for backwards compatibility; ultimately delegates to the
         membrane_tool.
         """
+
+        import pdb; pdb.set_trace()
+
         if type(REQUEST) == type({}):
             param = REQUEST # folder_localroles_form passes a dict here as REQUEST
             REQUEST = None

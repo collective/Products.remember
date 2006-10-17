@@ -7,11 +7,11 @@
 ##bind subpath=traverse_subpath
 ##parameters=type_name=None, came_from_prefs=None
 
-request = context.REQUEST.form
+form = context.REQUEST.form
 
-if 'the_cb_is_checked' in request:
-    request['getLast_login_time_usage'] = 'range:max'
+if 'before_specified_time' in form:
+    form['getLast_login_time_usage'] = 'range:max'
 else:
-    request['getLast_login_time_usage'] = 'range:min'
+    form['getLast_login_time_usage'] = 'range:min'
 
 return state
