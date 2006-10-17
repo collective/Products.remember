@@ -100,6 +100,4 @@ class MembershipTool(BaseTool):
                 
         return self._getMemberDataContainer().searchForMembers(REQUEST, **param)
 
-    def setLoginTimes(self):
-        self.getAuthenticatedMember().setLast_login_time(DateTime())
 

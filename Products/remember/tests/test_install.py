@@ -240,7 +240,6 @@ class TestSearchIndicesInstalled(RememberTestBase):
         on the form
         """
         self.mtool.setLoginTimes()
-#        self.portal_member.reindexObject()
         dt = DateTime('2/1/2000')
         results = self.mtool.searchForMembers(
             name='portal_member',
