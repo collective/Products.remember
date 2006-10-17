@@ -1,0 +1,5 @@
+[default]
+title=Search for users
+
+[actions]
+action.success = traverse_to:string:member_search_results

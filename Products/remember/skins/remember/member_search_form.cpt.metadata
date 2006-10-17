@@ -1,2 +1,5 @@
 [default]
 title=Search for users
+
+[actions]
+action.success = traverse_to:string:setDateQueryUsage

@@ -14,10 +14,12 @@
     search criteria.  unless someone set you up da bomb
     </p>
 
-  	<form action="member_search_results"
-          method="post"
-          name="search"
-          tal:define="DateTime python:modules['DateTime'].DateTime">
+  	<form action=""
+	   method="post"
+           name="search"
+           tal:define="DateTime python:modules['DateTime'].DateTime">
+
+	  <input type="hidden" name="form.submitted" value="1" />
 
         <fieldset>
             <legend i18n:translate="legend_member_search_criteria">User Search Criteria</legend>
