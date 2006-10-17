@@ -77,8 +77,6 @@ class MembershipTool(BaseTool):
         membrane_tool.
         """
 
-        import pdb; pdb.set_trace()
-
         if type(REQUEST) == type({}):
             param = REQUEST # folder_localroles_form passes a dict here as REQUEST
             REQUEST = None
