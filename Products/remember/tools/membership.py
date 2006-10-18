@@ -100,5 +100,3 @@ class MembershipTool(BaseTool):
                 param[key_map[key]] = param.pop(key)
                 
         return self._getMemberDataContainer().searchForMembers(REQUEST, **param)
-
-
