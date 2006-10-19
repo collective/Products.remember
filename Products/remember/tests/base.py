@@ -149,9 +149,14 @@ class RememberProfileLayer(ZTCLayer):
         setup_tool.setImportContext('profile-remember:default')
         setup_tool.runAllImportSteps()
 
-        registration_tool = getToolByName(app.plone, 'portal_registration')
-        registration_tool.MailHost = MailHostMock()
-        registration_tool.mail_password_response = do_nothing
+        # mock sending emails
+        rtool = getToolByName(app.plone, 'portal_registration')
+        rtool.MailHost = MailHostMock()
+        rtool.mail_password_response = do_nothing
+
+        # don't send emails out by default
+        ptool = getToolByName(app.plone, 'portal_properties')
+        ptool.site_properties.validate_email = 0
 
         addMember(app.plone, 'blank_member')
 
@@ -178,8 +183,10 @@ class MailHostMock(object):
     """
     def __init__(self):
         self.mail_text = ''
+        self.n_mails = 0
     def send(self, mail_text):
         self.mail_text += mail_text
+        self.n_mails += 1
     def validateSingleEmailAddress(self, email):
         return True
 

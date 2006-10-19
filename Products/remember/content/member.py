@@ -571,13 +571,14 @@ class BaseMember(object):
         """
         perform any registration information necessary after a member is registered
         """
-        registration_tool = getToolByName(self, 'portal_registration')
+        rtool = getToolByName(self, 'portal_registration')
+        site_props = getToolByName(self, 'portal_properties').site_properties
         
         # unicode names break sending the email
         unicode_name = self.getFullname()
         self.setFullname(str(unicode_name))
-        if self.getMail_me():
-            registration_tool.registeredNotify(self.getUserName())
+        if site_props.validate_email or self.getMail_me():
+            rtool.registeredNotify(self.getUserName())
 
         self.setFullname(unicode_name)
 

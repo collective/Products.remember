@@ -189,8 +189,38 @@ class TestMember(RememberTestBase):
         """
         # the portal registration tool has a mocked mailhost, that can be
         # checked to see if the members were registered
+        # the portal member is the only member that has the mail_me flag sent,
+        # so this test below actually verifies that only one email was sent out
+        # for the correct member
         rtool = getToolByName(self.portal, 'portal_registration')
-        self.failUnless('Portal Member' in rtool.MailHost.mail_text)
+        mh = rtool.MailHost
+        self.failUnless('Welcome Portal Member' in mh.mail_text)
+        self.assertEqual(mh.n_mails, 1)
+
+    def testPortalSetupMemberRegistration(self):
+        """
+        verify that if the portal is setup to send emails for registration
+        then the mail_me property is irrelevant
+        """
+        rtool = getToolByName(self.portal, 'portal_registration')
+        
+        # save current state to revert back later
+        mh = rtool.MailHost
+        old_mailtext = mh.mail_text
+        old_n_mails = mh.n_mails
+
+        mh.mail_text = ''
+        mh.n_mails = 0
+        ptool = getToolByName(self.portal, 'portal_properties')
+        ptool.site_properties.validate_email = 1
+        mem = self.addMember('lammy')
+        self.assertEqual(mh.mail_text.count('Welcome'), 1)
+        self.assertEqual(mh.n_mails, 1)
+
+        # tear down changes made by current test
+        mh.mail_text = old_mailtext
+        mh.n_mails = old_n_mails
+        ptool.site_properties.validate_email = 0
 
 def test_suite():
     suite = unittest.TestSuite()
