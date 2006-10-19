@@ -567,6 +567,19 @@ class BaseMember(object):
             wft = getToolByName(self, 'portal_workflow')
             wft.doActionFor(self, state)
 
+    def register(self):
+        """
+        perform any registration information necessary after a member is registered
+        """
+        registration_tool = getToolByName(self, 'portal_registration')
+        
+        # unicode names break sending the email
+        unicode_name = self.getFullname()
+        self.setFullname(str(unicode_name))
+        if self.getMail_me():
+            registration_tool.registeredNotify(self.getUserName())
+
+        self.setFullname(unicode_name)
 
 InitializeClass(BaseMember)
 

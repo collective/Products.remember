@@ -199,7 +199,7 @@
  <transition transition_id="auto_register"
              title="Begin auto registration of member"
              new_state="public" trigger="AUTOMATIC"
-             before_script="" after_script="">
+             before_script="register" after_script="">
   <action url="" category="workflow">Automatically approve member</action>
   <guard>
    <guard-permission>membrane: Register member</guard-permission>
@@ -329,4 +329,7 @@
  <script script_id="enable" type="External Method"
          filename="" module="remember.workflow"
          function="enable"/>
+ <script script_id="register" type="External Method"
+         filename="" module="remember.workflow"
+         function="register"/>
 </dc-workflow>

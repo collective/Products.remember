@@ -48,6 +48,7 @@ mem_data = {
      'email': 'noreply@xxxxxxxxyyyyyy.com',
      'password': mem_password,
      'confirm_password': mem_password,
+     'mail_me': True,
      },
     'default':
     {'email': 'noreply@xxxxxxxxyyyyyy.com',
@@ -148,6 +149,10 @@ class RememberProfileLayer(ZTCLayer):
         setup_tool.setImportContext('profile-remember:default')
         setup_tool.runAllImportSteps()
 
+        registration_tool = getToolByName(app.plone, 'portal_registration')
+        registration_tool.MailHost = MailHostMock()
+        registration_tool.mail_password_response = do_nothing
+
         addMember(app.plone, 'blank_member')
 
         # basic portal member
@@ -159,6 +164,24 @@ class RememberProfileLayer(ZTCLayer):
         admin_member.setRoles(['Manager','Member'])
 
         txn.commit()
+
+def do_nothing(*a):
+    """ would make this a lambda, but zodb complains about pickling"""
+    return True
+
+class MailHostMock(object):
+    """
+    mock up the send method so that emails do not actually get sent during unit
+    tests
+    we can use this to verify that the registration process is still working as
+    expected
+    """
+    def __init__(self):
+        self.mail_text = ''
+    def send(self, mail_text):
+        self.mail_text += mail_text
+    def validateSingleEmailAddress(self, email):
+        return True
 
 # This is the test case. You will have to add test_<methods> to your
 # class inorder to assert things about your Product.

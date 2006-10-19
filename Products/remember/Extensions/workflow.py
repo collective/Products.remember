@@ -30,3 +30,8 @@ def enable(self, state_change):
         # write tracebacks because otherwise workflow will swallow exceptions
         log_exc()
         raise
+
+# send email with password to  user if necessary
+def register(self, state_change):
+    obj = state_change.object
+    return obj.register()

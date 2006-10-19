@@ -294,7 +294,9 @@ security_schema = atapi.Schema((
 
    atapi.BooleanField('mail_me',
                 default=0,
-                mode='w',
+                mode='rw',
+                mutator='setMail_me',
+                accessor='getMail_me',
                 searchable = 0,
                 write_permission=EDIT_PASSWORD_PERMISSION,
                 widget=atapi.BooleanWidget(

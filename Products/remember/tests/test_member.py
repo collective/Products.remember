@@ -182,7 +182,15 @@ class TestMember(RememberTestBase):
 
         m.setMakePrivate('0')
         verifyState('public')
-        
+
+    def testMemberRegistration(self):
+        """
+        verify that the registration method gets called on members
+        """
+        # the portal registration tool has a mocked mailhost, that can be
+        # checked to see if the members were registered
+        rtool = getToolByName(self.portal, 'portal_registration')
+        self.failUnless('Portal Member' in rtool.MailHost.mail_text)
 
 def test_suite():
     suite = unittest.TestSuite()
