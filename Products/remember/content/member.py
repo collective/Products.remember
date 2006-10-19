@@ -28,6 +28,7 @@ from Products.membrane.interfaces import IGroupAwareRolesProvider
 from Products.membrane.interfaces import IUserRoles
 from Products.membrane.interfaces import IUserAuthentication
 
+from Products.remember.interfaces import IReMember
 from Products.remember.interfaces import IRememberAuthProvider
 from Products.remember.interfaces import IRememberGroupsProvider
 from Products.remember.interfaces import IHashPW
@@ -62,7 +63,7 @@ class BaseMember(object):
     """
     security = ClassSecurityInfo()
 
-    implements(IRememberAuthProvider, IUserAuthentication,
+    implements(IReMember, IRememberAuthProvider, IUserAuthentication,
                IPropertiesProvider, IRememberGroupsProvider,
                IGroupAwareRolesProvider, IUserRoles,
                IManageCapabilities, IAttributeAnnotatable,

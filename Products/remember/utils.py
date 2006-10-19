@@ -3,10 +3,33 @@ from os.path import join, abspath, dirname
 
 import ZConfig
 
-from config import AUTO_ROLES
-
 import logging
 logger = logging.getLogger('remember')
+
+from AccessControl import ModuleSecurityInfo
+
+from Products.CMFCore.utils import getToolByName
+
+from Products.membrane.config import TOOLNAME as MBTOOLNAME
+
+from config import AUTO_ROLES
+from interfaces import IReMember
+
+
+security = ModuleSecurityInfo( 'Products.remember.utils' )
+
+security.declarePublic('getRememberTypes')
+def getRememberTypes(context):
+    """
+    Return a list of all the membrane types that implement IReMember.
+    """
+    attool = getToolByName(context, 'archetype_tool')
+    mbtool = getToolByName(context, MBTOOLNAME)
+    mbtypes = set(mbtool.listMembraneTypes())
+    remtypes = [t.getId() for t in
+                attool.listPortalTypesWithInterfaces([IReMember])]
+    remtypes = set(remtypes)
+    return list(mbtypes.intersection(remtypes))
 
 def stringToList(s):
     if s is None:

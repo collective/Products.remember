@@ -6,6 +6,12 @@ from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IGroupsProvider
 from Products.membrane.interfaces import IMembraneTool
 
+class IReMember(Interface):
+    """
+    A marker interface that declares the provider to be a Remember
+    member object.
+    """
+
 class IRememberAuthProvider(IUserAuthProvider):
     """
     Marks remember auth providers so we can use a custom user id

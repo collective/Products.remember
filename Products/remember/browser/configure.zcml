@@ -11,4 +11,16 @@
      attribute="getPrefsUrl"
      />
 
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     name="prefs_remember_settings"
+     class=".configlet.RememberConfiglet"
+     permission="zope2.ManageUsers"
+     />
+
+  <vocabulary
+     name="RememberTypes"
+     factory=".vocabularies.rememberTypes"
+     />
+
 </configure>

@@ -10,4 +10,9 @@
     url_expr="string:${portal_url}/password_form" visible="True">
   <permission>Set own password</permission>
  </configlet>
+ <configlet title="Remember Settings" action_id="RememberSettings"
+    appId="remember" category="Products" visible="True" condition_expr=""
+    url_expr="string:$portal_url/prefs_remember_settings">
+   <permission>Manager users</permission>
+ </configlet>
 </object>
