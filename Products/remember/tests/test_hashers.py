@@ -21,7 +21,7 @@ class TestHasher(RememberTestBase):
     def test_hashers(self):
         for htype in HASHERS:
             login_id = 'hashtest_%s' % htype
-            member = self.addMember(login_id)
+            member = self.portal_member
             if not getAdapter(member, IHashPW, htype).isAvailable(): continue
             
             mbtool = getToolByName(member, 'membrane_tool')
@@ -34,7 +34,7 @@ class TestHasher(RememberTestBase):
             hash_type, hashed = password.split(':', 1)
 
             self.assertEqual(htype, hash_type)
-            self.failUnless(member.verifyCredentials(dict(login=login_id,
+            self.failUnless(member.verifyCredentials(dict(login='portal_member',
                                                           **MEM_DATA)))
 
 def test_suite():
