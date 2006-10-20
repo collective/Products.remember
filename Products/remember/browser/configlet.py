@@ -7,7 +7,8 @@ _  = MessageFactory('remember')
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.Five.formlib.formbase import PageForm
+try: from Products.Five.formlib.formbase import PageForm
+except ImportError: from zope.formlib.form import PageForm
 
 from Products.membrane.interfaces import IUserAdder
 from Products.remember.config import DEFAULT_MEMBER_TYPE
