@@ -414,8 +414,9 @@ class BaseMember(object):
         managers = plugins.listPlugins(IUserManagement)
         if managers:
             for mid, manager in managers:
-                if IDeleteCapability.providedBy(manager):
-                    return manager.allowDeletePrincipal(self.getId())
+                if IDeleteCapability.providedBy(manager) and \
+                   manager.allowDeletePrincipal(self.getId()):
+                    return 1
         return 0
 
 
@@ -426,8 +427,9 @@ class BaseMember(object):
         managers = plugins.listPlugins(IUserManagement)
         if managers:
             for mid, manager in managers:
-                if IPasswordSetCapability.providedBy(manager):
-                    return manager.allowPasswordSet(self.getId())
+                if IPasswordSetCapability.providedBy(manager) and \
+                   manager.allowPasswordSet(self.getId()):
+                    return 1
         return 0
 
 
