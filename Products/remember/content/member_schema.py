@@ -166,7 +166,7 @@ plone_schema = atapi.Schema((
                ),
 
     atapi.BooleanField('visible_ids',
-                default=1,
+                default=0,
                 mode='rw',
                 accessor='getVisible_ids',
                 mutator='setVisible_ids',
@@ -180,8 +180,9 @@ plone_schema = atapi.Schema((
                         "Names are not displayed, they will be generated "
                         "automatically.",
                     description_msgid='help_display_names',
-                    visible={'edit': 'invisible',
-                             'view': 'invisible'},
+                    condition='object/isVisible_ids',
+                    visible={'edit': 'visible',
+                             'view': 'visible'},
                     i18n_domain='plone',
                     ),
                 user_property=True,

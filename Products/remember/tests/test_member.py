@@ -222,6 +222,23 @@ class TestMember(RememberTestBase):
         mh.n_mails = old_n_mails
         ptool.site_properties.validate_email = 0
 
+    def testVisibleIdsOffInitially(self):
+        """
+        visible ids should not be displayed initially
+        """
+        self.failIf(self.portal_member.isVisible_ids()) # don't show by default
+
+    def testVisibleIdsPortalSettingModified(self):
+        """
+        if portal setting is on, then the visible ids should be displayed
+        """
+        props = getToolByName(self.portal, 'portal_properties').site_properties
+        self.failIf(props.visible_ids)     # expect to be false by default
+        props.visible_ids = True
+        self.failUnless(self.portal_member.isVisible_ids())
+        props.visible_ids = False          # revert back
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestMember))

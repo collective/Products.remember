@@ -575,13 +575,20 @@ class BaseMember(object):
         rtool = getToolByName(self, 'portal_registration')
         site_props = getToolByName(self, 'portal_properties').site_properties
         
-        # unicode names break sending the email
+        # XXX unicode names break sending the email
         unicode_name = self.getFullname()
         self.setFullname(str(unicode_name))
         if site_props.validate_email or self.getMail_me():
             rtool.registeredNotify(self.getUserName())
 
         self.setFullname(unicode_name)
+
+    def isVisible_ids(self):
+        """
+        condition to check if short names should be specified on the edit screen
+        """
+        props = getToolByName(self, 'portal_properties').site_properties
+        return props.visible_ids
 
 InitializeClass(BaseMember)
 
