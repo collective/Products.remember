@@ -242,11 +242,16 @@ class TestMember(RememberTestBase):
         """
         after deleting a member, that member should not be found when searching
         """
-        mdtool = getToolByName(self.portal, 'portal_memberdata')
-        mdtool.delete('portal_member')
+        self.portal_member.delete('it doesnt matter what i put here')
         mtool = getToolByName(self.portal, 'portal_membership')
         results = mtool.searchForMembers(name='portal_member')
         self.failIf(results)
+
+    def testCanDelete(self):
+        """
+        members are deleteable
+        """
+        self.failUnless(self.portal_member.canDelete())
         
 
 def test_suite():

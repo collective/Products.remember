@@ -27,6 +27,8 @@ from Products.membrane.interfaces import IPropertiesProvider
 from Products.membrane.interfaces import IGroupAwareRolesProvider
 from Products.membrane.interfaces import IUserRoles
 from Products.membrane.interfaces import IUserAuthentication
+from Products.membrane.interfaces import IUserDeleter
+from Products.membrane.interfaces import IMembraneUserDeleter
 
 from Products.remember.interfaces import IReMember
 from Products.remember.interfaces import IRememberAuthProvider
@@ -67,7 +69,7 @@ class BaseMember(object):
                IPropertiesProvider, IRememberGroupsProvider,
                IGroupAwareRolesProvider, IUserRoles,
                IManageCapabilities, IAttributeAnnotatable,
-               IRememberUserChanger)
+               IRememberUserChanger, IUserDeleter)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -591,6 +593,11 @@ class BaseMember(object):
         """
         props = getToolByName(self, 'portal_properties').site_properties
         return props.visible_ids
+
+    # XXX: login is extraneous but needed for existing adapter
+    def delete(self, login):
+        self.aq_inner.aq_parent.manage_delObjects([self.getId()])
+
 
 InitializeClass(BaseMember)
 
