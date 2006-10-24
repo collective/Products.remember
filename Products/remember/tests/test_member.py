@@ -238,6 +238,16 @@ class TestMember(RememberTestBase):
         self.failUnless(self.portal_member.isVisible_ids())
         props.visible_ids = False          # revert back
 
+    def testDeleteMember(self):
+        """
+        after deleting a member, that member should not be found when searching
+        """
+        mdtool = getToolByName(self.portal, 'portal_memberdata')
+        mdtool.delete('portal_member')
+        mtool = getToolByName(self.portal, 'portal_membership')
+        results = mtool.searchForMembers(name='portal_member')
+        self.failIf(results)
+        
 
 def test_suite():
     suite = unittest.TestSuite()

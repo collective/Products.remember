@@ -16,6 +16,8 @@ from Products.PlonePAS.tools.memberdata import MemberDataTool \
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
+from Products.membrane.interfaces import IUserDeleter
+
 schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
 
     # use MetadataStorage so as not to conflict w/ the 'description'
@@ -51,7 +53,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     actually need to live here any more, but for BBB reasons we are
     still storing them here.
     """
-    implements(IMemberDataTool)
+    implements(IMemberDataTool, IUserDeleter)
 
     security = ClassSecurityInfo()
 
@@ -168,7 +170,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         """
         Delete member data of the specified member.
         """
-        pass
+        self.manage_delObjects([member_id])
 
     def getAllowedMemberTypes(self):
         """
@@ -267,6 +269,13 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         if portrait is None:
             return BaseTool._getPortrait(self, member_id)
         return portrait
+
+    def delete(self, login):
+        """
+        implementation of IUserDeleter
+        """
+        self.deleteMemberData(login)
+        
 
 atapi.registerType(MemberDataContainer)
 InitializeClass(MemberDataContainer)
