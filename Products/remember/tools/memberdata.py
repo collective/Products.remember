@@ -23,8 +23,6 @@ schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
     atapi.TextField(
         'description',
         default = 'Container for Members',
-        default_content_type = 'text/plain',
-        default_output_type = 'text/html',
         widget = atapi.TextAreaWidget(rows = 5),
         storage = atapi.MetadataStorage(),),
 
