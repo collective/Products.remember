@@ -113,4 +113,9 @@ version.txt
         A simple text file containing a version string used when
         talking about the product.
 
+Workflows
+~~~~~~~~~
+
+When creating a new workflow the "Copy or Move" must be restricted to Manager for each state of the workflow.  If this is not done then the user will see "Copy" in object actions dropdown when looking at a member object.
+
 

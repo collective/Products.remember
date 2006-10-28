@@ -3,6 +3,7 @@
              title="Portal Member Workflow: Automatic Approval"
              state_variable="review_state"
              initial_state="new">
+ <permission>Copy or Move</permission>
  <permission>Mail forgotten password</permission>
  <permission>Manage users</permission>
  <permission>Modify portal content</permission>
@@ -14,6 +15,12 @@
  <state state_id="disabled" title="Disabled">
   <exit-transition transition_id="enable_private"/>
   <exit-transition transition_id="enable_public"/>
+
+  <permission-map name="Copy or Move"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -46,6 +53,11 @@
  <state state_id="new" title="Newly created member">
   <exit-transition transition_id="auto_register"/>
   <exit-transition transition_id="trigger"/>
+  <permission-map name="Copy or Move"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -86,6 +98,11 @@
   <exit-transition transition_id="migrate"/>
   <exit-transition transition_id="register_wrapped_user"/>
   <exit-transition transition_id="trigger"/>
+  <permission-map name="Copy or Move"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -119,6 +136,10 @@
         title="Registered user, private profile">
   <exit-transition transition_id="make_public"/>
   <exit-transition transition_id="disable"/>
+  <permission-map name="Copy or Move"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
@@ -158,6 +179,10 @@
         title="Registered user, public profile">
   <exit-transition transition_id="make_private"/>
   <exit-transition transition_id="disable"/>
+  <permission-map name="Copy or Move"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
   <permission-map name="Mail forgotten password"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
