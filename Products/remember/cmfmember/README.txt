@@ -24,8 +24,8 @@ The process for performing a migration is as follows:
   membrane.  You WILL need to have CMFMember installed in the 2.5.x
   deployment.)
 
-- Install the 'contentmigrations' product into the Plone 2.5.x Zope
-  instance.
+- Install the rossp-extensions branch of the 'contentmigrations' product 
+  into the Plone 2.5.x Zope instance.  
 
 - Edit remember's config.py file so that CMFMEMBER_MIGRATION_SUPPORT
   is set to True
