@@ -3,8 +3,10 @@ import unittest
 
 from DateTime import DateTime
 
+import transaction
+
 from base import RememberTestBase
-from base import makeContent
+from base import makeContent, addMember
 
 from Products.CMFPlone.tests import dummy
 
@@ -25,6 +27,65 @@ class TestMember(RememberTestBase):
         """
         mem_id = self.portal_member.getId()
         return self.portal.acl_users.getUser(mem_id)
+
+    def setupDummyUser(self):
+        wftool = getToolByName(self.portal, 'portal_workflow')
+        mdata = self.portal.portal_memberdata
+        uf = self.portal.acl_users
+        id = 'newmember'
+        password = 'secret'
+        mem = makeContent(mdata, id, DEFAULT_MEMBER_TYPE)
+        values = {'fullname': 'New Member',
+                  'email': 'noreply@xxxxxxxxyyyyyy.com',
+                  'password': password,
+                  'confirm_password': password,
+                  }
+        mem.processForm(values=values)
+        
+    def testCopyMember(self):
+        id = 'newmember'
+        password = 'secret'
+        copy_id = 'copy_of_' + id
+        uf = self.portal.acl_users
+        mdata = self.portal.portal_memberdata
+
+        self.setupDummyUser()
+
+        # need to be a manager to use copy
+        self.loginAsPortalOwner()
+        
+        cb = mdata.manage_copyObjects((id,))
+        mdata.manage_pasteObjects(cb)
+        self.failUnless(copy_id in mdata.objectIds())
+        
+        user = uf.authenticate(copy_id, password, self.portal.REQUEST)
+        self.failUnless(user is None)
+                
+    def testRenameMember(self):
+        id = 'newmember'
+        password = 'secret'
+        new_id = 'newmember_renamed'
+        uf = self.portal.acl_users
+        mdata = self.portal.portal_memberdata
+        
+        self.setupDummyUser()
+
+        # need manager to use rename
+        self.loginAsPortalOwner()
+
+        self.failUnless(id in mdata.objectIds())
+
+        # for some reason renaming fails unless the transaction has been committed
+        # so we use a subtransaciton that we can rollback to prevent causing problems
+        # to other tests
+        transaction.savepoint()
+
+        mdata.manage_renameObject(id, new_id)
+        self.failUnless(new_id in mdata.objectIds())
+    
+        #import pdb; pdb.set_trace()
+        user = uf.authenticate(new_id, password, self.portal.REQUEST)
+        self.failUnless(user is None)
         
     def testCreateNewMember(self):
         wftool = getToolByName(self.portal, 'portal_workflow')
