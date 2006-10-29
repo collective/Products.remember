@@ -15,6 +15,7 @@ class TestMembershipTool(RememberTestBase):
         RememberTestBase.afterSetUp(self)
         self.mtool = self.portal.portal_membership
         self.uf = self.portal.acl_users
+        self.login('admin_member')
 
     def test_addMember(self):
         id = 'new_member'

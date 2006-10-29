@@ -90,7 +90,7 @@ class TestRememberInstall(RememberTestBase):
         self.failUnless('private' in states and 'public' in states)
 
     def testPreferencesURL(self):
-        self.login('test_user_1_')
+        self.login('non_remember_member')
         prefs_url = self.portal.restrictedTraverse('prefs_url')()
         self.assertEqual(prefs_url,
                          '%s/personalize_form' % self.portal.absolute_url())

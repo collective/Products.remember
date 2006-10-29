@@ -161,12 +161,22 @@ class RememberProfileLayer(ZTCLayer):
         addMember(app.plone, 'blank_member')
 
         # basic portal member
-        portal_member = addMember(app.plone, 'portal_member')
-        portal_member.setRoles('Member')
+        mtool = getToolByName(app.plone, 'portal_membership')
+        mtool.addMember('portal_member', 'secret', ('Member',), tuple)
 
         # admin member
         admin_member = addMember(app.plone, 'admin_member')
         admin_member.setRoles(['Manager','Member'])
+
+        # stock default plone non-remember user/member
+        user_name = 'non_remember_member'
+        user_password = 'secret'
+        user_role = 'Member'
+
+        uf = app.plone.acl_users
+        uf.source_users.doAddUser(user_name, user_password)
+        non_remember_member = uf.getUser(user_name)
+        non_remember_member._addRoles(['Member'])
 
         txn.commit()
 

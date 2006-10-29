@@ -27,50 +27,6 @@ class MembershipTool(BaseTool):
             md_path = mdc.getPhysicalPath()
         return self.unrestrictedTraverse(md_path)
 
-    security.declarePrivate('addMember')
-    def addMember(self, id, password, roles, domains, properties=None):
-        """
-        Adds a new member to the user folder.  Security checks will
-        have already been performed.  Called by portal_registration.
-        """
-        mdc = self._getMemberDataContainer()
-        member_type = mdc.getDefaultType()
-        mdc.invokeFactory(member_type, id)
-        member = mdc._getOb(id)
-        logger.info('\n\n the props be:\n\n' + str(properties))
-        member.edit(password=password, roles=roles,
-                    domains=domains, **(properties or {}))
-    
-    security.declareProtected(ManageUsers, 'deleteMembers')
-    def deleteMembers(self, members, delete_memberareas=1,
-                      delete_localroles=1):
-        """Delete members specified by member_ids.
-        """
-        # Delete the member objects
-        dels = {}
-        mbtool = getToolByName(self, 'membrane_tool')
-        membrains = mbtool(getId=members)
-        for brain in membrains:
-            if dels.has_key(brain.parent_path):
-                dels[brain.parent_path].append(brain.getId)
-            else:
-                dels[brain.parent_path] = [brain.getId]
-        for parent_path, del_ids in dels.items():
-            parent = self.unrestrictedTraverse(parent_path)
-            parent.manage_delObjects(del_ids)
-
-        mem_ids = [b.getId for b in membrains]
-        # Delete members' home folders including all content items.
-        if delete_memberareas:
-            for mem_id in mem_ids:
-                 self.deleteMemberArea(mem_id)
-
-        # Delete members' local roles.
-        if delete_localroles:
-            utool = getToolByName(self, 'portal_url', None)
-            self.deleteLocalRoles( utool.getPortalObject(), mem_ids,
-                                   reindex=1, recursive=1 )
-
     def searchForMembers(self, REQUEST=None, **kw):
         """
         Here for backwards compatibility; ultimately delegates to the
