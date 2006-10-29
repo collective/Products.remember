@@ -239,7 +239,7 @@ class BaseMember(object):
     def available_skins(self):
         # give managers the ability to choose any skin
         mtool = getToolByName(self, 'portal_membership')
-        managePortal = mtool.checkPermission(CMFCorePermissions.ManagePortal,
+        managePortal = mtool.checkPermission(permissions.ManagePortal,
                                              self)
         skins_tool = getToolByName(self, 'portal_skins')
         if skins_tool.getAllowAny() or managePortal:

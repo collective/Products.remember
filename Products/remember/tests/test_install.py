@@ -8,7 +8,7 @@ from zope.app.annotation.interfaces import IAnnotations
 
 from zope.component import getMultiAdapter
 
-from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
+from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot

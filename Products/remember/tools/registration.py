@@ -5,7 +5,7 @@ from AccessControl import ClassSecurityInfo, getSecurityManager, \
 from Globals import InitializeClass
 
 from Products.CMFCore.utils import getToolByName, _checkPermission
-from Products.CMFCore import CMFCorePermissions
+from Products.CMFCore import permissions
 from Products.CMFPlone.RegistrationTool import RegistrationTool as BaseTool
 
 from Products.remember.permissions import MAIL_PASSWORD_PERMISSION

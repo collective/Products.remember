@@ -12,7 +12,7 @@ from AccessControl.Permissions import view
 from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase.PloneTestCase import PloneTestCase
-from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
+from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
 
 import Products.membrane
 import Products.remember
