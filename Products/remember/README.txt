@@ -11,6 +11,7 @@ REQUIREMENTS
 
 - Zope 2.9.3 (or greater)
 - Plone 2.5.x
+- Five 1.4.1
 - membrane  (http://svn.plone.org/svn/collective/membrane/trunk)
 
 Optional:
