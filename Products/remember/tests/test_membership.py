@@ -10,7 +10,8 @@ from Products.membrane.utils import generateCategorySetIdForType
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
 class TestMembershipTool(RememberTestBase):
-
+    """This test is a vestige from when remember implemented its own MembershipTool.
+    (We're confirming that its removal isn't breaking anything.)"""
     def afterSetUp(self):
         RememberTestBase.afterSetUp(self)
         self.mtool = self.portal.portal_membership
