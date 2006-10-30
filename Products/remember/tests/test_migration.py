@@ -18,6 +18,7 @@ from Products.remember.config import HASHERS
 from base import RememberTestBase
 from base import RememberProfileLayer
 from base import mem_data
+from base import def_mem_data
 
 class TestMigration(RememberTestBase):
     """
@@ -45,7 +46,7 @@ class TestMigration(RememberTestBase):
 
         login = member.getUserName()
         credentials = {'login': login,
-                       'password': mem_data[member.getId()]['password']}
+                       'password': def_mem_data['password']}
 
         self.assertRaises(ValueError, member.verifyCredentials, credentials)
         migrate_bcrypt_password_storage(self.portal)
