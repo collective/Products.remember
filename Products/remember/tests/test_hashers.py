@@ -9,9 +9,11 @@ from Products.remember.config import HASHERS
 from Products.remember.config import ANNOT_KEY
 
 from base import RememberTestBase
+from base import def_mem_data
 from base import mem_data
 
-MEM_DATA = mem_data['portal_member']
+MEM_DATA = def_mem_data.copy()
+MEM_DATA.update(mem_data['portal_member'])
 
 class TestHasher(RememberTestBase):
     """ 
