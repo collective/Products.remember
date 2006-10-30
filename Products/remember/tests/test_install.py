@@ -261,7 +261,8 @@ class TestSearchIndicesInstalled(RememberTestBase):
         results = self.mtool.searchForMembers(
             getLast_login_time=DateTime('2/1/2000'),
             getLast_login_time_usage='range:max')
-        self.assertEqual(len(results), 2)
+        # portal member is not in all list because is logged in
+        self.assertEqual(len(results), all_num_remem_mems-1)
 
     def testSearchByEmail(self):
         """
