@@ -3,6 +3,7 @@ import unittest
 
 from base import RememberTestBase
 from base import ZTCLayer
+from base import mem_data
 
 from zope.app.annotation.interfaces import IAnnotations
 
@@ -41,6 +42,8 @@ profile_registry.registerProfile('test',
                                  EXTENSION,
                                  for_=IPloneSiteRoot)
 
+our_num_remem_mems = len(mem_data.items())
+all_num_remem_mems = our_num_remem_mems + 1  # PortalTestCase creates a remember member during setup
 
 class TestRememberProfiles(ArcheSiteTestCase):
     """
@@ -224,7 +227,7 @@ class TestSearchIndicesInstalled(RememberTestBase):
         verify that searching without any constraints returns all members
         """
         results = self.mtool.searchForMembers()
-        self.assertEqual(len(results), 3)
+        self.assertEqual(len(results), all_num_remem_mems)
 
     def testSearchByName(self):
         """
@@ -266,7 +269,7 @@ class TestSearchIndicesInstalled(RememberTestBase):
         """
         results = self.mtool.searchForMembers(
             email='noreply@xxxxxxxxyyyyyy.com')
-        self.assertEqual(len(results), 3)
+        self.assertEqual(len(results), our_num_remem_mems)
         
  
 def test_suite():
