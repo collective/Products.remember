@@ -42,17 +42,24 @@ def installConfiguredProducts():
 installConfiguredProducts()
 
 mem_password = 'secret'
+def_mem_data = {
+    'email': 'noreply@xxxxxxxxyyyyyy.com',
+    'password': mem_password,
+    'confirm_password': mem_password,
+     }
+    
 mem_data = {
-    'portal_member':
-    {'fullname': 'Portal Member',
-     'email': 'noreply@xxxxxxxxyyyyyy.com',
-     'password': mem_password,
-     'confirm_password': mem_password,
-     'mail_me': True,
-     },
-    'default':
-    {'email': 'noreply@xxxxxxxxyyyyyy.com',
-     },
+        'portal_member':
+        {
+          'fullname': 'Portal Member',
+          'mail_me': True,
+        },
+        'admin_member':
+        {
+          'roles': ['Manager', 'Member']
+        },
+        'blank_member':
+        {},
     }
 
 # util for making content in a container
@@ -68,11 +75,13 @@ def addMember(context, name):
     Creates a member object, sets to an active state.
     """
     mdata = getToolByName(context, 'portal_memberdata')
-    wft = getToolByName(context, 'portal_workflow')
-    mem = makeContent(mdata, name, config.DEFAULT_MEMBER_TYPE)
+    wft   = getToolByName(context, 'portal_workflow')
+    mem   = makeContent(mdata, name, config.DEFAULT_MEMBER_TYPE)
     # ensure ownership is properly assigned
     mem.setId(name)
-    data = mem_data.get(name, mem_data['default'])
+    data = def_mem_data.copy()
+    # mem_data now only contains properties BEYOND those specified in def_mem_data
+    data.update(mem_data.get(name, {}))
     mem.update(**data)
     return mem
 
@@ -122,7 +131,7 @@ class ZTCLayer:
     @classmethod
     def tearDown(cls):
         pass
-
+    
 class RememberProfileLayer(ZTCLayer):
     @classmethod
     def setUp(cls):
@@ -158,16 +167,15 @@ class RememberProfileLayer(ZTCLayer):
         ptool = getToolByName(app.plone, 'portal_properties')
         ptool.site_properties.validate_email = 0
 
-        addMember(app.plone, 'blank_member')
-
-        # basic portal member
-        mtool = getToolByName(app.plone, 'portal_membership')
-        mtool.addMember('portal_member', 'secret', ('Member',), tuple)
-
-        # admin member
-        admin_member = addMember(app.plone, 'admin_member')
-        admin_member.setRoles(['Manager','Member'])
-
+        # add all our remember members (as portal_owner)
+        user = app.acl_users.getUser('portal_owner')
+        if not hasattr(user, 'aq_base'):
+            user = user.__of__(uf)
+        newSecurityManager(None, user)
+        
+        for mem_id in mem_data:
+            addMember(app.plone, mem_id)
+        
         # stock default plone non-remember user/member
         user_name = 'non_remember_member'
         user_password = 'secret'
