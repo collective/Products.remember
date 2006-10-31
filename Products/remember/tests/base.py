@@ -75,7 +75,6 @@ def addMember(context, name):
     Creates a member object, sets to an active state.
     """
     mdata = getToolByName(context, 'portal_memberdata')
-    wft   = getToolByName(context, 'portal_workflow')
     mem   = makeContent(mdata, name, config.DEFAULT_MEMBER_TYPE)
     # ensure ownership is properly assigned
     mem.setId(name)
