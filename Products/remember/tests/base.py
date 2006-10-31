@@ -193,10 +193,9 @@ def do_nothing(*a):
 
 class MailHostMock(object):
     """
-    mock up the send method so that emails do not actually get sent during unit
-    tests
-    we can use this to verify that the registration process is still working as
-    expected
+    mock up the send method so that emails do not actually get sent
+    during unit tests we can use this to verify that the registration
+    process is still working as expected
     """
     def __init__(self):
         self.mail_text = ''

@@ -15,12 +15,15 @@ from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.config import ADDUSER_UTILITY_NAME
 
 class IRememberConfiglet(Interface):
-    default_mem_type = schema.Choice(title=_(u'Default Member Type'),
-                                     description=_(u'Default Member Type'),
-                                     required=True,
-                                     vocabulary='RememberTypes',
-                                     default=_(unicode(DEFAULT_MEMBER_TYPE)),
-                                     )
+    default_mem_type = schema.Choice(
+        title=_(u'Default Member Type'),
+        description=_(u'This specifies which remember-based member '
+                      u'type will be added by default when someone '
+                      u'joins the site.'),
+        required=True,
+        vocabulary='RememberTypes',
+        default=_(unicode(DEFAULT_MEMBER_TYPE)),
+        )
 
 
 class RememberConfiglet(PageForm):
