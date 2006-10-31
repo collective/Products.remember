@@ -59,7 +59,7 @@ class TestMember(RememberTestBase):
         self.failUnless(copy_id in mdata.objectIds())
         
         user = uf.authenticate(copy_id, password, self.portal.REQUEST)
-        self.failUnless(user is None)
+        self.failIf(user is None)
                 
     def testRenameMember(self):
         id = 'newmember'
@@ -85,7 +85,7 @@ class TestMember(RememberTestBase):
     
         #import pdb; pdb.set_trace()
         user = uf.authenticate(new_id, password, self.portal.REQUEST)
-        self.failUnless(user is None)
+        self.failIf(user is None)
         
     def testCreateNewMember(self):
         wftool = getToolByName(self.portal, 'portal_workflow')
