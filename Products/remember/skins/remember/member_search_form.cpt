@@ -11,7 +11,7 @@
 
     <p i18n:translate="description_member_search">
     This search form enables you to find users by specifying one or more
-    search criteria.  unless someone set you up da bomb
+    search criteria.
     </p>
 
   	<form action=""
