@@ -10,9 +10,9 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 try: from Products.Five.formlib.formbase import PageForm
 except ImportError: from zope.formlib.form import PageForm
 
-from Products.membrane.interfaces import IUserAdder
+from Products.remember.utils import getAdderUtility
 from Products.remember.config import DEFAULT_MEMBER_TYPE
-from Products.remember.config import ADDUSER_UTILITY_NAME
+
 
 class IRememberConfiglet(Interface):
     default_mem_type = schema.Choice(
@@ -36,10 +36,5 @@ class RememberConfiglet(PageForm):
 
     @form.action("submit")
     def action_submit(self, action, data):
-        portal = getToolByName(self.context, 'portal_url').getPortalObject()
-        sm = portal.getSiteManager()
-        adder = sm.queryUtility(IUserAdder, ADDUSER_UTILITY_NAME)
-        if adder is None:
-            raise(RuntimeError, "Unable to retrieve IUserAdder utility")
-
+        adder = getAdderUtility(self.context)
         adder.default_member_type = data['default_mem_type']

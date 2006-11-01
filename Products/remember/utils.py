@@ -11,8 +11,10 @@ from AccessControl import ModuleSecurityInfo
 from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.config import TOOLNAME as MBTOOLNAME
+from Products.membrane.interfaces import IUserAdder
 
 from config import AUTO_ROLES
+from config import ADDUSER_UTILITY_NAME
 from interfaces import IReMember
 
 
@@ -30,6 +32,16 @@ def getRememberTypes(context):
                 attool.listPortalTypesWithInterfaces([IReMember])]
     remtypes = set(remtypes)
     return list(mbtypes.intersection(remtypes))
+
+def getAdderUtility(context):
+    """
+    Return the local remember adder utility.
+    """
+    portal = getToolByName(context, 'portal_url').getPortalObject()
+    sm = portal.getSiteManager()
+    adder = sm.queryUtility(IUserAdder, ADDUSER_UTILITY_NAME)
+    if adder is None:
+        raise(RuntimeError, "Unable to retrieve IUserAdder utility")
 
 def stringToList(s):
     if s is None:

@@ -14,6 +14,7 @@ class UserAdder(SimpleItem):
     """
     implements(IUserAdder)
 
+    # can be changed by the configlet
     default_member_type = DEFAULT_MEMBER_TYPE
 
     def addUser(self, login, password):
