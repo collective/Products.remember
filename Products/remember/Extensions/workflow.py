@@ -1,6 +1,20 @@
 from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import log_exc
 
+
+def addWorkflowScripts(wf):
+    addProd = wf.scripts.manage_addProduct['ExternalMethod']
+    addExternalMethod = addProd.manage_addExternalMethod
+    if not 'register' in wf.scripts.objectIds():
+        addExternalMethod('register', 'Register a Member',
+                          'remember.workflow', 'register')
+    if not 'disable' in wf.scripts.objectIds():
+        addExternalMethod('disable', 'Disable a Member',
+                          'remember.workflow', 'disable')
+    if not 'enable' in wf.scripts.objectIds():
+        addExternalMethod('enable', 'Enable a Member',
+                          'remember.workflow', 'enable')
+
 # Execute the 'trigger' transition -- this should trigger
 # any automatic transitions for which the guard conditions
 # are satisfied.
