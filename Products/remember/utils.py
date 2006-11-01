@@ -33,6 +33,7 @@ def getRememberTypes(context):
     remtypes = set(remtypes)
     return list(mbtypes.intersection(remtypes))
 
+security.declarePublic('getAdderUtility')
 def getAdderUtility(context):
     """
     Return the local remember adder utility.
