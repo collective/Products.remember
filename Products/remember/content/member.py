@@ -610,6 +610,28 @@ class Member(BrowserDefaultMixin, BaseMember, atapi.BaseContent):
     base_archetype = atapi.BaseContent
 
     def __call__(self, *args, **kwargs):
+        """
+        Prevents infinite recursion when using member object as a
+        boolean value in TALES expressions.
+        """
+        return self.getId()
+
+atapi.registerType(Member)
+InitializeClass(Member)
+
+
+class FolderishMember(BrowserDefaultMixin, BaseMember, atapi.BaseFolder):
+    """
+    A regular folderish member content object.
+    """
+    security = ClassSecurityInfo()
+    base_archetype = atapi.BaseFolder
+
+    def __call__(self, *args, **kwargs):
+        """
+        Prevents infinite recursion when using member object as a
+        boolean value in TALES expressions.
+        """
         return self.getId()
 
 atapi.registerType(Member)
