@@ -42,6 +42,7 @@ def getAdderUtility(context):
     adder = sm.queryUtility(IUserAdder, ADDUSER_UTILITY_NAME)
     if adder is None:
         raise(RuntimeError, "Unable to retrieve IUserAdder utility")
+    return adder
 
 def stringToList(s):
     if s is None:
