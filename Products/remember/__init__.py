@@ -29,11 +29,16 @@ import config
 
 if config.CMFMEMBER_MIGRATION_SUPPORT:
     import cmfmember
+    from cmfmember.migrator import registerMigrators
 
 # Register the skins directory
 registerDirectory(config.SKINS_DIR, config.GLOBALS)
 
 def initialize(context):
+    # register the CMFMember migrators, if necessary
+    if config.CMFMEMBER_MIGRATION_SUPPORT:
+        registerMigrators()
+    
     # Importing the content types allows for their registration
     # with the Archetypes runtime
     import content
