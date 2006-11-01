@@ -90,5 +90,4 @@ class SetupMember:
             ftypes.append(self.type)
             ftool.manage_setPortalFactoryTypes(listOfTypeIds=ftypes)
 
-
 InitializeClass(SetupMember)
