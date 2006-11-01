@@ -22,6 +22,14 @@ from config import MIGRATION_MAP
 
 migrators = []
 
+def getClassFromClassPath(classpath):
+    module_name = '.'.join(classpath.split('.')[:-1])
+    classname = classpath.split('.')[-1]
+    klass = getattr(__import__(module_name, globals(),
+                               locals(), classname),
+                    classname)
+    return klass
+
 class CMFMemberMigrator(TranslocatingInplaceMigrator,
                        InplaceATItemMigrator):
     walkerClass = CatalogWalker
@@ -140,5 +148,9 @@ def migrateCMFMembers(portal, out):
     for migrator in migrators:
         migrator(portal, out)
 
-for klass, info in MIGRATION_MAP.items():
-    registerCMFMemberMigrator(CMFMemberMigrator, klass, info['project_name'])
+def registerMigrators():
+    for classpath, info in MIGRATION_MAP.items():
+        klass = getClassFromClassPath(classpath)
+        klass._atct_newTypeFor = info['atct_newTypeFor']
+        registerCMFMemberMigrator(CMFMemberMigrator,
+                                  klass, info['project_name'])

@@ -1,4 +1,3 @@
-from Products.remember.content import Member
 from Products.remember.config import PROJECT_NAME
 
 REPLACE_CMFMEMBER_WORKFLOWS = True
@@ -6,9 +5,9 @@ REPLACE_CMFMEMBER_WORKFLOWS = True
 """
 The following data structure contains the info needed for migrations
 from CMFMember-based member objects to those that are remember-based.
-The keys of the dictionary should be the classes of the new member
-types.  Each value of the dictionary should be another dictionary,
-with the following key/value pairs:
+The keys of the dictionary should be the dotted names of the classes
+of the new member types.  Each value of the dictionary should be
+another dictionary, with the following key/value pairs:
 
 atct_newTypeFor: This will be dynamically added (i.e. 'monkeypatched')
                  as an _atct_newTypeFor attribute on the new class,
@@ -48,12 +47,13 @@ workflow_ids: This should be an iterator containing the ids of the
 """
 
 MIGRATION_MAP = {
-    Member: {'atct_newTypeFor': {'portal_type': 'Member',
+    'Products.remember.content.Member':
+            {'atct_newTypeFor': {'portal_type': 'Member',
                                  'meta_type': 'Member'},
              'project_name': PROJECT_NAME,
              'profile': 'profile-remember:default',
              'replace_workflows': REPLACE_CMFMEMBER_WORKFLOWS,
              'workflow_ids': ('member_auto_workflow',
                               'member_approval_workflow'),
-             }
+             },
     }

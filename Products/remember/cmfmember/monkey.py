@@ -23,13 +23,8 @@ from Products.contentmigration.utils import unrestricted_move
 ################################################
 
 from config import MIGRATION_MAP
-
-for klass, info in MIGRATION_MAP.items():
-    klass._atct_newTypeFor = info['atct_newTypeFor']
-
 from config import REPLACE_CMFMEMBER_WORKFLOWS
 from migrator import migrateCMFMembers
-
 
 ################################################
 # from CMFPlone.migrations.v2_5.alphas
