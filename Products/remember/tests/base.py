@@ -62,6 +62,10 @@ mem_data = {
         {},
     }
 
+our_num_remem_mems = len(mem_data.items())
+all_num_remem_mems = our_num_remem_mems + 1  # PortalTestCase creates a remember member during setup
+all_mems = all_num_remem_mems + 1            # 1 Non remember member is created during setup
+
 # util for making content in a container
 def makeContent(container, id, portal_type, title=None):
     container.invokeFactory(id=id, type_name=portal_type)

@@ -13,6 +13,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
+from Products.CMFCore.permissions import View
+from Products.CMFCore.utils import _checkPermission
+
 from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
 from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
 
@@ -598,6 +601,11 @@ class BaseMember(object):
     def delete(self, login):
         self.aq_inner.aq_parent.manage_delObjects([self.getId()])
 
+    def getListedProperty(self):
+        """
+        Used for member searching. Check permissions on viewing the object
+        """
+        return _checkPermission(View, self)
 
 InitializeClass(BaseMember)
 

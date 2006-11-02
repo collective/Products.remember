@@ -405,6 +405,12 @@ security_schema = atapi.Schema((
                 user_property=True,
                 ),
 
+    atapi.ComputedField('listed',
+                         searchable=1,
+                         accessor='getListedProperty',
+                 user_property=True,
+                 ),
+
     ))
 
 ####################
@@ -432,7 +438,7 @@ login_info_schema = atapi.Schema((
                   mode='rw',
                   accessor='getLast_login_time',
                   mutator='setLast_login_time',
-                  read_permission=VIEW_OTHER_PERMISSION,
+                  read_permission=VIEW_PUBLIC_PERMISSION,
                   write_permission=EDIT_PROPERTIES_PERMISSION,
                   index='membrane_tool/DateIndex:brains',
                   widget=atapi.StringWidget(
