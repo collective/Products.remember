@@ -609,6 +609,10 @@ class Member(BrowserDefaultMixin, BaseMember, atapi.BaseContent):
     security = ClassSecurityInfo()
     base_archetype = atapi.BaseContent
 
+    # BBB: needed to get AT's installTypes to work
+    __implements__ = BrowserDefaultMixin.__implements__ + \
+                     atapi.BaseContent.__implements__
+
     def __call__(self, *args, **kwargs):
         """
         Prevents infinite recursion when using member object as a
@@ -626,6 +630,10 @@ class FolderishMember(BrowserDefaultMixin, BaseMember, atapi.BaseFolder):
     """
     security = ClassSecurityInfo()
     base_archetype = atapi.BaseFolder
+
+    # BBB: needed to get AT's installTypes to work
+    __implements__ = BrowserDefaultMixin.__implements__ + \
+                     atapi.BaseFolder.__implements__
 
     def __call__(self, *args, **kwargs):
         """
