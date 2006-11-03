@@ -12,6 +12,8 @@ __docformat__ = 'text/restructured'
 # __init__.py is used to register global tools, services, and
 # configuration information
 
+import sys
+
 from OFS.Image import Image
 
 from Products.Archetypes import public as atapi
@@ -30,6 +32,9 @@ import config
 if config.CMFMEMBER_MIGRATION_SUPPORT:
     import cmfmember
     from cmfmember.migrator import registerMigrators
+
+sys.modules['Products.remember.tools.membership'] = \
+        sys.modules['Products.PlonePAS.tools.membership']
 
 # Register the skins directory
 registerDirectory(config.SKINS_DIR, config.GLOBALS)
