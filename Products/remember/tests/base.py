@@ -139,11 +139,10 @@ class RememberProfileLayer(ZTCLayer):
     @classmethod
     def setUp(cls):
         """
-        do all universal remember project test initialization in the layer here
-        this layer is for tests that are non-destructive. destructive tests need
-        to go in a sub-layer
+        do all universal remember project test initialization in the
+        layer here this layer is for tests that are
+        non-destructive. destructive tests need to go in a sub-layer
         """
-
         txn.begin()
         app = ZopeTestCase.app()
 
