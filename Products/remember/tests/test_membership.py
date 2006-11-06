@@ -1,13 +1,15 @@
 import os, sys
 import unittest
 
-from base import RememberTestBase
+from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
 
 from Products.remember.config import DEFAULT_MEMBER_TYPE
+
+from base import RememberTestBase
 
 class TestMembershipTool(RememberTestBase):
     """This test is a vestige from when remember implemented its own MembershipTool.
@@ -30,6 +32,17 @@ class TestMembershipTool(RememberTestBase):
         self.mtool.deleteMembers(del_ids)
         for del_id in del_ids:
             self.failUnless(self.mtool.getMemberById(del_id) is None)
+
+    def test_addMemberToFolderPermission(self):
+        """
+        verify that the 'add member to folder' link appears only for
+        managers
+        """
+        self.login('portal_member')
+        mdtool = getToolByName(self.portal, 'portal_memberdata')
+        self.failUnless('Member' in mdtool.getNotAddableTypes())
+        self.loginAsPortalOwner()
+        self.failIf('Member' in mdtool.getNotAddableTypes())
 
 def test_suite():
     suite = unittest.TestSuite()
