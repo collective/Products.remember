@@ -168,6 +168,18 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         """
         pass
 
+    def getNotAddableTypes(self):
+        """
+        Only allow managers to add members
+        """
+        from Products.CMFCore.utils import _getAuthenticatedUser
+        user = _getAuthenticatedUser(self)
+
+        if 'Manager' in user.getRoles():
+            return ()
+        else:
+            return ('Member',)
+
     def getAllowedMemberTypes(self):
         """
         Return the allow types from the membrane tool
