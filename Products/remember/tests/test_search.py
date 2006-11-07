@@ -54,6 +54,16 @@ class TestRememberSearching(RememberTestBase):
         # portal member is not in all list because is logged in
         self.assertEqual(len(results), all_mems-1)
 
+    def testSearchForFailingLogin(self):
+        """
+        search for a login that is illegitimate.
+        no members should be found
+        """
+
+        results = self.mtool.searchForMembers(
+            login='halstingdingdingworth') # this guy shouldn't exist
+        self.failIf(len(results))
+
     def testSearchByEmail(self):
         """
         validate searching by email
