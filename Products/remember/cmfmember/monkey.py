@@ -137,8 +137,11 @@ def migrateMemberDataTool(portal, out):
             ps.setImportContext(profile)
             ps.runAllImportSteps()
         elif product is not None:
-            # might use a QI install method instead
-            qi.installProduct(product)
+            # use a QI install method instead
+            if not qi.isProductInstalled(product):
+                qi.installProduct(product)
+            else:
+                qi.reinstallProducts([product])
 
     print >> out, " ...restoring old member types"
     # Needed for the actual member migration
