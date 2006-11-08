@@ -1,5 +1,6 @@
 """Provides migrators that can be used by products that define custom
 contentish members to migrate from CMFMember to remember."""
+import logging
 
 from Acquisition import aq_base
 from AccessControl.AuthEncoding import is_encrypted
@@ -34,6 +35,11 @@ class CMFMemberMigrator(TranslocatingInplaceMigrator,
                        InplaceATItemMigrator):
     walkerClass = CatalogWalker
 
+    def log(self, level, msg, *args, **kwargs):
+        """Write to event log."""
+        logger = logging.getLogger('remember.cmfmember')
+        logger.log(level, msg, *args, **kwargs)
+
     def getDestinationParent(self):
         """Return the container into which the destination will be
         added."""
@@ -48,6 +54,10 @@ class CMFMemberMigrator(TranslocatingInplaceMigrator,
     def patchUserInfo(self):
         """Update the member._userInfo attribute to reflect the moving
         of portal.acl_users into the temporary folder."""
+        if self.old._userInfo is None:
+            msg = "Can't patch %s _userInfo" % self.old.getId()
+            self.log(logging.WARNING, msg)
+            return
         path, id = self.old._userInfo
         purl = getToolByName(self.parent, 'portal_url')
         portal = purl.getPortalObject()
@@ -69,6 +79,8 @@ class CMFMemberMigrator(TranslocatingInplaceMigrator,
     def migrate(self, *args, **kw):
         """We need to correct the self._userInfo attribute since we've
         moved the GRUF acl_users."""
+        msg = 'Migrating: %s' % self.old.getId()
+        self.log(logging.INFO, msg)
         self.patchUserInfo()
         return InplaceATItemMigrator.migrate(self, *args, **kw)
     
