@@ -408,7 +408,7 @@ security_schema = atapi.Schema((
     atapi.ComputedField('listed',
                          searchable=1,
                          accessor='getListedProperty',
-                 user_property=True,
+                 user_property=False,
                  ),
 
     ))
