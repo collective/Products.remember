@@ -78,12 +78,15 @@
               tal:attributes="action template_id">
           <select name="type_name"
                   tabindex=""
-                  tal:define="member_types python:modules['Products.remember.utils'].getRememberTypes(here)"
+                  tal:define="member_types python:modules['Products.remember.utils'].getRememberTypes(here); 
+                              adder python:modules['Products.remember.utils'].getAdderUtility(here);
+                              default_type adder/default_member_type"
                   tal:condition="python: len(member_types) > 1"
                   tal:attributes="value string:foo;
                                   tabindex tabindex/next;">
             <option tal:repeat="type_name member_types"
-                    tal:attributes="value type_name"
+                    tal:attributes="value type_name;
+                                    selected python:type_name == default_type and 'selected' or nothing"
                     tal:content="type_name">
             </option>
           </select>
