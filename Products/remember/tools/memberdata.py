@@ -24,20 +24,7 @@ schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
         'description',
         default = 'Container for Members',
         widget = atapi.TextAreaWidget(rows = 5),
-        storage = atapi.MetadataStorage(),),
-
-    atapi.StringField(
-        'defaultType',
-        default = DEFAULT_MEMBER_TYPE,
-        vocabulary = 'getAllowedMemberTypes',
-        read_permission = cmfcore_permissions.View,
-        widget = atapi.SelectionWidget(
-            label='Default member type',
-            label_msgid='label_default_member_type',
-            description="Choose default member type.",
-            description_msgid='help_default_member_type',
-            i18n_domain='remember',
-            ),
+        storage = atapi.MetadataStorage(),
         ),
     ))
 
@@ -68,15 +55,6 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         atapi.BaseBTreeFolder.__init__(self, self.id, **kwargs)
         BaseTool.__init__(self)
         self.title = 'Member Profiles'
-
-    def manage_afterAdd(self, item, container):
-        """
-        have to set the default member type here instead of at the
-        class level b/c we need a context to access the tools to get
-        at all of the info we need
-        """
-        atapi.BaseBTreeFolder.manage_afterAdd(self, item, container)
-        self.setDefaultType(DEFAULT_MEMBER_TYPE)
 
     ###################################################################
     # Ugly property hack to mask the unused 'description' attribute
