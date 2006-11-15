@@ -22,7 +22,6 @@ class IRememberConfiglet(Interface):
                       u'joins the site.'),
         required=True,
         vocabulary='RememberTypes',
-        default=_(unicode(DEFAULT_MEMBER_TYPE)),
         )
 
 
@@ -38,3 +37,9 @@ class RememberConfiglet(PageForm):
     def action_submit(self, action, data):
         adder = getAdderUtility(self.context)
         adder.default_member_type = data['default_mem_type']
+
+    def getDefaultMemType(self):
+        adder = getAdderUtility(self.context)
+        return adder.default_member_type
+
+    form_fields['default_mem_type'].get_rendered = getDefaultMemType
