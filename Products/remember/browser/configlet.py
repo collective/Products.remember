@@ -6,7 +6,7 @@ from zope.i18nmessageid import MessageFactory
 _  = MessageFactory('remember')
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 try: from Products.Five.formlib.formbase import PageForm
 except ImportError: from zope.formlib.form import PageForm
 
@@ -30,7 +30,7 @@ class RememberConfiglet(PageForm):
     """
     The formlib class for the remember config page.
     """
-    template = ZopeTwoPageTemplateFile('configletform.pt')
+    template = ViewPageTemplateFile('configletform.pt')
 
     form_fields = form.FormFields(IRememberConfiglet)
 
