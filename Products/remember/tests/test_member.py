@@ -248,14 +248,15 @@ class TestMember(RememberTestBase):
         """
         verify that the registration method gets called on members
         """
-        # the portal registration tool has a mocked mailhost, that can be
-        # checked to see if the members were registered
-        # the portal member is the only member that has the mail_me flag sent,
-        # so this test below actually verifies that only one email was sent out
-        # for the correct member
+        # the portal registration tool has a mocked mailhost, that can
+        # be checked to see if the members were registered the portal
+        # member is the only member that has the mail_me flag sent, so
+        # this test below actually verifies that only one email was
+        # sent out for the correct member
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
-        self.failUnless('Welcome Portal Member' in mh.mail_text)
+        self.failUnless('Portal Member' in mh.mail_text)
+        self.failUnless('You have been registered' in mh.mail_text)
         self.assertEqual(mh.n_mails, 1)
 
     def testPortalSetupMemberRegistration(self):
