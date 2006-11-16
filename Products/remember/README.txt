@@ -1,4 +1,6 @@
+========
 remember
+========
 
 remember is a full implementation of the default Plone member
 configuration using content to represent the members, built on top of
@@ -16,6 +18,30 @@ the cmfmember subdirectory.
 
 For questions and support, please see the remember mailing list:
 http://www.openplans.org/projects/remember/lists/remember/
+
+============
+INSTALLATION
+============
+
+To install remember into your Zope instance, put the remember code in
+a directory named "remember" in your instance home's Products
+directory and restart Zope.
+
+remember is installed into a Plone site by the application of a
+GenericSetup extension profile.  You can do this when creating a new
+site by selecting both membrane and remember from the list of
+available setup profiles when you are creating the site.  In an
+existing site, you install an extension profile using the ZMI of the
+portal_setup tool.  First browse to the properties tab and specify the
+profile in question as the "active" profile.  Then browse to the
+import tab and click on the "Run all import steps" button near the
+bottom of the page.  You will want to perform these steps first for
+the membrane profile, then for the remember profile.
+
+NOTE: While remember does provide a migration path for existing, Plone
+2.1-based CMFMember sites, it does NOT yet provide a way to migrate
+existing default Plone members to remember-based members.  This is
+intended to be in place before the final 1.0 release.
 
 ============
 REQUIREMENTS
