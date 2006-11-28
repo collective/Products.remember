@@ -2,7 +2,6 @@ import os, sys
 import unittest
 
 from base import RememberTestBase
-from base import ZTCLayer
 from base import mem_data
 
 from base import our_num_remem_mems
@@ -23,6 +22,10 @@ from Products.GenericSetup import profile_registry, EXTENSION
 
 from Products.CMFFormController.ControllerState import ControllerState
 
+from Products.PloneTestCase import layer
+from Products.PloneTestCase.setup import USELAYER
+
+
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
@@ -35,6 +38,7 @@ from Products.remember.exportimport.membranetool import \
 from Products.remember.tools.memberdata import MemberDataContainer
 
 from Products.GenericSetup.context import BaseContext
+
 
 # set up XML profile for testing
 profile_registry.registerProfile('test',
@@ -49,7 +53,7 @@ class TestRememberProfiles(ArcheSiteTestCase):
     """
     Uses a different layer so the profile import can be tested.
     """
-    layer = ZTCLayer
+    layer = layer.PloneSite
 
     def testLayerWorks(self):
         """ verify members have not been added yet """

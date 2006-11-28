@@ -12,6 +12,8 @@ from AccessControl.Permissions import view
 from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase.PloneTestCase import PloneTestCase
+from Products.PloneTestCase.setup import USELAYER
+from Products.PloneTestCase import layer
 from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
 
 import Products.membrane
@@ -20,6 +22,8 @@ import Products.remember.config as config
 from Products.remember.interfaces import IHashPW
 from Products.remember.utils import parseDependencies
 from Products.remember.tools.memberdata import MemberDataContainer
+
+SiteLayer = layer.PloneSite
 
 # Dynamic bootstapping based on product config
 def installConfiguredProducts():
@@ -88,54 +92,8 @@ def addMember(context, name):
     mem.update(**data)
     return mem
 
-
-class ZTCLayer:
-    """
-    configuration layer for default ZTC setup
-    """
-    @classmethod
-    def setUp(cls):
-        """
-        Do all of the ZTC setup that would normally be happening in
-        the ZTC base class (copied from ZopeTestCase.ZopeTestCase).
-        """
-
-        txn.begin()
-        app = ZopeTestCase.app()
-
-        # ZTC global data
-        folder_name = 'test_folder_1_'
-        user_name = 'test_user_1_'
-        user_password = 'secret'
-        user_role = 'test_role_1_'
-
-        # ZTC _setupFolder: '''Creates and configures the folder.'''
-        standard_permissions = [access_contents_information, view]
-        app.manage_addFolder(folder_name)
-        folder = getattr(app, folder_name)
-        folder._addRole(user_role)
-        folder.manage_role(user_role, standard_permissions)
-
-        # ZTC _setupUserFolder: '''Creates the user folder.'''
-        folder.manage_addUserFolder()
-
-        # ZTC _setupUser: '''Creates the default user.'''
-        uf = folder.acl_users
-        uf.userFolderAddUser(user_name, user_password, [user_role], [])
-
-        # ZTC login: '''Logs in.'''
-        user = uf.getUserById(user_name)
-        if not hasattr(user, 'aq_base'):
-            user = user.__of__(uf)
-        newSecurityManager(None, user)
-
-        txn.commit()
-
-    @classmethod
-    def tearDown(cls):
-        pass
     
-class RememberProfileLayer(ZTCLayer):
+class RememberProfileLayer(SiteLayer):
     @classmethod
     def setUp(cls):
         """
@@ -212,7 +170,8 @@ class MailHostMock(object):
 # This is the test case. You will have to add test_<methods> to your
 # class inorder to assert things about your Product.
 class RememberTestBase(PloneTestCase):
-    layer = RememberProfileLayer
+    if USELAYER:
+        layer = RememberProfileLayer
 
     def addMember(self, name):
         return globals()['addMember'](self.portal, name)
