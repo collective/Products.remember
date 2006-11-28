@@ -47,6 +47,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     global_allow = 0
     content_icon = 'user.gif'
     schema = schema
+    _description = None
 
     manage_options = atapi.BaseBTreeFolder.manage_options + \
                      ActionProviderBase.manage_options
@@ -57,25 +58,27 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         self.title = 'Member Profiles'
 
     ###################################################################
-    # Ugly property hack to mask the unused 'description' attribute
+    # Property hack to mask the unused 'description' attribute
     # inherited from PortalFolderBase
     ###################################################################    
-    def _nope(self):
+    def _getDescription(self):
         """
-        Need to negate the 'description' attribute that is inherited
-        from the PortalFolderBase class in our superclass hierarchy.
+        Masks the 'description' attribute that is inherited from the
+        PortalFolderBase class.
         """
-        raise AttributeError
+        if getattr(self.aq_base, '_description') is None:
+            raise AttributeError
+        else:
+            return self._description
 
-    def _setDescription(self, description):
+    def _setDescription(self, desc):
         """
-        Undo the property hack that covers up the inherited description
-        value.
+        Storing the description makes the property getter behave
+        differently.
         """
-        del MemberDataContainer.description
-        self.description = description
+        self._description = desc
 
-    description = property(fget = _nope,
+    description = property(fget = _getDescription,
                            fset = _setDescription)
 
     ###################################################################
