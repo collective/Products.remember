@@ -83,7 +83,6 @@ class TestMember(RememberTestBase):
         mdata.manage_renameObject(id, new_id)
         self.failUnless(new_id in mdata.objectIds())
     
-        #import pdb; pdb.set_trace()
         user = uf.authenticate(new_id, password, self.portal.REQUEST)
         self.failIf(user is None)
         
