@@ -14,6 +14,7 @@ from Products.CMFPlone.migrations.migration_util import installOrReinstallProduc
 from Products.PlonePAS.Extensions import Install as InstallPlonePAS
 from Products.PlonePAS.Extensions.Install import addPAS
 from Products.PlonePAS.Extensions.Install import updateProp
+from Products.PlonePAS.tools.memberdata import MemberDataTool
 
 from Products.contentmigration.utils import unrestricted_move
 
@@ -123,6 +124,13 @@ def migrateMemberDataTool(portal, out):
 
     ps = getToolByName(portal, 'portal_setup')
     qi = getToolByName(portal, 'portal_quickinstaller')
+
+    # need to instantiate a default MemberDataTool since changes to
+    # GenericSetup mean the membrane profile is no longer doing so,
+    # but it will fail if there isn't one
+    if portal._getOb('portal_memberdata', None) is None:
+        mdtool = MemberDataTool()
+        portal._setObject('portal_memberdata', mdtool)
 
     print >> out, " ...applying membrane profile"
     ps.setImportContext('profile-CMFPlone:plone')
