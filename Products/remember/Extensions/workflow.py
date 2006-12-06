@@ -21,7 +21,7 @@ def addWorkflowScripts(wf):
 def triggerAutomaticTransitions(ob):
     wf_tool=getToolByName(ob, 'portal_workflow')
     if 'trigger' in [action.get('id',None) for action
-                     in wf_tool.getActionsFor(ob)]:
+                     in wf_tool.listActionInfos(object=ob)]:
         wf_tool.doActionFor(ob, 'trigger')
 
 # set old_state
