@@ -7,7 +7,7 @@ THAT YOU CAN SAFELY REVERT TO IF SOMETHING GOES WRONG.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 Thanks to Ross Patterson for providing the initial CMFMember->remember
-migration code, which was integrated into remember (with some
+migration code, which was integrated into remember (with significant
 modifications) by Rob Miller.
 
 This package contains code required to do a migration from a Plone
@@ -34,6 +34,11 @@ The process for performing a migration is as follows:
 
 - Visit the portal_migration tool and run the Plone migration process,
   just as you would normally.
+
+- Finally, when you're satisfied everything is working correctly, you
+  can use the 'remove_cmfmember' External Method to remove the traces
+  of CMFMember from your site.  Once you've done this, you can remove
+  the CMFMember product from your Zope instance entirely.
 
 That should be it; if you've activated the
 CMFMEMBER_MIGRATION_SUPPORT, then the portal migration process should
