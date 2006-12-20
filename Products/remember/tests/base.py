@@ -2,6 +2,7 @@ import os, sys
 import unittest
 
 from zope.component import queryAdapter
+from zope.app.component.hooks import setSite, setHooks
 
 import transaction as txn
 
@@ -103,6 +104,9 @@ class RememberProfileLayer(SiteLayer):
         """
         txn.begin()
         app = ZopeTestCase.app()
+
+        setHooks()
+        setSite(app.plone)
 
         setup_tool = app.plone.portal_setup
         setup_tool.setImportContext('profile-membrane:default')
