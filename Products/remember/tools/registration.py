@@ -62,20 +62,43 @@ class RegistrationTool(BaseTool):
         o Raise an exception if user ID is not found.
         
         """
-        membership_tool = getToolByName(self, 'portal_membership')
-        member = membership_tool.getMemberById(forgotten_userid)
+        membership = getToolByName(self, 'portal_membership')
+        if not membership.checkPermission('Mail forgotten password', self):
+            raise Unauthorized, "Mailing forgotten passwords has been disabled"
+
+        utils = getToolByName(self, 'plone_utils')
+        member = membership.getMemberById(forgotten_userid)
 
         if member is None:
             raise ValueError, 'The username you entered could not be found'
 
-        # we have to do our own security check since we are in a tool
-        # and bypassing Zope security; we can't call member.mailPassword
-        # directly since in private state it's not viewable by anonymous
-        necessary_roles = PermissionRole.rolesForPermissionOn(MAIL_PASSWORD_PERMISSION, member)
-        for role in getSecurityManager().getUser().getRolesInContext(member):
-            if role in necessary_roles:
-                return BaseTool.mailPassword(self, forgotten_userid, REQUEST)
-        raise(Unauthorized)
+        try:
+            email = member.getProperty('email')
+        except Unauthorized:
+            # probably a remember type
+            if getattr(member.aq_base, 'getField', None) is None:
+                raise ValueError, 'Unable to retrieve email address'
+            field = member.getField('email')
+            if field is None:
+                raise ValueError, 'Unable to retrieve email address'
+            email = field.getAccessor(member)()
+            
+        if not utils.validateSingleEmailAddress(email):
+            raise ValueError, 'The email address did not validate'
+        try:
+            password = member.getPassword()
+            mail_text = self.mail_password_template(self,
+                                                    REQUEST,
+                                                    member=member,
+                                                    member_id=forgotten_userid,
+                                                    member_email=email)
+            host = getToolByName(self, 'MailHost')
+            host.send(mail_text)
+            return self.mail_password_response(self, REQUEST)
+
+        except SMTPRecipientsRefused:
+            # Don't disclose email address on failure
+            raise SMTPRecipientsRefused('Recipient address rejected by server')
 
 
 InitializeClass(RegistrationTool)
