@@ -104,8 +104,10 @@ class BaseMember(object):
         Member objects should always be owned by the corresponding
         user, if one exists.
         """
-        roles = self.get_local_roles_for_userid(old_id)
-        self.manage_delLocalRoles([old_id])
+        roles = tuple()
+        if old_id is not None:
+            roles = self.get_local_roles_for_userid(old_id)
+            self.manage_delLocalRoles([old_id])
         user = self.getUser()
         if user is not None:
             self.changeOwnership(user, 1)
