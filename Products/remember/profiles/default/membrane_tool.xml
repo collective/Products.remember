@@ -51,4 +51,10 @@
   <column value="getReview_state"/>
   <column value="getLast_login_time"/>
 
+  <query_index_map>
+    <index name="email">getEmail</index>
+    <index name="fullname">getFullname</index>
+    <index name="review_state">getReview_state</index>
+  </query_index_map>
+
 </object>
