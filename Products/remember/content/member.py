@@ -13,7 +13,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 
-from Products.CMFCore.permissions import View
+from Products.CMFCore import permissions as cmfpermissions
 from Products.CMFCore.utils import _checkPermission
 
 from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
@@ -244,7 +244,7 @@ class BaseMember(object):
     def available_skins(self):
         # give managers the ability to choose any skin
         mtool = getToolByName(self, 'portal_membership')
-        managePortal = mtool.checkPermission(permissions.ManagePortal,
+        managePortal = mtool.checkPermission(cmfpermissions.ManagePortal,
                                              self)
         skins_tool = getToolByName(self, 'portal_skins')
         if skins_tool.getAllowAny() or managePortal:
@@ -607,7 +607,7 @@ class BaseMember(object):
         """
         Used for member searching. Check permissions on viewing the object
         """
-        return _checkPermission(View, self)
+        return _checkPermission(cmfpermissions.View, self)
 
 InitializeClass(BaseMember)
 
