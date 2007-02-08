@@ -124,7 +124,7 @@ class BaseMember(object):
     security.declarePrivate('getUser')
     def getUser(self):
         uf = getToolByName(self, 'acl_users')
-        user = uf.getUser(self.getId())
+        user = uf.getUserById(self.getId())
         return user.__of__(self)
 
     security.declarePrivate('getDefaultRoles')
