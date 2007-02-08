@@ -1,4 +1,5 @@
 import random, re, md5
+from smtplib import SMTPRecipientsRefused
 
 from AccessControl import ClassSecurityInfo, getSecurityManager, \
      PermissionRole, Unauthorized
