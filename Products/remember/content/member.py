@@ -1,3 +1,5 @@
+import sys
+
 from AccessControl import ClassSecurityInfo
 from AccessControl import Unauthorized
 from AccessControl.PermissionRole import rolesForPermissionOn
@@ -299,12 +301,13 @@ class BaseMember(object):
     def setMemberProperties(self, mapping):
         self.setProperties(mapping)
 
-    def _getProperty(self, id):
+    security.declarePrivate('_getProperty')
+    def _getProperty(self, id, security_check=True):
         """Try to get a member property.  If the property is not found,
         raise an AttributeError"""
         field = self.Schema().get(id, None)
         if field is not None:
-            if not field.checkPermission('view', self):
+            if security_check and not field.checkPermission('view', self):
                 raise Unauthorized
             accessor = getattr(self, field.accessor, None)
             value = accessor()
@@ -315,8 +318,17 @@ class BaseMember(object):
 
     security.declarePublic('getProperty')
     def getProperty(self, id, default=_marker):
+        # only check AT field security if the calling context is untrusted
+        # this is ugly, but it prevents a lot of headaches
+        # '?' -> Script (Python); '<expression>' -> TAL python: expression
+        frame = sys._getframe(1)
+        untrusted = ('?', '<expression>')
+        if frame.f_code.co_name in untrusted:
+            security_check = True
+        else:
+            security_check = False
         try:
-            return self._getProperty(id)
+            return self._getProperty(id, security_check)
         except AttributeError:
             # member does not have a value for given property
             # try memberdata_tool for default value
