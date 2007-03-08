@@ -16,8 +16,7 @@
   <exit-transition transition_id="enable_pending"/>
   <exit-transition transition_id="enable_private"/>
   <exit-transition transition_id="enable_public"/>
-  <permission-map name="Copy or Move"
-                  acquired="False">
+  <permission-map name="Copy or Move" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="Mail forgotten password"
@@ -50,12 +49,9 @@
   </permission-map>
  </state>
  <state state_id="new" title="Newly created member">
-  <exit-transition transition_id="make_pending"/>
-  <exit-transition transition_id="migrate"/>
-  <exit-transition transition_id="register_wrapped_user"/>
+  <exit-transition transition_id="auto_pending"/>
   <exit-transition transition_id="trigger"/>
-  <permission-map name="Copy or Move"
-                  acquired="False">
+  <permission-map name="Copy or Move" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="Mail forgotten password"
@@ -85,45 +81,6 @@
   <permission-map name="membrane: Edit member id"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="membrane: Register member"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
- </state>
- <state state_id="new_private" title="Newly created member">
-  <exit-transition transition_id="auto_register"/>
-  <exit-transition transition_id="import_fail"/>
-  <exit-transition transition_id="migrate"/>
-  <exit-transition transition_id="register_wrapped_user"/>
-  <exit-transition transition_id="trigger"/>
-  <permission-map name="Copy or Move"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="Mail forgotten password"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="Manage users" acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="Modify portal content"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="Set own password" acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="Set own properties" acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="View" acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="membrane: Edit member id"
-                  acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="membrane: Register member"
@@ -136,8 +93,7 @@
   <exit-transition transition_id="register_private"/>
   <exit-transition transition_id="register_public"/>
   <exit-transition transition_id="register_wrapped_user"/>
-  <permission-map name="Copy or Move"
-                  acquired="False">
+  <permission-map name="Copy or Move" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="Mail forgotten password"
@@ -173,8 +129,7 @@
         title="Registered user, private profile">
   <exit-transition transition_id="make_public"/>
   <exit-transition transition_id="disable"/>
-  <permission-map name="Copy or Move"
-                  acquired="False">
+  <permission-map name="Copy or Move" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="Mail forgotten password"
@@ -216,8 +171,7 @@
         title="Registered user, public profile">
   <exit-transition transition_id="make_private"/>
   <exit-transition transition_id="disable"/>
-  <permission-map name="Copy or Move"
-                  acquired="False">
+  <permission-map name="Copy or Move" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="Mail forgotten password"
@@ -258,6 +212,16 @@
    <permission-role>Manager</permission-role>
   </permission-map>
  </state>
+ <transition transition_id="auto_pending"
+             title="Make pending for Manager review"
+             new_state="pending" trigger="AUTOMATIC"
+             before_script="" after_script="">
+  
+  <guard>
+   <guard-permission>Add portal member</guard-permission>
+   <guard-expression>here/isValid</guard-expression>
+  </guard>
+ </transition>
  <transition transition_id="disable" title="Disable member"
              new_state="disabled" trigger="USER"
              before_script="disable" after_script="">
