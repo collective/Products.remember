@@ -11,7 +11,12 @@
 new_context = context.portal_factory.doCreate(context, id)
 new_context.processForm()
 
-userCreated = new_context.hasUser()
+from AccessControl import Unauthorized
+
+try:
+     userCreated = new_context.hasUser()
+except Unauthorized: # <-- member has been made pending
+     userCreated = False
 
 portal = new_context.portal_url.getPortalObject()
 state.setContext(portal)
