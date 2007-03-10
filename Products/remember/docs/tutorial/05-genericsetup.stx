@@ -1,0 +1,90 @@
+Creating GenericSetup Profiles
+
+  Rather than creating an Extensions directory with an Install.py script (as is common), we register an extension profile with GenericSetup.  What is GenericSetup and why do we use it, you ask?  Well, RaFromBRC would love to provide a fantastic explanation answering just that in his "Generic Setup tutorial":http://plone.org/documentation/tutorial/understanding-and-using-genericsetup-in-plone
+  
+  In short, per the aforementioned tutorial, GenericSetup is:
+  
+  "... a major step forward in managing Plone site configuration ... a Zope-based toolkit for managing site configuration"
+
+To use this, we need to initialize our extension profile.  From our __init__.py file::
+
+    from Products.GenericSetup import EXTENSION
+    from Products.GenericSetup import profile_registry
+
+    ...
+
+    def initialize(context):
+    
+        profile_registry.registerProfile(
+            'default', 'sampleremember',
+            "Installs SampleRemeber's remember-based Plone member implementations.",
+            'profiles/default', 'sampleremember', EXTENSION, for_=IPloneSiteRoot,) 
+
+
+In our custom product, we simply copied the existing ReMember profiles and tweaked, as this is more desirable to tediously editing XML.  We tweaked the following:
+
+In *profiles/default/types/MemberDataContainer.xml* we made one change.  Search for Member and replaced with sampleremember.  Here is the unix 'diff' version of the changes we made::
+
+    15c14
+    <    <element value="Member" />
+    ---
+    >   <element value="SampleRemember"/>
+
+
+In *profiles/default/types/Member.xml* we made several changes - mostly renaming various properties.  Here is the unix 'diff' version of the changes we made::
+
+    2c2
+    < <object name="Member"
+    ---
+    > <object name="SampleRemember"
+
+    5c5
+    <  <property name="title">Member</property>
+    ---
+    >  <property name="title">SampleRemember</property>
+
+    7c7
+    <     name="description">A regular non-folderish member content object.</property>
+    ---
+    >     name="description">A non-folderish sample member content object adding our Favorite Color.</property>
+
+    9,11c9,11
+    <  <property name="content_meta_type">Member</property>
+    <  <property name="product">remember</property>
+    <  <property name="factory">addMember</property>
+    ---
+    >  <property name="content_meta_type">SampleRemember</property>
+    >  <property name="product">sampleremember</property>
+    >  <property name="factory">addSampleRemember</property>
+
+At the time of this writing, ReMember does not provide a means for GenericSetup to configure the default ReMember-based member when one joins the site. If you want your new custom member content-type to be default for your Member Folder, you can create an additional configuration file called import_steps.xml, which calls a bit of python code for tweaking the default member type in remember's "getAdderUtility".
+
+Make sure import_steps.xml 'id' and 'handler' attributes reflect your product name.  Here is our file::
+
+    <?xml version="1.0"?>
+    <import-steps>
+    
+      <import-step
+         id="sampleremember-setupplugins"
+         version="20070105-01"
+         handler="Products.sampleremember.setuphandlers.setupNewDefaultMember"
+         title="configures remembers default_member_type">
+        Setup the useradder to use sampleremember's default ReMember-based member
+      </import-step>
+    
+    </import-steps>
+
+setuphandlers.py
+
+ Here is our setuphandlers.py file from our sampleremember product, which does the actual work of setting the default member type::
+
+    from Products.CMFCore.utils import getToolByName
+    from Products.remember.utils import getAdderUtility
+    from config import DEFAULT_MEMBER_TYPE
+    
+    def setupNewDefaultMember(context):
+        """ Setup preferred default_member_type """
+        portal = context.getSite()
+        addr = getAdderUtility(portal)
+        addr.default_member_type = DEFAULT_MEMBER_TYPE
+    

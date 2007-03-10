@@ -1,0 +1,33 @@
+Brief Overview of Infrastructure
+
+  Here are the various layers of functionality (each is described in detail below) that your custom member content leverages:
+
+In a nutshell:
+
+o sampleremember - Defines your custom fields
+
+o remember - Default Plone member configuration
+
+o membrane - Set of member-related tools 
+
+o PAS - Extensible Plone authentication system
+
+
+In detail:
+
+sampleremember -- This will be our custom product created by completion of this tutorial. It takes us the final 5% of the way to using the aforementioned infrastructure, but with our specific business rules in mind.  Namely, we want members that can add and update their favorite Espresso drink and their phone number on the site.  Along the way, we learn a thing or two about how to work with the infrastructure provided by ReMember.
+
+
+ReMember -- Again, from the product's "README file":http://dev.plone.org/collective/browser/remember/trunk/README.txt ReMember is a full implementation of the default Plone member configuration using content to represent the members, built on top of Membrane.  Out of the box, ReMember should work very much like a regular Plone site, except that member information is stored in Member objects that are (by default) stored in the portal_memberdata tool.
+
+
+Membrane -- From the product's "README file":http://dev.plone.org/collective/browser/membrane/trunk/README.txt, Membrane is a set of PluggableAuthService (PAS) plug-ins that allow for the user-related behaviour and data (authentication, properties, roles, groups, etc.) to be obtained from content within a Plone site.  It does not actually provide a full member implementation, it is intended to be a set of tools from which a full implementation can be constructed.
+
+
+PAS (Pluggable Authentication Service) -- An extensible or customizable implementation of the Zope user folder intended for use with Zope-based sites.  Right, what does that mean?  Because it's often easiest to understand complicated concepts through examples, PAS would allow you to do some or all of the following given time and some programming skills:
+
+  o Allow for site '''authentication''' to happen off a user's GMail email address and password, rather than a user object in the ZODB
+  
+  o Extend or '''decorate''' a user's profile with properties like past shopping behaviors from a 3rd party shopping cart application
+    
+ The options don't stop there, but you get the gist of what's possible. 

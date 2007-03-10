@@ -1,0 +1,67 @@
+Determine What Your Member object will look like
+
+ Define your Schema
+
+  We first come up with the fields we want to collect for each member by creating a schema. Schema is the term used by Archetypes to describe the fields that your custom content object contains.
+  
+  Keep in mind that we'll be appending our schema fields to the default ReMember fields, which already include id, title, fullname, email, wysiwyg_editor, etc.  The "full schema can be found in the ReMember product":http://dev.plone.org/collective/browser/remember/trunk/content/member_schema.py
+
+  As we mentioned earlier, our use case is that we require a phone number upon site registration and want to optionally collect a site-member's favorite Espresso drink upon editing of their profile after they've successfully joined the site.  We'll get into the specifics of how that works in a bit.
+
+Defining our samplemember Schema
+
+Our schema looks like::
+
+    from Products.Archetypes import public as atapi
+    
+    samplemember_schema = atapi.Schema((
+            atapi.StringField('phone',
+                        required=True,
+                        regfield=1,
+                        widget = atapi.StringWidget(
+                                description = "",
+                                description_msgid = "help_samplemember_phone",
+                                label = "Contact Phone",
+                                label_msgid = "label_samplemember_phone",
+                                i18n_domain = "samplemember"),
+            ),
+    
+            atapi.StringField('espressoDrink',
+                        required=False,
+                        regfield=0,
+                        widget = atapi.StringWidget(
+                                description = "",
+                                description_msgid = "help_samplemember_espresso",
+                                label = "Favorite Espresso Drink",
+                                label_msgid = "label_samplemember_espresso",
+                                i18n_domain = "samplemember"),
+            ),
+        ),
+    )
+    
+    ...
+
+
+Notice that the phone field contains the statement 'regfield=1', which ReMember interprets by placing this schema field on the join form for signups of the SampleMember type.  Additionally, this is a required field as set with 'required=True'.
+
+We make use of our schema by::
+
+    from Products.remember.content.member import Member as BaseMember
+
+    ...
+
+    (snipped schema declaration)
+
+    ...
+    
+    class SampleMember(BaseMember):
+        """A member with a phone number and favorite Espresso drink."""
+        archetype_name = portal_type = meta_type = 'SampleMember'
+        schema = BaseMember.schema.copy() + samplemember_schema
+    
+
+    atapi.registerType(SampleMember)
+    InitializeClass(SampleMember)
+
+
+"See the full samplemember module":http://dev.plone.org/collective/browser/remember/trunk/examples/sampleremember

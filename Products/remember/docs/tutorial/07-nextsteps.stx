@@ -1,0 +1,95 @@
+Next Steps
+
+ Obviously, this is a fairly contrived example.  You'll need to customize the specifics for your own specific use cases.  While certainly not an exhaustive list, the following are some angles for approaching this work. 
+
+ Customize the Schema
+
+  This will give you the biggest bang for your buck.  Your custom member schema can include any combination of fields and widgets from Archetypes' rich library of options.
+
+ How to Make Fields Available on Site Registration
+
+  Remember provides support for an additional parameter for each schema field. The keen observer will have noticed that our "favoriteColor" StringField has a value of "regfield=1".  The regfield parameter is set to a true value (i.e. 1 or True) when you'd like the automatically generated Archetypes base form to ask for this information upon site join.
+ 
+The following field will be presented on site registration::
+ 
+     atapi.StringField(
+            'favoriteColor',
+            widget=atapi.StringWidget(
+                label="Your Favorite Color",
+                description="Enter your favorite color."),
+            regfield=1,
+                ),
+
+ 
+While this will not show the field upon site registration::
+ 
+    atapi.StringField(
+            'espressoDrink',
+            widget=atapi.StringWidget(
+                label="Your Favorite Espresso Drink",
+                description="Enter your favorite Espresso Drink."),
+            regfield=0,
+                ),
+ 
+How to Make Member Fields Required
+
+ By that same token, you can also set a field to be required upon site signup or a member's profile edits. Adding the "required=1" in the following would do that::
+ 
+    atapi.StringField(
+            'espressoDrink',
+            required=1,
+            widget=atapi.StringWidget(
+                label="Your Favorite Espresso Drink",
+                description="Enter your favorite Espresso Drink."),
+            regfield=0,
+    ),
+ 
+DANGER! It is unwise to make a field required and not accessible from the join form of a site :)
+
+How to Make your Member Data Accessible for Quick Catalog Searches
+
+ One of the big benefits of using remember is that data can easily be placed into ZCatalog indexes and metadata fields.  This allows you to use the familiar catalog API calls to search a site membership.  To place the espressoDrink schema fields into the stock catalog that comes with membrane, "index='membrane_tool/KeywordIndex:brains'," is added to the following code::
+
+    atapi.StringField(
+            'espressoDrink',
+            required=1,
+            index='membrane_tool/KeywordIndex:brains',
+            widget=atapi.StringWidget(
+                label="Your Favorite Espresso Drink",
+                description="Enter your favorite Espresso Drink."),
+            regfield=0,
+                ),
+
+The following code snippet would print the titles of all site users that love Caramel Lattes (yum)::
+
+    from Products.CMFCore.utils import getToolByName
+    mem_tool = getToolByName(context, 'membrane_tool')
+    results = mem_tool.searchResults(getEspressoDrink='Caremel Latte')
+
+    for result in results:
+        result['Title']
+
+
+How to Reordering of Fields in your Schema Declartion
+
+ Of course you have full control over the schema fields defined in your own schema declaration, but what if you want to nicely merge one of your fields into remember's base member schema which your appending to with the following statement::
+ 
+    schema = BaseMember.schema.copy() + sampleremember_schema
+
+ Prior to your class declartion, you can use the Archetypes Schema class' moveField method to merge your schema fields with those provided by remember.  This method accepts the direction, pos, after, before parameters.  An example use would look like::
+
+    schema.moveField('espressoDrink', after='title')
+
+
+How to Govern Site Signups Via a Specific Workflow
+
+ Out of the box, Remember-based members support the auto-approval workflow.  This is in attempt to mirror Plone's out of the box membership signup process.  In some cases, you may want to approve or decline a site membership request for a user.  Remember also ships with an additional member approval workflow.  Because this almost certainly won't work for you as is.  Roughly speaking, your best bet is to:
+
+1) Navigate to portal_workflow within the ZMI
+2) Copy & paste the member_approval_workflow
+3) Rename this to something more suitable
+4) Customize as needed
+5) Set your Remember-based Member type to use your newly named workflow
+6) Export your tweaked portal_workflow settings with GenericSetup 
+7) Add the XML files to the appropriate profiles directory of your custom member product
+

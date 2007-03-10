@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object name="portal_skins" meta_type="Plone Skins Tool">
+ <object name="sampleremember" meta_type="Filesystem Directory View"
+    directory="sampleremember/skins/sampleremember"/>
+ <skin-path name="*">
+  <layer name="sampleremember" insert-after="custom" />
+ </skin-path>
+</object>

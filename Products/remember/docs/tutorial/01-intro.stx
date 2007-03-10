@@ -1,0 +1,43 @@
+Creating your own Custom Member Content-types with Archetypes and ReMember
+
+ This tutorial teaches you how to create your own custom site membership product.
+ 
+This is useful in many collaborative or community-based websites where you seek to gather information tied to a person joining the site.  You can in turn efficiently search for specific members based on information in their profile (for example, if your member profile collects a list of "interests", you could present a member-specific list of all content in the site that shares the same values for interest), all while continuing to offer all the abilities to authenticate within the site and gain the roles and permissions a user has come to expect in a Plone-based site.
+ 
+Behind the scenes, this leverages Plone's Membrane and ReMember products that provide the framework allowing you to:
+ 
+1. Treat members as content. Thus, you gain the same benefits as other Plone content-types, such as workflow, rich search, and the Archetype development process.
+
+2. Authenticate members using Plone's existing framework
+ 
+About this tutorial
+
+  This tutorial takes a rather contrived example where a particular business requirement demands that the new user's phone number be collected upon signup and their favorite Espresso drink optionally edited in their personal profile within Plone.  Obviously, this will need to be adapted to your own particular needs and use cases.  This lightweight example can serve as a good starting point to your particular use case however.
+  
+Additionally, it makes use of several advanced and complicated underlying componenents.  Not all of which, the tutorial authors profess to be experts on. :)  Topics include the following:
+
+o Archetypes
+
+o PAS (Pluggable Authentication Service)
+
+o Generic Setup
+
+o Membrane
+
+o ReMember
+
+Thoroughly covering all of these topics is beyond the scope of this tutorial.  We merely help you get up and running treating the underlying components as black box technologies, which is appropriate for your typical site implementation.
+
+If interested, we do recommend you checkout the following other resources for additional background context:
+
+Archetypes -- "Archetypes Developer Manual":http://plone.org/documentation/manual/archetypes-developer-manual, "MySite tutorial":http://plone.org/documentation/link/mysite-tutorial, and "Andy McKay's Definitive Guide to Plone (particularly chapter 13 on Developing with Archetypes)":http://plone.org/documentation/manual/definitive-guide  
+
+
+Generic Setup -- "Understanding and Using GenericSetup in Plone":http://plone.org/documentation/tutorial/understanding-and-using-genericsetup-in-plone
+
+
+PAS -- "PAS Framework Overview documentation":http://svn.zope.org/PluggableAuthService/trunk/doc/framework_overview.stx?rev=67172&view=markup, "Wichert Akkerman's talk on the new Plone 2.5 authentication machinery at Plone Conference 2006 in Seattle":http://plone.org/events/conferences/seattle-2006/presentations/presentation.pdf/view
+
+
+Membrane/ReMember -- "Membrane and ReMember: Advanced Member Management in Plone 2.5":http://plone.org/events/conferences/seattle-2006/presentations/plonecon2006-state-of-member-mgmt.pdf/view
+

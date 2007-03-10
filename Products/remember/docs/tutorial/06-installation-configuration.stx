@@ -1,0 +1,45 @@
+Installing your product using those GenericSetup Profiles
+
+ Before you can setup a sampleremember-based site, you need to ensure that the remember, membrane, and sampleremember product code is present in your Zope instances product directory.  (Notice the lower casing of the Product names per the current Python style conventions, while we still use CamelCase for the classes themselves, e.g. SampleRemember)
+
+Instead of the quick-installer, these products use GenericSetup "profiles".
+
+Overview:
+
+remember is installed into a Plone site by the application of a GenericSetup extension profile.
+
+You can do this when creating a new site by selecting both membrane and remember from the list of available setup profiles when you are creating the site.  In an existing site, you install an extension profile using the ZMI of the portal_setup tool.  First browse to the properties tab and specify the profile in question as the "active" profile.  Then browse to the import tab and click on the "Run all import steps" button near the bottom of the page.  You will want to perform these steps first for the membrane profile, then for the remember profile, then for your new sampleremember profile.
+
+Detailed Steps:
+
+1. If creating a new Plone site, you should choose 'membrane' and 'remember' Extension Profiles (as shown below).  Click "Add Plone Site" button.  
+
+  "Create Site":img:image-06-create-site.png
+
+2. You now need to install *sampleremember* via GenericSetup
+
+ * Go to /portal_setup and choose the "Properties" tab
+ 
+ * Choose *sampleremember* "Active Site Configuration" and click "Update"
+
+  "Profile":img:image-06-profile.png
+
+ * Click on the "import" tab, scroll to the bottom, and click "Import all steps"
+
+3. If *adding to an existing Plone site*, you need to run these all three profiles, similar to step #2.  e.g. go to portal_setup, properties tab, choose "membrane" (click Update), import tab, import all steps.  Do the same for remember and sampleremember.  (Order is important - start with membrane, then remember, then sampleremember)
+
+4. While testing, when you register a new member (which is now a sampleremember), the system will want to send an email.  If you don't have a mailserver (such as your local laptop) you can disable this notification via:
+
+  a. portal_properties -> site_properties.  Uncheck the right-most checkbox next to verify_login_name property 
+
+  b. At root of site, uncheck the right-most checkbox next to validate_email property.
+
+5. YOU NOW HAVE sampleremember INSTALLED AND READY TO GO
+
+6. To try it: Open a new browser, go to your Plone site.  Make sure you are logged out.
+              Now, just click "New user?" to add a new user.  After you setup your
+              password via the email you received, log in.  You can then click
+              "preferences" in the top right to see/change your member profile.
+              You'll see the "What is your favorite espresso drink" in the profile
+              which you didn't see when you signed up since we didn't make that
+              field visible during the "add new user" process.

@@ -1,0 +1,31 @@
+Package Structure for our sampleremember Product
+
+  We use the following folder structure for the sampleremember product and propose you do the same in your own custom Remember-based product as it follows common practices for Plone product structure::
+
+ __init__.py
+ config.py
+  
+ content/
+ content/__init__.py
+ content/sampleremember.py
+
+ skins/
+ skins/samplemember/*
+
+ profiles/*
+ 
+ docs/*
+ 
+ *.txt
+ 
+Considering the major pieces in turn:
+
+__init__.py -- This file is run when Zope loads the sampleremember product. It also initializes any Archetype-based custom content types and our sampleremember GenericSetup profile.
+
+config.py -- Contains configuration constants, including the name of the product and binding of global variables
+
+The content/ folder -- Contains our actual custom member content-type. The '__init__.py' file loads this.
+
+The skins/ folder -- Our GenericSetup profile registers our 'skins/sampleremember' directory with the 'portal_skins' tool.
+
+The profiles/* folder -- This folder contains all of our GenericSetup profiles
