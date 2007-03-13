@@ -1,6 +1,5 @@
 from Products.CMFCore.utils import getToolByName
 
-from Products.membrane.setuphandlers import _membraneProfileActive
 from Products.membrane.setuphandlers import _doRegisterUserAdderUtility
 
 from Products.PluggableAuthService.interfaces.plugins \
@@ -19,6 +18,9 @@ def registerUserAdderUtility(context):
 
 def setupPlugins(context):
     """ initialize membrane plugins """
+    if context.readDataFile('remember-setup-plugins.txt') is None:
+        return
+
     portal = context.getSite()
     uf = getToolByName(portal, 'acl_users')
     plugins = uf.plugins
