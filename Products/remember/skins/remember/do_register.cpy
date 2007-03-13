@@ -8,28 +8,26 @@
 ##title=Registered
 ##
 #next lines pulled from Archetypes' content_edit.cpy
-new_context = context.portal_factory.doCreate(context, id)
+from Products.CMFCore import getToolByName
+
+new_context = getToolByName(context, 'portal_factory').doCreate(context, id)
 new_context.processForm()
 
-from AccessControl import Unauthorized
+wftool = getToolByName(new_context, 'portal_workflow')
+review_state = wftool.getInfoFor(new_context, 'review_state')
 
-try:
-     userCreated = new_context.hasUser()
-except Unauthorized: # <-- member has been made pending
-     userCreated = False
-
-portal = new_context.portal_url.getPortalObject()
+portal = getToolByName(new_context, 'portal_url').getPortalObject()
 state.setContext(portal)
 
 if came_from_prefs:
      state.set(status='prefs', portal_status_message='User added.')
-elif userCreated:
+elif review_state == 'pending':
+     state.set(status='pending',
+               portal_status_message='Your registration request has been received')
+else:
      state.set(status='success',
                portal_status_message='You have been registered.',
                id=id,
                password=password)
-else:
-     state.set(status='pending',
-               portal_status_message='Your registration request has been received')
 
 return state
