@@ -8,7 +8,7 @@
 ##title=Registered
 ##
 #next lines pulled from Archetypes' content_edit.cpy
-from Products.CMFCore import getToolByName
+from Products.CMFCore.utils import getToolByName
 
 new_context = getToolByName(context, 'portal_factory').doCreate(context, id)
 new_context.processForm()
