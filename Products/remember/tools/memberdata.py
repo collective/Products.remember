@@ -159,7 +159,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         if 'Manager' in user.getRoles():
             return ()
         else:
-            return ('Member',)
+            return self.getAllowedMemberTypes()
 
     def getAllowedMemberTypes(self):
         """
