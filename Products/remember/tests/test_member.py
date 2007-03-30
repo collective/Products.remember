@@ -60,6 +60,9 @@ class TestMember(RememberTestBase):
         
         user = uf.authenticate(copy_id, password, self.portal.REQUEST)
         self.failIf(user is None)
+        
+        new_user = mdata._getOb(copy_id)
+        self.assertEqual(new_user.owner_info()['id'], copy_id)
                 
     def testRenameMember(self):
         id = 'newmember'
@@ -82,9 +85,13 @@ class TestMember(RememberTestBase):
 
         mdata.manage_renameObject(id, new_id)
         self.failUnless(new_id in mdata.objectIds())
-    
+        
         user = uf.authenticate(new_id, password, self.portal.REQUEST)
         self.failIf(user is None)
+        
+        new_user = mdata._getOb(new_id)
+        self.assertEqual(new_user.owner_info()['id'], new_id)
+        
         
     def testCreateNewMember(self):
         wftool = getToolByName(self.portal, 'portal_workflow')

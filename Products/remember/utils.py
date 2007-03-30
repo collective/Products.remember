@@ -16,6 +16,7 @@ from Products.membrane.interfaces import IUserAdder
 from config import AUTO_ROLES
 from config import ADDUSER_UTILITY_NAME
 from interfaces import IReMember
+from zope.app.container.interfaces import IObjectRemovedEvent
 
 
 security = ModuleSecurityInfo( 'Products.remember.utils' )
@@ -91,3 +92,7 @@ def log_exc():
             summary = str(s[1])
 
     logger.log(logging.ERROR, '%s \n%s', summary, '\n'.join(traceback.format_exception(*sys.exc_info())))
+
+def fixOwnership(ob,event):
+    if not IObjectRemovedEvent.providedBy(event):
+        ob.fixOwnership()
