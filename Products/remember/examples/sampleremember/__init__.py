@@ -1,4 +1,4 @@
-"""Various extensions based on remember for supporting different
+"""Various  extensions based on remember for supporting different
 portal membership types and policies."""
 
 from Products.Archetypes import public as atapi
