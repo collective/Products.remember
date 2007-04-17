@@ -24,7 +24,7 @@ class TestRememberSearching(RememberTestBase):
         """
         check searching for members for different queries
         """
-        results = self.mtool.searchForMembers(name='portal_member')
+        results = self.mtool.searchForMembers(login='portal_member')
         self.assertEqual(len(results), 1)
         self.assertEqual('portal_member', results[0].getId())
 
@@ -36,7 +36,7 @@ class TestRememberSearching(RememberTestBase):
         self.mtool.setLoginTimes()
         dt = DateTime('2/1/2000')
         results = self.mtool.searchForMembers(
-            name='portal_member',
+            login='portal_member',
             getLast_login_time=dt,
             getLast_login_time_usage='range:min')
         self.assertEqual(len(results), 1)
