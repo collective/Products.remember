@@ -108,6 +108,12 @@ class RememberProfileLayer(SiteLayer):
         setHooks()
         setSite(app.plone)
 
+        # BBB: Plone 3.0 no longer allows anonymous users to join by
+        # default.  This should be removed and the tests adjusted when
+        # Plone 2.5 is no longer supported in trunk
+        app.plone.manage_permission(
+            'Add portal member', roles=[], acquire=1)
+
         setup_tool = app.plone.portal_setup
         setup_tool.setImportContext('profile-membrane:default')
         setup_tool.runAllImportSteps()
