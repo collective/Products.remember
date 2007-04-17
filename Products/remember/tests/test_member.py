@@ -262,7 +262,8 @@ class TestMember(RememberTestBase):
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
         self.failUnless('Portal Member' in mh.mail_text)
-        self.failUnless('You have been registered' in mh.mail_text)
+        self.failUnless('your user account has been created'
+                        in mh.mail_text)
         self.assertEqual(mh.n_mails, 1)
 
     def testPortalSetupMemberRegistration(self):
