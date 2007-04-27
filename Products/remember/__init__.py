@@ -33,6 +33,7 @@ if config.CMFMEMBER_MIGRATION_SUPPORT:
     import cmfmember
     from cmfmember.migrator import registerMigrators
 
+# BBB from when we had a custom membership tool
 sys.modules['Products.remember.tools.membership'] = \
         sys.modules['Products.PlonePAS.tools.membership']
 
