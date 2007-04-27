@@ -47,11 +47,10 @@ intended to be in place before the final 1.0 release.
 REQUIREMENTS
 ============
 
-- Zope 2.9.5 (or greater)
-- Plone 2.5.2 (unreleased, please use 2.5-zope29 bundle until 2.5.2 is
-               officially released)
-- Five 1.4.1
-- membrane 1.0b1 (or greater)
+- Zope 2.9.6
+- Plone 2.5.2
+- Five 1.4.2
+- membrane 1.0
 
 Optional:
 
