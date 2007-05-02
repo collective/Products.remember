@@ -139,8 +139,6 @@ class RememberProfileLayer(SiteLayer):
 
         # add all our remember members (as portal_owner)
         user = app.acl_users.getUser('portal_owner')
-        if not hasattr(user, 'aq_base'):
-            user = user.__of__(uf)
         newSecurityManager(None, user)
         
         for mem_id in mem_data:
