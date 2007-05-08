@@ -1,4 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     lang="en"
     metal:use-macro="here/prefs_main_template/macros/master"
     i18n:domain="plone">
@@ -18,8 +21,6 @@
       <div id="content" class="documentEditable"
            tal:condition="python:checkPermission('Manage users', here)">
 
-            <h5 class="hiddenStructure">Views</h5>
-
             <ul class="contentViews">
               <li class="selected">
                 <a href=""
@@ -29,6 +30,11 @@
               <li>
                 <a href="prefs_groups_overview"
                    i18n:translate="label_groups">Groups</a>
+              </li>
+              <li>
+                <a href=""
+                   tal:attributes="href string:$portal_url/@@usergroup-controlpanel"
+                   i18n:translate="label_usergroup_settings">Settings</a>
               </li>
             </ul>
 
@@ -44,7 +50,8 @@
       </div>
 
       <div class="configlet">
-        <h1 i18n:translate="heading_users_overview">Users Overview</h1>
+        <h1 class="documentFirstHeading"
+            i18n:translate="heading_users_overview">Users Overview</h1>
 
         <a href=""
            class="link-parent"
@@ -56,7 +63,7 @@
         <p i18n:translate="description_user_management">
           Click the user's name to see and change the details of a
           specific user. Click the envelope icon to send a mail to
-          the user.  You can also edit the e-mail addresses, and
+          the user. You can also edit the e-mail addresses, and
           add/remove users.
         </p>
         <p i18n:translate="user_role_note">
@@ -92,23 +99,24 @@
           </select>
 
           <input class="standalone add"
-                     tabindex=""
                      type="submit"
                      name="form.button.AddUser"
                      value="Add New User"
                      i18n:attributes="value label_add_new_user;"
-                     tal:attributes="tabindex tabindex/next;"
-        />
+                     />
           <input type="hidden" name="form.submitted" value="1" />
         </form>
 
         <form action=""
+              class="enableAutoFocus"
               name="users_search"
               method="post"
               tal:attributes="action template/getId"
               tal:define="findAll python:'form.button.FindAll' in request.keys();
                           searchstring request/searchstring | nothing;
-                          portal_users python:(searchstring or findAll) and mtool.searchForMembers(name=searchstring) or [];
+                          search_view here/@@pas_search|nocall:here/acl_users;
+                          sorted_users python:search_view.searchUsers(sort_by='userid', fullname=searchstring);
+                          portal_users python:(searchstring or findAll) and sorted_users or [];
                           batch python:Batch(portal_users, b_size, int(b_start), orphan=1)">
           <input type="hidden" name="form.submitted" value="1" />
 
@@ -116,31 +124,27 @@
                 <tr>
           <th colspan="6" tal:attributes="colspan python:len(portal_roles)+4">
             <span tal:omit-tag="" i18n:translate="label_user_search">User Search</span>:
-                <input tabindex=""
-                       class="quickSearch"
+                <input class="quickSearch"
                        type="text"
                        name="searchstring"
                        value=""
-                       tal:attributes="value searchstring;
-                                       tabindex tabindex/next;"
-                  />
+                       tal:attributes="value searchstring;"
+                       />
 
             <input type="submit"
                            class="searchButton"
                            name="form.button.Search"
                            value="Search"
-                           tabindex=""
                            i18n:attributes="value label_search;"
-                           tal:attributes="tabindex tabindex/next;" />
+                           />
 
             <input type="submit"
                            class="searchButton"
                            name="form.button.FindAll"
                            value="Show all"
-                           tabindex=""
                            i18n:attributes="value label_showall;"
                            tal:condition="not:site_properties/many_users"
-                           tal:attributes="tabindex tabindex/next;" />
+                           />
                     </th>
                 </tr>
                 <tal:block tal:condition="portal_users" >
@@ -155,24 +159,25 @@
           <tr>
             <th tal:repeat="portal_role portal_roles" tal:content="portal_role" i18n:translate="">Role</th>
           </tr>
-                </tal:block>
+        </tal:block>
 
-                <tal:block repeat="this_user batch">
+        <tal:block repeat="this_user batch">
           <tr tal:define="oddrow repeat/this_user/odd;
-                          userid this_user/getId;
-                                  fullname python: this_user.getProperty('fullname')"
+                          userid this_user/userid;
+                          user python:mtool.getMemberById(userid);
+                          fullname python:user.getProperty('fullname')"
               tal:attributes="class python:test(oddrow,'odd','even')">
 
                     <td>
               <a href="prefs_user_details"
-             tal:attributes="href this_user/absolute_url">
-            <tal:block replace="structure portal/user.gif"/>&nbsp;<span tal:replace="this_user/getUserName">username</span>
+                 tal:attributes="href user/absolute_url">
+            <tal:block replace="structure portal/user.gif"/>&nbsp;<span tal:replace="userid">username</span>
             (<span tal:replace="fullname">Full Name</span>)
               </a>
               <input type="hidden" name="users.id:records" tal:attributes="value userid" />
                     </td>
 
-            <td tal:define="email python:this_user.getProperty('email')">
+            <td tal:define="email python:user.getProperty('email')">
               <a href="#"
                          class="link-plain"
                          tal:attributes="href string:mailto:${email}"
@@ -185,19 +190,19 @@
                  name="users.email:records"
                  value=""
                  tal:attributes="value email;
-                                 disabled python:this_user.canWriteProperty('email') and default or 'disabled';" />
+                                 disabled python:user.canWriteProperty('email') and default or 'disabled'" />
             </td>
 
             <td class="listingCheckbox"
-            tal:define="user_roles python:this_user.getProperty('roles') or []"
+            tal:define="user_roles user/getRoles"
             tal:repeat="portal_role portal_roles">
               <input type="checkbox"
                  class="noborder"
                  name="users.roles:list:records"
                  value="Manager"
                              tal:attributes="value portal_role;
-                                             checked python:test(portal_role in user_roles, 'checked', nothing);
-                                             disabled python:this_user.canAssignRole(portal_role) and default or 'disabled';" />
+                                 checked python:test(portal_role in user_roles, 'checked', nothing);
+                                 disabled python:user.canAssignRole(portal_role) and default or 'disabled'" />
             </td>
 
             <td class="listingCheckbox">
@@ -206,7 +211,7 @@
                  name="users.resetpassword:records"
                              value=""
                              tal:attributes="value userid;
-                                             disabled python:this_user.canPasswordSet() and default or 'disabled';" />
+                                             disabled python:user.canPasswordSet() and default or 'disabled'" />
             </td>
 
             <td class="listingCheckbox">
@@ -215,7 +220,7 @@
                              name="delete:list"
                              value=""
                              tal:attributes="value userid;
-                                             disabled python:this_user.canDelete() and default or 'disabled';" />
+                                             disabled python:user.canDelete() and default or 'disabled'" />
             </td>
           </tr>
         </tal:block>
@@ -243,12 +248,10 @@
           <div metal:use-macro="here/batch_macros/macros/navigation" />
 
           <input class="context"
-             tabindex=""
              type="submit"
              name="form.button.Modify"
              value="Apply Changes"
              i18n:attributes="value label_apply_changes;"
-             tal:attributes="tabindex tabindex/next;"
              tal:condition="batch"
         />
 

@@ -1,0 +1,45 @@
+;-*-Doctest-*-
+==============
+Control Panels
+==============
+
+Log in as a Manager::
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+
+    >>> from Products.remember.tests.base import mem_password
+    >>> browser.open('http://nohost/plone/login_form')
+    >>> browser.getControl('Login Name').value = 'admin_member'
+    >>> browser.getControl('Password').value = mem_password
+    >>> browser.getControl('Log in').click()
+    >>> print browser.contents
+    <!DOCTYPE html PUBLIC...
+    <h1...>You are now logged in</h1>
+    ...</html>
+
+Open the users control panel::
+  
+    >>> browser.open('http://nohost/plone')
+    >>> browser.getLink('Site Setup').click()
+    >>> browser.getLink('Users and Groups').click()
+
+and click "Show all" users::
+
+    >>> browser.getControl('Show all').click()
+    >>> print browser.contents
+    <!DOCTYPE html...
+    <tr class="even"> <td>
+    <a href="http://nohost/plone/portal_memberdata/admin_member">...
+    </tr>
+    <tr class="odd"> <td>
+    <a href="http://nohost/plone/portal_memberdata/blank_member">...
+    </tr>
+    <tr class="even"> <td>
+    <a href="http://nohost/plone/portal_memberdata/portal_member">...
+    </tr>
+    <tr class="odd"> <td>
+    <a href="http://nohost/plone/portal_memberdata/test_user_1_">...
+    </tr>
+    ...</html>
