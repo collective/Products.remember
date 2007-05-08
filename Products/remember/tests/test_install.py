@@ -23,8 +23,7 @@ from Products.GenericSetup import profile_registry, EXTENSION
 from Products.CMFFormController.ControllerState import ControllerState
 
 from Products.PloneTestCase import layer
-from Products.PloneTestCase.setup import USELAYER
-
+from Products.CMFPlone.tests.PloneTestCase import USELAYER
 
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY

@@ -12,10 +12,11 @@ from AccessControl.Permissions import view
 
 from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
-from Products.PloneTestCase.PloneTestCase import PloneTestCase
-from Products.PloneTestCase.setup import USELAYER
 from Products.PloneTestCase import layer
-from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
+from Products.CMFPlone.tests.PloneTestCase import (PloneTestCase,
+                                                   USELAYER)
+from Products.Archetypes.tests.atsitetestcase import (
+    ATSiteTestCase as ArcheSiteTestCase, )
 
 import Products.membrane
 import Products.remember
@@ -95,6 +96,7 @@ def addMember(context, name):
 
     
 class RememberProfileLayer(SiteLayer):
+
     @classmethod
     def setUp(cls):
         """
@@ -155,6 +157,18 @@ class RememberProfileLayer(SiteLayer):
         non_remember_member._addRoles(['Member'])
 
         txn.commit()
+
+    @classmethod
+    def tearDown(cls):
+        pass
+
+    @classmethod
+    def testSetUp(cls):
+        pass
+
+    @classmethod
+    def testTearDown(cls):
+        pass
 
 def do_nothing(*a):
     """ would make this a lambda, but zodb complains about pickling"""
