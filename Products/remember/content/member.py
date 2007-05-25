@@ -129,7 +129,9 @@ class BaseMember(object):
     def getUser(self):
         uf = getToolByName(self, 'acl_users')
         user = uf.getUserById(self.getId())
-        return user.__of__(self)
+        if user is not None:
+            user = user.__of__(self)
+        return user
 
     security.declarePrivate('getDefaultRoles')
     def getDefaultRoles(self):
