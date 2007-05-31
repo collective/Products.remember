@@ -264,6 +264,9 @@ class BaseMember(object):
     def getSiteLanguages(self):
         return atapi.DisplayList(self.availableLanguages())
 
+    def getDefaultWysiwygEditor(self):
+        return getToolByName(self, 'portal_memberdata').getProperty('wysiwyg_editor',None) or 'Kupu'
+        
     #######################################################################
     # Contract with portal_membership
     #######################################################################

@@ -321,6 +321,28 @@ class TestMember(RememberTestBase):
         members are deleteable
         """
         self.failUnless(self.portal_member.canDelete())
+
+    def testDefaultWysiwygEditor(self):
+        """
+        Test if default wysiwyg editor is taken into account
+        """
+        mtool = getToolByName(self.portal, 'portal_membership')
+        mdatatool = getToolByName(self.portal, 'portal_memberdata')
+        self.setupDummyUser()
+        member = mtool.getMemberById('newmember')
+        editor = mdatatool.getProperty('wysiwyg_editor') or 'Kupu'
+        self.failUnless(editor == member.getProperty('wysiwyg_editor'))
+
+    def testChangedWysiwygEditor(self):
+        """
+        Test if default wysiwyg editor is taken into account after change to another value
+        """
+        mtool = getToolByName(self.portal, 'portal_membership')
+        mdatatool = getToolByName(self.portal, 'portal_memberdata')
+        mdatatool._updateProperty('wysiwyg_editor', 'FCKeditor')
+        self.setupDummyUser()
+        member = mtool.getMemberById('newmember')
+        self.failUnless(member.getProperty('wysiwyg_editor') == 'FCKeditor')
         
 
 def test_suite():
