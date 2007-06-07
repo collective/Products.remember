@@ -8,7 +8,7 @@
 ##parameters=type_name=None, came_from_prefs=None
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import transaction_note
+from Products.CMFPlone.utils import transaction_note
 from Products.remember.utils import getAdderUtility
 
 now=DateTime()
