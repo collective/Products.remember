@@ -208,7 +208,7 @@ class BaseMember(object):
                         self.translate('id_pass_same',
                                        default="Your username and password are the " +
                                        "same.  This is really not a good idea.",
-                                       domain='remember-plone'),
+                                       domain='remember-plone')
                     
             if not (errors.get('password', None)) and \
                    not (errors.get('confirm_password', None)):
@@ -216,7 +216,7 @@ class BaseMember(object):
                     errors['password'] = \
                         errors['confirm_password'] = \
                         self.translate('Passwords do not match.',
-                                       default='Passwords do not match.'),
+                                       default='Passwords do not match.')
 
     security.declarePublic('isValid')
     def isValid(self):
