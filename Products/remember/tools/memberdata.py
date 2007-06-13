@@ -82,7 +82,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
                            fset = _setDescription)
 
     ###################################################################
-    # IMemberDataTool implemenation
+    # IMemberDataTool implementation
     ###################################################################
     security.declarePrivate('wrapUser')
     def wrapUser(self, user):
