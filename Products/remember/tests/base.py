@@ -198,10 +198,16 @@ class RememberTestBase(PloneTestCase):
     def addMember(self, name):
         return globals()['addMember'](self.portal, name)
 
+    def _setup(self):
+        # Because we add skins this needs to be called. Um... ick.
+        # This needs to happen before users are added so that the
+        # workflow guard expressions which depend on skin objects can
+        # execute during setup
+        self._refreshSkinData()
+        return super(RememberTestBase, self)._setup()
+
     def afterSetUp(self):
         PloneTestCase.afterSetUp(self)
-        # Because we add skins this needs to be called. Um... ick.
-        self._refreshSkinData()
 
         # define some instance variables for convenience
         self.mbtool = self.portal.membrane_tool
