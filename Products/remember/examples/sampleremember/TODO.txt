@@ -1,0 +1,13 @@
+TODO
+
+Cleanups to sampleremember:
+  - [ ] - unit-tests: e.g. to make sure we set the default correctly, and that we can
+          edit our custom fields, and our genericsetup profiles work correctly, etc.
+  
+Improvements to this sampleremember tutorial:
+  - [ ] Add code to tutorial to auto add membrane and remember when adding sampleremember.
+  - [ ] Simplify steps in our sampleremeber active site configuration file (since remember does most of these for us?)
+  
+Documentation:
+  - [ ] - Email out to the ReMember/Docs group for feedback
+  - [ ] - Adding tutorial to Plone.org   [tag as for Plone 2.5.2]
