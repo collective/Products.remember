@@ -80,7 +80,10 @@
                 <span i18n:translate=""
                       tal:content="widget/label">label</span>
               </label>
-              <span class="fieldRequired" title="Required" tal:condition="widget/required">
+              <span class="fieldRequired" title="Required" tal:condition="widget/required"
+                    i18n:domain="plone"
+                    i18n:attributes="title title_required;"
+                    i18n:translate="label_required">
                 (Required)
               </span>
 

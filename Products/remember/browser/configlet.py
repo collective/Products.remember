@@ -17,9 +17,8 @@ from Products.remember.config import DEFAULT_MEMBER_TYPE
 class IRememberConfiglet(Interface):
     default_mem_type = schema.Choice(
         title=_(u'Default Member Type'),
-        description=_(u'This specifies which remember-based member '
-                      u'type will be added by default when someone '
-                      u'joins the site.'),
+        
+        description=_(u'This specifies the default member type for remember.'),
         required=True,
         vocabulary='RememberTypes',
         )
