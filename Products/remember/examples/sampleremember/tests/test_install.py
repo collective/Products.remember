@@ -19,6 +19,13 @@ class TestInstall(PloneTestCase.PloneTestCase):
         for w in ('member_approval_workflow','member_auto_workflow'):
             self.failUnless(w in self.workflow.getWorkflowIds(),
                             'workflow(s) not installed')
+
+    def testTypesInstall(self):
+        typeslist = ('SampleRemember', )
+
+        for t in typeslist:
+            self.failUnless(t in self.portal.portal_types.objectIds(),
+                            '%s content type not installed' % t)
  
 def test_suite():
     from unittest import TestSuite, makeSuite
