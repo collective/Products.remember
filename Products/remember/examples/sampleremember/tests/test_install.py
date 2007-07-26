@@ -10,7 +10,12 @@ class TestInstall(PloneTestCase.PloneTestCase):
     def afterSetUp(self):
         self.workflow = self.portal.portal_workflow
 
+    def testCreateNewSampleRemember(self):
+        """ PloneTestCase creates a test user by default (hence no code needed) """
+        pass
+        
     def testWorkflowInstall(self):
+        """ Test install of default remember workflows """
         for w in ('member_approval_workflow','member_auto_workflow'):
             self.failUnless(w in self.workflow.getWorkflowIds(),
                             'workflow(s) not installed')
