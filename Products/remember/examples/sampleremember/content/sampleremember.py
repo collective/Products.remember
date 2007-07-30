@@ -3,6 +3,8 @@ from Globals import InitializeClass
 from Products.Archetypes import public as atapi
 
 from Products.remember.content.member import Member as BaseMember
+#product
+from Products.sampleremember.config import DEFAULT_MEMBER_TYPE
 
 sampleremember_schema = atapi.Schema((
     atapi.StringField(
@@ -23,7 +25,7 @@ sampleremember_schema = atapi.Schema((
 
 class SampleRemember(BaseMember):
     """A member with a favorite color."""
-    archetype_name = portal_type = meta_type = 'sampleremember'
+    archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
 
     schema = BaseMember.schema.copy() + sampleremember_schema
 
