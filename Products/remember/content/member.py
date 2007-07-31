@@ -564,8 +564,7 @@ class BaseMember(object):
         and has valid transitions
         """
         wft = getToolByName(self, 'portal_workflow')
-        wf = wft.get(wft.getChainForPortalType(DEFAULT_MEMBER_TYPE)[0])
-        state = wf.getInfoFor(self, 'review_state','dummy_default')
+        state = wft.getInfoFor(self, 'review_state')
         if state == 'public':
             transition = 'make_private'
         elif state == 'private':
@@ -584,8 +583,7 @@ class BaseMember(object):
         returns True if the member workflow state is private
         """
         wft = getToolByName(self, 'portal_workflow')
-        wf = wft.get(wft.getChainForPortalType(DEFAULT_MEMBER_TYPE)[0])
-        return wf.getInfoFor(self, 'review_state','dummy_default') == 'private'
+        return wft.getInfoFor(self, 'review_state') == 'private'
 
     def setMakePrivate(self, val):
         """
