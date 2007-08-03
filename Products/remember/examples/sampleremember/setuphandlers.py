@@ -1,4 +1,3 @@
-from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
 from config import DEFAULT_MEMBER_TYPE
 

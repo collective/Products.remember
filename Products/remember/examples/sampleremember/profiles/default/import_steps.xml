@@ -2,11 +2,11 @@
 <import-steps>
 
   <import-step
-     id="sampleremember-setupplugins"
+     id="sampleremember-defaultmember"
      version="20070105-01"
      handler="Products.sampleremember.setuphandlers.setupNewDefaultMember"
      title="configures remembers default_member_type">
-    Setup the useradder to use sampleremember's default ReMember-based member
+    Sets the default member type
   </import-step>
 
 </import-steps>
