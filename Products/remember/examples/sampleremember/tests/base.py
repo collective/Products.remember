@@ -20,8 +20,8 @@ from Products.Archetypes.tests.atsitetestcase import (
 
 import Products.membrane
 import Products.remember
-import Products.remember.config as config
 from Products.remember.interfaces import IHashPW
+import Products.sampleremember.config as config
 from Products.remember.utils import parseDependencies
 from Products.remember.tools.memberdata import MemberDataContainer
 
@@ -128,6 +128,9 @@ class RememberProfileLayer(SiteLayer):
                 fset = MemberDataContainer._setDescription)
 
         setup_tool.setImportContext('profile-remember:default')
+        setup_tool.runAllImportSteps()
+
+        setup_tool.setImportContext('profile-sampleremember:default')
         setup_tool.runAllImportSteps()
 
         # mock sending emails

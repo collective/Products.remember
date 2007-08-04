@@ -44,7 +44,7 @@ def initialize(context):
     profile_registry.registerProfile(
         'default',
         'sampleremember',
-        "Installs sampleremember's remember-based Plone member implementations.",
+        "Installs sampleremember.",
         'profiles/default',
         'sampleremember',
         EXTENSION,
