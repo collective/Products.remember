@@ -9,7 +9,7 @@ from Acquisition import aq_base
 from zope.interface import implements
 from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.app.annotation.interfaces import IAnnotations
-from zope.component import getAdapter
+from zope.component import getAdapter, ComponentLookupError
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
@@ -407,6 +407,17 @@ class BaseMember(object):
             mem = mtool.getAuthenticatedMember()
             if mem.getUserName() == self.getUserName():
                 mtool.credentialsChanged(password)
+
+    def _migrateSetValue(self, name, value, old_schema=None, **kw):
+        if name == 'password':
+            try:
+                hash_type, hashed = self.getPassword().split(':', 1)
+            except ValueError:
+                raise ValueError('Error parsing hash type. '
+                                 'Please run migration')
+            return self.getField('password').set(self, value)
+        return super(BaseMember, self)._migrateSetValue(name, value,
+                                                        old_schema, **kw)
 
     #######################################################################
     # IUserAuthentication implementation
