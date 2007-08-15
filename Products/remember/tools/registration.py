@@ -50,8 +50,13 @@ class RegistrationTool(BaseTool):
             return self.translate('help_password_creation',
                                   default='Passwords must contain at least ' +
                                           '5 characters.')
-        return None
-
+        if 'confirm_password' not in self.REQUEST.form:
+            self.REQUEST.form['confirm_password'] = confirm
+        errors = {}
+        pm = getToolByName(self, 'portal_membership')
+        pm.getAuthenticatedMember().post_validate(self.REQUEST,
+                                                  errors)
+        return errors.get('password')
 
     # A replacement for portal_registration's mailPassword function
     # The replacement secures the mail password function with
