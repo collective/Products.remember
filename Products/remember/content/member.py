@@ -275,6 +275,19 @@ class BaseMember(object):
         """Get the member id """
         return self.getUserName()
 
+    security.declarePrivate('_callerIsTrustable')
+    def _callerIsTrustable(self):
+        """
+        only check AT field security if the calling context is
+        untrusted.  this is ugly, but it prevents a lot of headaches.
+
+        '?'-> Script (Python)
+        '<expression>' -> TAL python: expression
+        """
+        frame = sys._getframe(1)
+        untrusted = ('?', '<expression>')
+        return frame.f_code.co_name not in untrusted
+
     security.declareProtected(EDIT_PROPERTIES_PERMISSION, 'setProperties')
     def setProperties(self, mapping=None, **kwargs):
         """
@@ -296,10 +309,13 @@ class BaseMember(object):
             # this is what we get
             mapping.update(kwargs)
 
+        security_check = not self._callerIsTrustable()
         for fieldname in mapping.keys():
             # have to check permissions by hand... ugh!
             field = self.getField(fieldname)
-            if field is not None and not field.checkPermission("edit", self):
+            if security_check and \
+                   field is not None and \
+                   not field.checkPermission("edit", self):
                 raise Unauthorized
                         
         self.update(**mapping)
@@ -325,15 +341,11 @@ class BaseMember(object):
 
     security.declarePublic('getProperty')
     def getProperty(self, id, default=_marker):
-        # only check AT field security if the calling context is untrusted
-        # this is ugly, but it prevents a lot of headaches
-        # '?' -> Script (Python); '<expression>' -> TAL python: expression
-        frame = sys._getframe(1)
-        untrusted = ('?', '<expression>')
-        if frame.f_code.co_name in untrusted:
-            security_check = True
-        else:
-            security_check = False
+        """
+        Retrieve property values from AT field values.
+        """
+        security_check = not self._callerIsTrustable()
+        
         try:
             return self._getProperty(id, security_check)
         except AttributeError:

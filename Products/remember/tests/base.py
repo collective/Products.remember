@@ -84,6 +84,10 @@ def addMember(context, name):
     """
     Creates a member object, sets to an active state.
     """
+    # stuff the fullname into the request so the reg email notifier
+    # can extract it and put it into the outgoing email
+    req = context.REQUEST
+    req.form['fullname'] = mem_data.get(name, {}).get('fullname', '')
     mdata = getToolByName(context, 'portal_memberdata')
     mem   = makeContent(mdata, name, config.DEFAULT_MEMBER_TYPE)
     # ensure ownership is properly assigned

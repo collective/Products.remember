@@ -255,7 +255,7 @@ class TestMember(RememberTestBase):
         verify that the registration method gets called on members
         """
         # the portal registration tool has a mocked mailhost, that can
-        # be checked to see if the members were registered the portal
+        # be checked to see if the members were registered. the portal
         # member is the only member that has the mail_me flag sent, so
         # this test below actually verifies that only one email was
         # sent out for the correct member
