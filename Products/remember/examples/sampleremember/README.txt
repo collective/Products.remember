@@ -26,3 +26,35 @@ HISTORIC
 
    Andrew Burkhalter <andrewb@onenw.org>
    Brian Gershon <briang@ragingweb.com>
+
+
+HISTORIC ISSUE (only relates to code based on SampleRemember version 1.0)
+
+a. If you based your code on an earlier version of SampleRemember (v 1.0) you may
+  have an incorrectly registered GenericSetup "Import Step" that is stuck
+  in your site, which might be preventing other GenericSetup profiles from running.
+
+  NOTE: The bad step may be called "remember-useraddr" or "sampleremember-defaultmember"
+        or it may be called "YourProductNameHere-default".
+        
+        The correct one is "remember-useradder", so don't delete that one.
+  
+  Instructions for removing this step are to create an External Method
+  that calls the following code:  
+
+  from Products.GenericSetup import profile_registry, EXTENSION
+  from Products.CMFPlone.interfaces import IPloneSiteRoot
+  setup.setImportContext('profile-myproduct:default')
+  
+  ir = setup.getImportStepRegistry()
+  #print ir.listSteps()  # for debugging and seeing what steps are available
+  
+  # delete the offending step
+  try:
+      del ir._registered['myproduct-badstep']
+  except KeyError:
+      pass
+  # commit the changes to the zodb
+  import transaction
+  txn = transaction.get()
+  txn.commit()
