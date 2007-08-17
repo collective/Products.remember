@@ -16,9 +16,6 @@ from Products.remember.interfaces import IReMember
 
 from zope.interface import implementedBy, providedBy
 
-PloneTestCase.installProduct('sampleremember')
-PloneTestCase.setupPloneSite(extension_profiles=('membrane:default','remember:default','sampleremember:default', ))
-
 class TestRememberBasedContent(RememberTestBase):
 
     def createMember(self, login="created_user", password="secret", fullname="New Individual"):

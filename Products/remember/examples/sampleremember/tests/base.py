@@ -43,7 +43,7 @@ def installConfiguredProducts():
              })
     # and finally ourselves
     ZopeTestCase.installProduct("remember")
-
+    ZopeTestCase.installProduct("sampleremember")
 
 installConfiguredProducts()
 
