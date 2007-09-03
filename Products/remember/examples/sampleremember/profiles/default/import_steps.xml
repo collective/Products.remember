@@ -3,7 +3,7 @@
 
   <import-step
      id="remember-useradder"
-     version="20070817-01"
+     version="20061017-01"
      handler="Products.sampleremember.setuphandlers.setupNewDefaultMember"
      title="configures remembers default_member_type">
     Sets the default member type

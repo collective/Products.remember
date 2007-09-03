@@ -14,7 +14,8 @@ QUICK STEPS TO MAKING YOUR OWN PRODUCT BASED ON sampleremember
 
 MORE INFO:
 
-See "docs/tutorial" for Tutorial documentation.
+See "docs/tutorial" for Tutorial documentation.  THIS TUTORIAL IS A BIT DATED and may not include
+	all the steps needed.  The 'sampleremember' code is the most up-to-date.
 
 See "examples/sampleremember" for the sample remember product. 
 
