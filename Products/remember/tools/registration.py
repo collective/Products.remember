@@ -3,6 +3,7 @@ from smtplib import SMTPRecipientsRefused
 
 from AccessControl import ClassSecurityInfo, getSecurityManager, \
      PermissionRole, Unauthorized
+from AccessControl.User import SpecialUser     
 from Globals import InitializeClass
 
 from Products.CMFCore.utils import getToolByName, _checkPermission
@@ -54,8 +55,10 @@ class RegistrationTool(BaseTool):
             self.REQUEST.form['confirm_password'] = confirm
         errors = {}
         pm = getToolByName(self, 'portal_membership')
-        pm.getAuthenticatedMember().post_validate(self.REQUEST,
-                                                  errors)
+        user = pm.getAuthenticatedMember()
+        if isinstance(user, SpecialUser):
+            return None
+        user.post_validate(self.REQUEST, errors)
         return errors.get('password')
 
     # A replacement for portal_registration's mailPassword function
