@@ -127,7 +127,7 @@ class BaseMember(object):
 
     security.declarePrivate('getUser')
     def getUser(self):
-        uf = getToolByName(self, 'acl_users')
+        uf = getToolByName(self, 'acl_users').aq_inner
         user = uf.getUserById(self.getId())
         if user is not None:
             user = user.__of__(self)
