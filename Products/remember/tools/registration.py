@@ -65,7 +65,7 @@ class RegistrationTool(BaseTool):
     # The replacement secures the mail password function with
     # MAIL_PASSWORD_PERMISSION so that members can be disabled.
     security.declarePublic('mailPassword')
-    def mailPassword(self, forgotten_userid, REQUEST):
+    def mailPassword(self, forgotten_userid, REQUEST, mail_template=None):
         """ Email a forgotten password to a member.
         
         o Raise an exception if user ID is not found.
@@ -99,13 +99,15 @@ class RegistrationTool(BaseTool):
             reset_tool = getToolByName(self, 'portal_password_reset')
             reset = reset_tool.requestReset(forgotten_userid)
             email_charset = getattr(self, 'email_charset', 'UTF-8')
-            mail_text = self.mail_password_template(self,
-                                                    REQUEST,
-                                                    member=member,
-                                                    member_id=forgotten_userid,
-                                                    member_email=email,
-                                                    charset=email_charset,
-                                                    reset=reset)
+            if mail_template is None:
+                mail_template = self.mail_password_template
+            mail_text = mail_template(self,
+                                      REQUEST,
+                                      member=member,
+                                      member_id=forgotten_userid,
+                                      member_email=email,
+                                      charset=email_charset,
+                                      reset=reset)
             
             host = getToolByName(self, 'MailHost')
             
