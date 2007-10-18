@@ -96,12 +96,22 @@ class RegistrationTool(BaseTool):
             raise ValueError, 'The email address did not validate'
         try:
             password = member.getPassword()
+            reset_tool = getToolByName(self, 'portal_password_reset')
+            reset = reset_tool.requestReset(forgotten_userid)
+            email_charset = getattr(self, 'email_charset', 'UTF-8')
             mail_text = self.mail_password_template(self,
                                                     REQUEST,
                                                     member=member,
                                                     member_id=forgotten_userid,
-                                                    member_email=email)
+                                                    member_email=email,
+                                                    charset=email_charset,
+                                                    reset=reset)
+            
             host = getToolByName(self, 'MailHost')
+            
+            if isinstance(mail_text, unicode):
+                mail_text = mail_text.encode(email_charset)
+            
             host.send(mail_text)
             return self.mail_password_response(self, REQUEST)
 

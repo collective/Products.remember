@@ -33,10 +33,15 @@ for user in users:
         pw = generatePassword()
     else:
         pw = None
-
+    
     member.update(password=pw, roles=user.get('roles',[]))
     if pw:
-        mailPassword(user.id, context.REQUEST)
+        try:
+            mailPassword(user.id, context.REQUEST)
+        except Exception, e:
+            msg = _(u'Password update for %s failed. %s' % (user.id, e))
+            context.plone_utils.addPortalMessage(msg)
+            
 
 if delete:
     # BBB We should eventually have a global switch to determine member area
