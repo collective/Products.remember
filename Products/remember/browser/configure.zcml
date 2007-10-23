@@ -18,9 +18,10 @@
      permission="zope2.ManageUsers"
      />
 
-  <vocabulary
-     name="RememberTypes"
-     factory=".vocabularies.rememberTypes"
-     />
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      component=".vocabularies.rememberTypes"
+      name="RememberTypes"
+      />
 
 </configure>
