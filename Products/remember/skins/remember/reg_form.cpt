@@ -63,6 +63,7 @@
           </metal:slot>
 
           <form name="edit_form"
+                id="registration-form"
                 method="post"
                 enctype="multipart/form-data"
                 tal:attributes="action python:here.absolute_url()+'/'+template.id">
