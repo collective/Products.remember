@@ -1,6 +1,6 @@
 import unittest
 
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
 
 from Products.CMFCore.utils import getToolByName

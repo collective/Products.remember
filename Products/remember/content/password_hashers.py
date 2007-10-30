@@ -2,7 +2,7 @@ import sha
 import hmac
 
 from persistent.mapping import PersistentMapping
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 from zope.interface import implements
 
 from AccessControl.AuthEncoding import pw_encrypt

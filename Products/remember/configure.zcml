@@ -15,25 +15,25 @@
            factory=".content.groups.Groups"
            />
 
-  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
 	   provides=".interfaces.IHashPW"
 	   name="bcrypt"
 	   factory=".content.password_hashers.BCryptHash"
 	   />
 
-  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
 	   provides=".interfaces.IHashPW"
 	   name="hmac_sha"
 	   factory=".content.password_hashers.HMACHash"
 	   />
 
-  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
 	   provides=".interfaces.IHashPW"
 	   name="zauth"
 	   factory=".content.password_hashers.ZAuthHash"
 	   />
 
-  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
 	   provides=".interfaces.IHashPW"
 	   name="sha"
 	   factory=".content.password_hashers.SHAHash"

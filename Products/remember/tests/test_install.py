@@ -8,7 +8,7 @@ from base import our_num_remem_mems
 from base import all_num_remem_mems
 from base import all_mems
 
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from zope.component import getMultiAdapter
 

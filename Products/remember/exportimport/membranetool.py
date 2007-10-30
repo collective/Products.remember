@@ -1,4 +1,4 @@
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from persistent.mapping import PersistentMapping
 

@@ -7,7 +7,7 @@ except ImportError:
     HAS_BCRYPT = False
 from zope.component import getAdapter
 
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from Products.remember.interfaces import IHashPW
 from Products.remember.Extensions.migrations \

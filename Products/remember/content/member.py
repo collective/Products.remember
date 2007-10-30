@@ -7,8 +7,8 @@ from Globals import InitializeClass
 from Acquisition import aq_base
 
 from zope.interface import implements
-from zope.app.annotation.interfaces import IAttributeAnnotatable
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAttributeAnnotatable
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter, ComponentLookupError
 
 from Products.CMFCore.utils import getToolByName
