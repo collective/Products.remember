@@ -6,5 +6,8 @@
   <type type_id="Member">
    <bound-workflow workflow_id="member_auto_workflow"/>
   </type>
+  <type type_id="MemberDataContainer">
+   <bound-workflow workflow_id=""/>
+  </type>
  </bindings>
 </object>
