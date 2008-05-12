@@ -50,7 +50,7 @@
        />
        
   <subscriber for=".interfaces.IReMember
-  				   zope.app.container.interfaces.IObjectMovedEvent"
+  		   zope.app.container.interfaces.IObjectMovedEvent"
   		handler=".utils.fixOwnership"
   		/>
   		
