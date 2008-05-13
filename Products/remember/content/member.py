@@ -613,7 +613,10 @@ class BaseMember(object):
         set the make private visiblity flag
         """
         isPrivate = self.getMakePrivate()
-        shouldBePrivate = bool(int(val))
+        try:
+            shouldBePrivate = bool(int(val))
+        except ValueError:
+            shouldBePrivate = bool(val)
         if isPrivate != shouldBePrivate:
             state = shouldBePrivate and 'make_private' or 'make_public'
             wft = getToolByName(self, 'portal_workflow')
