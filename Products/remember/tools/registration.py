@@ -1,16 +1,16 @@
-import random, re, md5
+import random
 from smtplib import SMTPRecipientsRefused
 
-from AccessControl import ClassSecurityInfo, getSecurityManager, \
-     PermissionRole, Unauthorized
+from AccessControl import ClassSecurityInfo
+from AccessControl import Unauthorized
 from AccessControl.User import SpecialUser     
 from Globals import InitializeClass
 
 from Products.CMFCore.utils import getToolByName, _checkPermission
-from Products.CMFCore import permissions
 from Products.CMFPlone.RegistrationTool import RegistrationTool as BaseTool
 
 from Products.remember.permissions import MAIL_PASSWORD_PERMISSION
+from Products.remember.utils import trusted
 
 # - remove '1', 'l', and 'I' to avoid confusion
 # - remove '0', 'O', and 'Q' to avoid confusion
@@ -101,14 +101,16 @@ class RegistrationTool(BaseTool):
             email_charset = getattr(self, 'email_charset', 'UTF-8')
             if mail_template is None:
                 mail_template = self.mail_password_template
-            mail_text = mail_template(self,
-                                      REQUEST,
-                                      member=member,
-                                      member_id=forgotten_userid,
-                                      member_email=email,
-                                      charset=email_charset,
-                                      reset=reset)
-            
+            # members in private state can cause auth probs here,
+            # wrap in priv escalation if necessary
+            trusted_template = trusted(mail_template)
+            mail_text = trusted_template(self,
+                                         REQUEST,
+                                         member=member,
+                                         member_id=forgotten_userid,
+                                         member_email=email,
+                                         charset=email_charset,
+                                         reset=reset)
             host = getToolByName(self, 'MailHost')
             
             if isinstance(mail_text, unicode):

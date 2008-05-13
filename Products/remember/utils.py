@@ -7,6 +7,11 @@ import logging
 logger = logging.getLogger('remember')
 
 from AccessControl import ModuleSecurityInfo
+from AccessControl import Unauthorized
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.SpecialUsers import system as system_user
 
 from Products.CMFCore.utils import getToolByName
 
@@ -96,3 +101,19 @@ def log_exc():
 def fixOwnership(ob,event):
     if not IObjectRemovedEvent.providedBy(event):
         ob.fixOwnership()
+
+def trusted(fn):
+    """
+    Executes the callable as a Zope superuser if original call raises
+    Unauthorized.
+    """
+    def trusted_fn(*args, **kwargs):
+        try:
+            value = fn(*args, **kwargs)
+        except Unauthorized:
+            orig_sec_mgr = getSecurityManager()
+            newSecurityManager(None, system_user)
+            value = fn(*args, **kwargs)
+            setSecurityManager(orig_sec_mgr)
+        return value
+    return trusted_fn

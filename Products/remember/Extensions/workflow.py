@@ -1,10 +1,6 @@
-from AccessControl import Unauthorized
-from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SecurityManagement import getSecurityManager
-from AccessControl.SecurityManagement import setSecurityManager
-from AccessControl.SpecialUsers import system as system_user
 from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import log_exc
+from Products.remember.utils import trusted
 
 
 def addWorkflowScripts(wf):
@@ -25,18 +21,13 @@ def addWorkflowScripts(wf):
 # are satisfied.
 def triggerAutomaticTransitions(ob):
     wf_tool=getToolByName(ob, 'portal_workflow')
-    try:
-        action_ids = [action.get('id',None) for action
-                      in wf_tool.listActionInfos(object=ob)]
-    except Unauthorized:
-        # Plone 3 introduces @@plone_portal_state and
-        # @@plone_context_state which cause auth probs here during
-        # account creation
-        orig_sec_mgr = getSecurityManager()
-        newSecurityManager(None, system_user)
-        action_ids = [action.get('id',None) for action
-                      in wf_tool.listActionInfos(object=ob)]
-        setSecurityManager(orig_sec_mgr)
+    # Plone 3 introduces auth problems around creation of private
+    # members, wrap action info retrieval with 'trustedness'
+    @trusted
+    def get_action_ids():
+        return [action.get('id',None) for action
+                in wf_tool.listActionInfos(object=ob)]
+    action_ids = get_action_ids()
     if 'trigger' in action_ids:
         wf_tool.doActionFor(ob, 'trigger')
 
