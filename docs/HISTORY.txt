@@ -1,0 +1,8 @@
+Changelog
+=========
+
+1.1 (svn/unreleased) - Unreleased
+----------------
+
+* Initial release
+
