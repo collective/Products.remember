@@ -1,42 +1,22 @@
-import os, sys
 import unittest
 
 from base import RememberTestBase
-from base import mem_data
-
-from base import our_num_remem_mems
-from base import all_num_remem_mems
-from base import all_mems
 
 from zope.annotation.interfaces import IAnnotations
-
 from zope.component import getMultiAdapter
 
 from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-
 from Products.GenericSetup.testing import DummySetupEnviron
 from Products.GenericSetup import profile_registry, EXTENSION
-
 from Products.CMFFormController.ControllerState import ControllerState
-
 from Products.PloneTestCase import layer
-from Products.CMFPlone.tests.PloneTestCase import USELAYER
-
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
-
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.config import ANNOT_KEY
-from Products.remember.exportimport.membranetool import \
-     RememberMembraneToolXMLAdapter
-
-from Products.remember.tools.memberdata import MemberDataContainer
-
-from Products.GenericSetup.context import BaseContext
 
 
 # set up XML profile for testing
@@ -47,6 +27,7 @@ profile_registry.registerProfile('test',
                                  'remember',
                                  EXTENSION,
                                  for_=IPloneSiteRoot)
+
 
 class TestRememberProfiles(ArcheSiteTestCase):
     """
@@ -64,27 +45,21 @@ class TestRememberProfiles(ArcheSiteTestCase):
         test importing the hash from XML
         annotates membrane_tool
         """
-        
         app = self.app
         setup_tool = app.plone.portal_setup
-
         # ensure that membrane_tool does not yet exist
         self.assertRaises(AttributeError, getattr,
                           self.portal, 'membrane_tool')
-
         # the membrane tool needs to be imported first
-        setup_tool.setImportContext('profile-membrane:default')
-        setup_tool.runAllImportSteps()
-
+        setup_tool.runAllImportStepsFromProfile('profile-membrane:default')
         # imports the xml file in the test profile
-        setup_tool.setImportContext('profile-remember:test')
-        setup_tool.runAllImportSteps()
+        setup_tool.runAllImportStepsFromProfile('profile-remember:test')
 
         mbtool = self.portal.membrane_tool
         annot = IAnnotations(mbtool)
-       
         self.failUnless(ANNOT_KEY in annot)
         self.assertEqual('bcrypt', annot[ANNOT_KEY]['hash_type'])
+
 
 class TestRememberInstall(RememberTestBase):
 

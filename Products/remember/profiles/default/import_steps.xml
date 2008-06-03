@@ -10,14 +10,6 @@
   </import-step>
 
   <import-step
-     id="remember-useradder"
-     version="20061017-01"
-     handler="Products.remember.setuphandlers.registerUserAdderUtility"
-     title="remember IUserAdder utility">
-    Utility for creating remember-based users
-  </import-step>
-
-  <import-step
      id="remember-setupplugins"
      version="20061028-01"
      handler="Products.remember.setuphandlers.setupPlugins"

@@ -1,27 +1,16 @@
-import os, sys
-import unittest
-
-from zope.component import queryAdapter
-from zope.app.component.hooks import setSite, setHooks
+from zope.app.component.hooks import setSite
+from zope.app.component.hooks import setHooks
 
 import transaction as txn
 
 from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.Permissions import access_contents_information
-from AccessControl.Permissions import view
 
 from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase import layer
-from Products.CMFPlone.tests.PloneTestCase import (PloneTestCase,
-                                                   USELAYER)
-from Products.Archetypes.tests.atsitetestcase import (
-    ATSiteTestCase as ArcheSiteTestCase, )
+from Products.CMFPlone.tests.PloneTestCase import PloneTestCase
 
-import Products.membrane
-import Products.remember
 import Products.remember.config as config
-from Products.remember.interfaces import IHashPW
 from Products.remember.utils import parseDependencies
 from Products.remember.tools.memberdata import MemberDataContainer
 
@@ -121,8 +110,6 @@ class RememberProfileLayer(SiteLayer):
             'Add portal member', roles=[], acquire=1)
 
         setup_tool = app.plone.portal_setup
-        setup_tool.setImportContext('profile-membrane:default')
-        setup_tool.runAllImportSteps()
 
         # XXX: ugly hack to work around interference from the inherited
         # 'description' attribute
@@ -131,8 +118,7 @@ class RememberProfileLayer(SiteLayer):
                 fget = MemberDataContainer._nope,
                 fset = MemberDataContainer._setDescription)
 
-        setup_tool.setImportContext('profile-remember:default')
-        setup_tool.runAllImportSteps()
+        setup_tool.runAllImportStepsFromProfile('profile-remember:default')
 
         # mock sending emails
         rtool = getToolByName(app.plone, 'portal_registration')
@@ -196,8 +182,7 @@ class MailHostMock(object):
 # This is the test case. You will have to add test_<methods> to your
 # class inorder to assert things about your Product.
 class RememberTestBase(PloneTestCase):
-    if USELAYER:
-        layer = RememberProfileLayer
+    layer = RememberProfileLayer
 
     def addMember(self, name):
         return globals()['addMember'](self.portal, name)

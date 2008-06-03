@@ -13,8 +13,11 @@ from base import RememberTestBase
 
 
 class TestMembershipTool(RememberTestBase):
-    """This test is a vestige from when remember implemented its own MembershipTool.
-    (We're confirming that its removal isn't breaking anything.)"""
+    """
+    This test is a vestige from when remember implemented its own
+    MembershipTool.  (We're confirming that its removal isn't breaking
+    anything.)
+    """
     def afterSetUp(self):
         RememberTestBase.afterSetUp(self)
         self.mtool = self.portal.portal_membership
