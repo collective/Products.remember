@@ -27,7 +27,7 @@ msgstr "Standaard Lid Type"
 
 #: ./browser/configlet.py:20
 msgid "This specifies the default member type for remember."
-msgstr "Dit specificeren de standaard lid type voor remember"
+msgstr "Dit specificeert het standaard lid type voor remember"
 
 #. Default: "This is the Remember products configuration section."
 #: ./browser/configletform.pt:24
