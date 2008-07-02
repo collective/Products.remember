@@ -62,3 +62,11 @@ class IRememberUserChanger(IReferenceable):
         """
         Modify the password on the member object
         """
+
+class IMemberDataContainer(Interface):
+    """
+    Marker interface for the MemberDataContainer, used to make 
+    portal_setup/manage_createSnapshots work again.
+
+    See exportimport/memberdata.py
+    """

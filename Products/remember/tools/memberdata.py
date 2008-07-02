@@ -15,6 +15,7 @@ from Products.PlonePAS.tools.memberdata import MemberDataTool \
 
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
+from Products.remember.interfaces import IMemberDataContainer
 
 schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
 
@@ -36,7 +37,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     actually need to live here any more, but for BBB reasons we are
     still storing them here.
     """
-    implements(IMemberDataTool)
+    implements(IMemberDataTool,IMemberDataContainer)
 
     security = ClassSecurityInfo()
 

@@ -15,4 +15,9 @@
            Products.GenericSetup.interfaces.ISetupEnviron"
       />
 
+  <adapter for="..interfaces.IMemberDataContainer"
+      provides="Products.GenericSetup.interfaces.IFilesystemExporter"
+      factory=".memberdata.NoneFileSystemExporter"
+      />
+
 </configure>
