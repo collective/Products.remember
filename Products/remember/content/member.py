@@ -2,14 +2,13 @@ import sys
 
 from AccessControl import ClassSecurityInfo
 from AccessControl import Unauthorized
-from AccessControl.PermissionRole import rolesForPermissionOn
 from Globals import InitializeClass
 from Acquisition import aq_base
 
 from zope.interface import implements
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.annotation.interfaces import IAnnotations
-from zope.component import getAdapter, ComponentLookupError
+from zope.component import getAdapter
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes import public as atapi
@@ -33,7 +32,6 @@ from Products.membrane.interfaces import IGroupAwareRolesProvider
 from Products.membrane.interfaces import IUserRoles
 from Products.membrane.interfaces import IUserAuthentication
 from Products.membrane.interfaces import IUserDeleter
-from Products.membrane.interfaces import IMembraneUserDeleter
 
 from Products.remember.interfaces import IReMember
 from Products.remember.interfaces import IRememberAuthProvider
@@ -230,6 +228,20 @@ class BaseMember(object):
         if errors:
             return 0
         return 1
+
+    # Vocabulary validation workaround
+    def unicodeEncode(self, value, site_charset=None):
+        """
+        AT's vocabulary validation requires a unicodeEncode method,
+        which usually comes from the archetypes skin.  But when
+        pasting a copied Plone site, the member tries to validate
+        itself before the skin paths are wired up to acquisition,
+        so we put this method in as a workaround.
+        """
+        skins = getToolByName(self, 'portal_skins')
+        fn = aq_base(skins.archetypes.unicodeEncode)
+        fn = fn.__of__(self)
+        return fn(value, site_charset)
 
     # Vocabulary methods
     def editors(self):
