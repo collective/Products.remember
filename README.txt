@@ -1,18 +1,18 @@
 ========
-remember
+Remember
 ========
 
-remember is a full implementation of the default Plone member
+Remember is a full implementation of the default Plone member
 configuration using content to represent the members, built on top of
-membrane.  Out of the box, remember should work very much like a
+Membrane.  Out of the box, Remember should work very much like a
 regular Plone site, except that member information is stored in Member
 objects that are (by default) stored in the portal_memberdata tool.
 
-remember is a successor to CMFMember, which will not work with
+Remember is a successor to CMFMember, which will not work with
 PluggableAuthService-based user folders, and thus will not work with a
 typical Plone 2.5 (and greater) installation.  There is a migration
 path provided for folks with existing CMFMember-based sites who would
-like to migration to Plone 2.5.X and remember.  For instructions on
+like to migration to Plone 2.5.X and Remember.  For instructions on
 performing such migrations, please refer to the README.txt file in
 the cmfmember subdirectory.
 
@@ -22,7 +22,7 @@ you should initially migrate to Remember 1.0 and Plone 2.5.  Once this
 is working correctly, then you can upgrade to Remember 1.1 and Plone 3
 with little problem.
 
-For questions and support, please see the remember mailing list:
+For questions and support, please see the Remember mailing list:
 http://www.openplans.org/projects/remember/lists/remember/
 
 ============
@@ -34,7 +34,7 @@ infrastructure.  Remember can be made available to your Zope instance
 by installing the Products.remember package into your Zope's python
 environment, using either easy_install or 'python setup.py install'.
 
-remember is installed into a Plone site by the application of a
+Remember is installed into a Plone site by the application of a
 GenericSetup extension profile.  You can do this when creating a new
 site by selecting remember from the list of available setup profiles
 when you are creating the site.  In an existing site, you can use
