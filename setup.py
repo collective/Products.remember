@@ -5,7 +5,7 @@ version = '1.1b1'
 
 setup(name='Products.remember',
       version=version,
-      description="",
+      description="A content-based implementation of Plone's default member infrastructure",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
