@@ -12,9 +12,15 @@ remember is a successor to CMFMember, which will not work with
 PluggableAuthService-based user folders, and thus will not work with a
 typical Plone 2.5 (and greater) installation.  There is a migration
 path provided for folks with existing CMFMember-based sites who would
-like to migration to Plone 2.5.2 and remember.  For instructions on
+like to migration to Plone 2.5.X and remember.  For instructions on
 performing such migrations, please refer to the README.txt file in
 the cmfmember subdirectory.
+
+NOTE: This version of Remember requires Plone 3.0 or 3.1, it does NOT
+support Plone 2.5.  If you have a CMFMember-based Plone 2.1 solution,
+you should initially migrate to Remember 1.0 and Plone 2.5.  Once this
+is working correctly, then you can upgrade to Remember 1.1 and Plone 3
+with little problem.
 
 For questions and support, please see the remember mailing list:
 http://www.openplans.org/projects/remember/lists/remember/
@@ -23,34 +29,24 @@ http://www.openplans.org/projects/remember/lists/remember/
 INSTALLATION
 ============
 
-To install remember into your Zope instance, put the remember code in
-a directory named "remember" in your instance home's Products
-directory and restart Zope.
+Remember is packaged using Python's setuptools package management
+infrastructure.  Remember can be made available to your Zope instance
+by installing the Products.remember package into your Zope's python
+environment, using either easy_install or 'python setup.py install'.
 
 remember is installed into a Plone site by the application of a
 GenericSetup extension profile.  You can do this when creating a new
-site by selecting both membrane and remember from the list of
-available setup profiles when you are creating the site.  In an
-existing site, you install an extension profile using the ZMI of the
-portal_setup tool.  First browse to the properties tab and specify the
-profile in question as the "active" profile.  Then browse to the
-import tab and click on the "Run all import steps" button near the
-bottom of the page.  You will want to perform these steps first for
-the membrane profile, then for the remember profile.
-
-NOTE: While remember does provide a migration path for existing, Plone
-2.1-based CMFMember sites, it does NOT yet provide a way to migrate
-existing default Plone members to remember-based members.  This is
-intended to be in place before the final 1.0 release.
+site by selecting remember from the list of available setup profiles
+when you are creating the site.  In an existing site, you can use
+Plone's regular product installation interface.
 
 ============
 REQUIREMENTS
 ============
 
-- Zope 2.9.6
-- Plone 2.5.2
-- Five 1.4.2
-- membrane 1.0
+- Zope 2.10.X
+- Plone 3.0.X or 3.1.X
+- membrane 1.1
 
 Optional:
 
