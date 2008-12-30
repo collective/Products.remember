@@ -1,12 +1,11 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
+# Dutch (Nederlands) translation for Products.remember
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: Remember\n"
-"POT-Creation-Date: 2007-07-26 16:59+0000\n"
+"POT-Creation-Date: 2008-12-30 12:18+0000\n"
 "PO-Revision-Date: 2007-07-26 19:57+0200\n"
-"Last-Translator: Rohan Nicholls <rohan.nicholls@pareto.nl>\n"
+"Last-Translator: Kees Hink <hink@gw20e.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -17,7 +16,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: remember\n"
 
-#: ./skins/remember/prefs_user_manage.cpy:46
+#: ./skins/remember/prefs_user_manage.cpy:51
 msgid "Changes applied."
 msgstr "Veranderingen opgeslagen"
 
@@ -25,9 +24,20 @@ msgstr "Veranderingen opgeslagen"
 msgid "Default Member Type"
 msgstr "Standaard Lid Type"
 
-#: ./browser/configlet.py:20
+#: ./skins/remember/prefs_user_manage.cpy:42
+msgid "Password update for %s failed. %s"
+msgstr "Wachtwoord veranderen voor %s mislukt."
+
+#: ./browser/configlet.py:21
 msgid "This specifies the default member type for remember."
 msgstr "Dit specificeert het standaard lid type voor remember"
+
+#. Default: "As soon your registration is approved you will receive an email with instructions on how to activate your membership."
+#: ./skins/remember/pending.pt:14
+msgid "description_pending_activation"
+msgstr ""
+"Zodra uw aanmelding is goedgekeurd ontvangt u hiervan bericht per e-mail. "
+"In dat bericht zal ook staan hoe u uw account kunt activeren. "
 
 #. Default: "This is the Remember products configuration section."
 #: ./browser/configletform.pt:24
@@ -38,4 +48,9 @@ msgstr "Dit is de configuratie sectie voor het Remember product "
 #: ./browser/configletform.pt:14
 msgid "heading_remember_config"
 msgstr "Remember configuratie"
+
+#. Default: "Welcome!"
+#: ./skins/remember/pending.pt:12
+msgid "heading_welcome"
+msgstr "Welkom!"
 
