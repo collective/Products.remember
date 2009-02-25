@@ -101,7 +101,7 @@
                   value=""
                   tal:attributes="value request/came_from_prefs|nothing" />
 
-              <div class="field"
+              <div class="field formControls"
                    tal:define="fieldset_index python:fieldsets.index(fieldset);
                                n_fieldsets python:len(fieldsets);">
                 <tal:block condition="python:fieldset_index &gt; 0">
@@ -128,7 +128,7 @@
                   <label>&nbsp;</label>
                   <input
                       tal:condition="python:fieldset_index &gt; 0"
-                      class="context"
+                      class="context submit"
                       tabindex=""
                       type="submit"
                       name="form.button.previous"
@@ -137,7 +137,7 @@
                       tal:attributes="tabindex tabindex/next;" />
                   <input
                       tal:condition="python:fieldset_index &lt; n_fieldsets-1"
-                      class="context"
+                      class="context next"
                       tabindex=""
                       type="submit"
                       name="form.button.next"
@@ -147,7 +147,7 @@
                   <metal:slot define-slot="register_button_registration_form">
                     <input
                         tal:condition="python:fieldset_index == n_fieldsets-1"
-                        class="context"
+                        class="context register"
                         tabindex=""
                         type="submit"
                         name="form.button.register"
