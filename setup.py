@@ -25,7 +25,7 @@ setup(name='Products.remember',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'Products.membrane>1.0.999',
+          'Products.membrane>=1.1dev',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
