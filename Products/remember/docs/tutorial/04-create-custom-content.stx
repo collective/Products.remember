@@ -64,4 +64,4 @@ We make use of our schema by::
     InitializeClass(SampleMember)
 
 
-"See the full samplemember module":http://dev.plone.org/collective/browser/remember/trunk/examples/sampleremember
+"See the full samplemember module":http://dev.plone.org/collective/browser/examples/Products.sampleremember/trunk/

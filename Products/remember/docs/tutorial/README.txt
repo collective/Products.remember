@@ -2,7 +2,7 @@
 9/3/07
 
 THIS TUTORIAL IS A BIT DATED and may not include all the steps needed.
-The 'examples/sampleremember' code is the most up-to-date.
+The 'Products.sampleremember' code is the most up-to-date.
 
 
 3/9/07
@@ -14,6 +14,6 @@ This tutorial created by
 
 See "docs/tutorial" for Tutorial documentation.
 
-See "examples/sampleremember" for the sample remember product. 
+See "Products.sampleremember" for the sample remember product. 
 
-See "examples/sampleremember/TODO.txt" for suggested list of items that need work.
+See "Products.sampleremember/TODO.txt" for suggested list of items that need work.
