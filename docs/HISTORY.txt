@@ -1,8 +1,20 @@
 Changelog
 =========
 
-1.1 (svn/unreleased) - Unreleased
-----------------
+1.1b2 - 2009-03-20
+------------------
+
+* Tested with Plone 3.0-3.2 [rossp]
+
+* Factor Products/remember/examples/sampleremember to a separate
+  Products.sampleremember [rossp]
+
+* Added some CSS classes [hpeteragitator]
+
+* Fix some i18n [khink]
+
+1.1b1 - 2008-08-20
+------------------
 
 * Initial release
 
