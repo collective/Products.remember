@@ -1,3 +1,0 @@
-
-- [Jul 30 2007] portal_type changed. The version in sampleremember.py now 
-  matches same case as GenericSetup's archetype_tool.xml
