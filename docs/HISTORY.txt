@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.1b3 - 2009-03-23
+------------------
+
+* Fix git based release problem, now using setuptools-git (hannosch)
+
 1.1b2 - 2009-03-20
 ------------------
 
