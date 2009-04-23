@@ -4,6 +4,13 @@ Changelog
 1.1b3 - Unreleased
 ------------------
 
+* allow usage of portal_registration tools  ALLOWED_MEMBER_ID_PATTERN. This 
+  does not change any current behaviour, it may be made configurable ttw in 
+  future. Introduced new config.py variable USE_PORTAL_REGISTRATION_PATTERN
+  set to False by default. Setting to True switches to portal_registrations
+  getIDPattern.
+  [2009-04-23 by jensens]
+
 1.1b3 - 2009-03-23
 ------------------
 
