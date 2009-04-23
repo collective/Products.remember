@@ -1,4 +1,5 @@
 import sys
+import re
 
 from AccessControl import ClassSecurityInfo
 from AccessControl import Unauthorized
@@ -40,6 +41,7 @@ from Products.remember.interfaces import IHashPW
 from Products.remember.interfaces import IRememberUserChanger
 
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
+from Products.remember.config import USE_PORTAL_REGISTRATION_PATTERN
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.config import ANNOT_KEY
 from Products.remember.config import HASHERS
@@ -89,6 +91,7 @@ class BaseMember(object):
     listed = 0
 
     default_roles = ('Member',)
+    
 
     security.declarePrivate('setId')
     def setId(self, value):
@@ -158,9 +161,13 @@ class BaseMember(object):
         elif self.id and id != self.id:
             # we only validate if we're changing the id
             mbtool = getToolByName(self, 'membrane_tool')
-            if mbtool.getUserAuthProvider(id) is not None or \
-                   not ALLOWED_MEMBER_ID_PATTERN.match(id) or \
-                   id == 'Anonymous User':
+            PATTERN = ALLOWED_MEMBER_ID_PATTERN
+            if USE_PORTAL_REGISTRATION_PATTERN:
+                regtool = getToolByName(self, 'portal_registration')
+                PATTERN = re.compile(regtool.getIDPattern())
+            if mbtool.getUserAuthProvider(id) is not None \
+               or not PATTERN.match(id) \
+               or id == 'Anonymous User':
                 msg = "The login name you selected is already " + \
                       "in use or is not valid. Please choose another."
                 return self.translate(msg, default=msg)
