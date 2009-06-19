@@ -11,6 +11,12 @@ Changelog
   getIDPattern.
   [2009-04-23 by jensens]
 
+* Fix inefficiency in prefs_users_overview where searchUsers is called when 
+  no search string is supplied. The bug meant that the page would be extremely 
+  slow even when just navigating to prefs_users_overview. 
+  [2009-06-19 by hedley]
+  
+
 1.1b3 - 2009-03-23
 ------------------
 
