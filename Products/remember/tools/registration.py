@@ -9,6 +9,7 @@ from Globals import InitializeClass
 from Products.CMFCore.utils import getToolByName, _checkPermission
 from Products.CMFPlone.RegistrationTool import RegistrationTool as BaseTool
 
+from Products.remember import interfaces
 from Products.remember.permissions import MAIL_PASSWORD_PERMISSION
 from Products.remember.utils import trusted
 
@@ -53,13 +54,15 @@ class RegistrationTool(BaseTool):
                                           '5 characters.')
         if 'confirm_password' not in self.REQUEST.form:
             self.REQUEST.form['confirm_password'] = confirm
-        errors = {}
         pm = getToolByName(self, 'portal_membership')
         user = pm.getAuthenticatedMember()
-        if isinstance(user, SpecialUser):
-            return None
-        user.post_validate(self.REQUEST, errors)
-        return errors.get('password')
+        if interfaces.IRememberUserChanger.providedBy(user):
+            errors = {}
+            # Use AT validation if the the member is a remember member
+            user.post_validate(self.REQUEST, errors)
+            return errors.get('password')
+        return super(RegistrationTool, self).testPasswordValidity(
+            password, confirm=confirm)
 
     # A replacement for portal_registration's mailPassword function
     # The replacement secures the mail password function with
