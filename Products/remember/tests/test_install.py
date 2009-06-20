@@ -50,6 +50,8 @@ class TestRememberProfiles(ArcheSiteTestCase):
         # ensure that membrane_tool does not yet exist
         self.assertRaises(AttributeError, getattr,
                           self.portal, 'membrane_tool')
+        # the membrane tool needs to be imported first
+        setup_tool.runAllImportStepsFromProfile('profile-membrane:default')
         # imports the xml file in the test profile
         setup_tool.runAllImportStepsFromProfile('profile-remember:test')
 
