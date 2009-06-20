@@ -11,30 +11,12 @@ from Products.PloneTestCase import layer
 from Products.CMFPlone.tests.PloneTestCase import PloneTestCase
 
 import Products.remember.config as config
-from Products.remember.utils import parseDependencies
 from Products.remember.tools.memberdata import MemberDataContainer
 
 SiteLayer = layer.PloneSite
 
-# Dynamic bootstapping based on product config
-def installConfiguredProducts():
-    config, handler = parseDependencies()
-
-    ZopeTestCase.installProduct("PythonScripts")
-    ZopeTestCase.installProduct("Five")
-
-    def registerProduct(values):
-        for pkg in values:
-            ZopeTestCase.installProduct(pkg, 0)
-
-    handler({'required' : registerProduct,
-             'optional' : registerProduct,
-             })
-    # and finally ourselves
-    ZopeTestCase.installProduct("remember")
-
-
-installConfiguredProducts()
+ZopeTestCase.installProduct("membrane")
+ZopeTestCase.installProduct("remember")
 
 mem_password = 'secret'
 def_mem_data = {

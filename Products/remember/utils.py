@@ -1,8 +1,6 @@
 import types
 from os.path import join, abspath, dirname
 
-import ZConfig
-
 import logging
 logger = logging.getLogger('remember')
 
@@ -72,12 +70,6 @@ DIR_PATH = abspath(dirname(__file__))
 
 def conf_file(file):
     return join(DIR_PATH, 'conf', file)
-
-def parseDependencies():
-    schema = ZConfig.loadSchema(conf_file('depends.xml'))
-    config, handler = ZConfig.loadConfig(schema,
-                                         conf_file('depends.conf'))
-    return config, handler
 
 def log(message, summary='', severity=logging.INFO):
     logger.log(severity, '%s \n%s', summary, message)
