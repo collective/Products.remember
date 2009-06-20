@@ -164,7 +164,7 @@ class BaseMember(object):
             if USE_PORTAL_REGISTRATION_PATTERN:
                 regtool = getToolByName(self, 'portal_registration')
                 PATTERN = re.compile(regtool.getIDPattern())
-            if mbtool.getUserAuthProvider(id) is not None \
+            if mbtool.getUserObject(id) is not None \
                or not PATTERN.match(id) \
                or id == 'Anonymous User':
                 msg = "The login name you selected is already " + \
