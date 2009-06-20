@@ -100,7 +100,6 @@ class RememberProfileLayer(SiteLayer):
                 fget = MemberDataContainer._nope,
                 fset = MemberDataContainer._setDescription)
 
-        setup_tool.runAllImportStepsFromProfile('profile-membrane:default')
         setup_tool.runAllImportStepsFromProfile('profile-remember:default')
 
         # mock sending emails
