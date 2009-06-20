@@ -29,10 +29,7 @@ from Products.PlonePAS.interfaces.capabilities import IGroupCapability, IAssignR
 from Products.PlonePAS.interfaces.capabilities import IManageCapabilities
 
 from Products.membrane.interfaces import IPropertiesProvider
-from Products.membrane.interfaces import IGroupAwareRolesProvider
-from Products.membrane.interfaces import IUserRoles
-from Products.membrane.interfaces import IUserAuthentication
-from Products.membrane.interfaces import IUserDeleter
+from Products.membrane.at import interfaces as at_ifaces
 
 from Products.remember.interfaces import IReMember
 from Products.remember.interfaces import IRememberAuthProvider
@@ -70,11 +67,13 @@ class BaseMember(object):
     """
     security = ClassSecurityInfo()
 
-    implements(IReMember, IRememberAuthProvider, IUserAuthentication,
-               IPropertiesProvider, IRememberGroupsProvider,
-               IGroupAwareRolesProvider, IUserRoles,
-               IManageCapabilities, IAttributeAnnotatable,
-               IRememberUserChanger, IUserDeleter)
+    implements(
+        IReMember, IRememberAuthProvider,
+        at_ifaces.IUserAuthentication, IPropertiesProvider,
+        IRememberGroupsProvider, at_ifaces.IGroupAwareRolesProvider,
+        at_ifaces.IUserRoles, IManageCapabilities,
+        IAttributeAnnotatable, IRememberUserChanger,
+        at_ifaces.IUserDeleter)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None

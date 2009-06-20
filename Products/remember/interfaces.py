@@ -2,9 +2,8 @@ from zope.interface import Interface
 
 from Products.Archetypes.interfaces import IReferenceable
 
-from Products.membrane.interfaces import IUserAuthProvider
-from Products.membrane.interfaces import IGroupsProvider
 from Products.membrane.interfaces import IMembraneTool
+from Products.membrane.at import interfaces as at_ifaces
 
 class IReMember(Interface):
     """
@@ -12,13 +11,13 @@ class IReMember(Interface):
     member object.
     """
 
-class IRememberAuthProvider(IUserAuthProvider):
+class IRememberAuthProvider(at_ifaces.IUserAuthProvider):
     """
     Marks remember auth providers so we can use a custom user id
     provider.
     """
 
-class IRememberGroupsProvider(IGroupsProvider):
+class IRememberGroupsProvider(at_ifaces.IGroupsProvider):
     """
     Marks member objects as using the 'groups' field for groups
     instead of the default, which is references to group objects.

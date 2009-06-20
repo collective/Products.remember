@@ -1,16 +1,10 @@
-from zope.interface import implements
+from Products.membrane.at import useridprovider
 
-from Products.membrane.interfaces import IUserRelated
-
-class UserIdProvider(object):
+class UserIdProvider(useridprovider.UserIdProvider):
     """
-    Adapts from IUserAuthProvider to IUserRelated.  Uses the object
-    id instead of the UID.
+    Adapts from IUserAuthProvider to IMembraneUserObject.  Uses the
+    object id instead of the UID.
     """
-    implements(IUserRelated)
-
-    def __init__(self, context):
-        self.context = context
 
     def getUserId(self):
         return self.context.getId()

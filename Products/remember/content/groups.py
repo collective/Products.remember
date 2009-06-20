@@ -1,5 +1,5 @@
 from AccessControl import ClassSecurityInfo
-from Products.membrane.factories.groups import Groups as BaseGroups
+from Products.membrane.at.groups import Groups as BaseGroups
 
 class Groups(BaseGroups):
     """
