@@ -112,6 +112,31 @@ class TestWorkflow(RememberTestBase):
         wftool.setChainForPortalTypes((DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
         wftool.updateRoleMappings()
 
+    def test_ApprovalWorkflowAuthentication(self):
+        """A member controlled by the approval workflow cannot login
+        authenticate until approved"""
+        wftool = getToolByName(self.portal, 'portal_workflow')
+        wftool.setChainForPortalTypes(
+            (DEFAULT_MEMBER_TYPE,), 'member_approval_workflow')
+        wftool.updateRoleMappings()
+        
+        # create new user
+        mem = self.addMember('lammy')
+        # check if new user state is pending
+        self.assertEqual(
+            wftool.getInfoFor(mem, 'review_state'), 'pending')
+
+        uf = self.portal.acl_users
+        user = uf.authenticate('lammy', 'secret', self.portal.REQUEST)
+        self.failUnless(user is None)
+        
+        # approve new member
+        self.login('admin_member')
+        wftool.doActionFor(mem, 'register_private')
+
+        user = uf.authenticate('lammy', 'secret', self.portal.REQUEST)
+        self.failIf(user is None)
+
 
 def test_suite():
     suite = unittest.TestSuite()

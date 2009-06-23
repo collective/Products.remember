@@ -12,6 +12,7 @@
  <permission>View</permission>
  <permission>membrane: Edit member id</permission>
  <permission>membrane: Register member</permission>
+ <permission>membrane: Can authenticate</permission>
  <state state_id="disabled" title="Disabled">
   <exit-transition transition_id="enable_pending"/>
   <exit-transition transition_id="enable_private"/>
@@ -44,6 +45,10 @@
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -87,6 +92,10 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
+  <permission-map name="membrane: Can authenticate"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
  </state>
  <state state_id="pending" title="Awaiting registration">
   <exit-transition transition_id="disable"/>
@@ -121,6 +130,10 @@
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -166,6 +179,11 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
+  <permission-map name="membrane: Can authenticate"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+  </permission-map>
  </state>
  <state state_id="public"
         title="Registered user, public profile">
@@ -210,6 +228,11 @@
   <permission-map name="membrane: Register member"
                   acquired="False">
    <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="membrane: Can authenticate"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
   </permission-map>
  </state>
  <transition transition_id="auto_pending"
