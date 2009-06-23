@@ -3,7 +3,6 @@ import unittest
 from DateTime.DateTime import DateTime
 
 from base import our_num_remem_mems
-from base import all_num_remem_mems
 from base import all_mems
 from base import RememberTestBase
 

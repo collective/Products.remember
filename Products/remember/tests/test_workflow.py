@@ -1,7 +1,5 @@
 import unittest
 
-from AccessControl.SecurityManagement import newSecurityManager
-
 from Products.PythonScripts.PythonScript import manage_addPythonScript
 
 from Products.remember.config import DEFAULT_MEMBER_TYPE
@@ -9,7 +7,7 @@ from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.CMFCore.utils import getToolByName
 
 from base import RememberTestBase
-from base import makeContent, addMember
+from base import makeContent
 
 
 class TestWorkflow(RememberTestBase):

@@ -1,7 +1,7 @@
 import unittest
 
 try:
-    import bcrypt
+    import bcrypt; bcrypt # pyflakes
     HAS_BCRYPT = True
 except ImportError:
     HAS_BCRYPT = False
@@ -16,8 +16,6 @@ from Products.remember.config import ANNOT_KEY
 from Products.remember.config import HASHERS
 
 from base import RememberTestBase
-from base import RememberProfileLayer
-from base import mem_data
 from base import def_mem_data
 
 class TestMigration(RememberTestBase):
