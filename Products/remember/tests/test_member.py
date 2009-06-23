@@ -1,4 +1,3 @@
-import os, sys
 import unittest
 
 from DateTime import DateTime
@@ -6,13 +5,9 @@ from DateTime import DateTime
 import transaction
 
 from base import RememberTestBase
-from base import makeContent, addMember
+from base import makeContent
 
 from Products.CMFPlone.tests import dummy
-
-from Products.membrane.interfaces import ICategoryMapper
-from Products.membrane.config import ACTIVE_STATUS_CATEGORY
-from Products.membrane.utils import generateCategorySetIdForType
 
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
