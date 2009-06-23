@@ -12,10 +12,6 @@ from Products.GenericSetup.testing import DummySetupEnviron
 from Products.GenericSetup import profile_registry, EXTENSION
 from Products.CMFFormController.ControllerState import ControllerState
 from Products.PloneTestCase import layer
-from Products.membrane.interfaces import ICategoryMapper
-from Products.membrane.config import ACTIVE_STATUS_CATEGORY
-from Products.membrane.utils import generateCategorySetIdForType
-from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.config import ANNOT_KEY
 
 
@@ -60,13 +56,6 @@ class TestRememberProfiles(ArcheSiteTestCase):
 
 
 class TestRememberInstall(RememberTestBase):
-
-    def testActiveWFStates(self):
-        cat_set = generateCategorySetIdForType(DEFAULT_MEMBER_TYPE)
-        cat_map = ICategoryMapper(self.mbtool)
-        states = cat_map.listCategoryValues(cat_set,
-                                            ACTIVE_STATUS_CATEGORY)
-        self.failUnless('private' in states and 'public' in states)
 
     def testPreferencesURL(self):
         self.login('non_remember_member')

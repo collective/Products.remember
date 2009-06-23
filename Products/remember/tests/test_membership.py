@@ -1,13 +1,6 @@
-import os, sys
 import unittest
 
 from Products.CMFCore.utils import getToolByName
-
-from Products.membrane.interfaces import ICategoryMapper
-from Products.membrane.config import ACTIVE_STATUS_CATEGORY
-from Products.membrane.utils import generateCategorySetIdForType
-
-from Products.remember.config import DEFAULT_MEMBER_TYPE
 
 from base import RememberTestBase
 
