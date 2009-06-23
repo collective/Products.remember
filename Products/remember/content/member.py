@@ -28,6 +28,7 @@ from Products.PlonePAS.interfaces.capabilities import IDeleteCapability, IPasswo
 from Products.PlonePAS.interfaces.capabilities import IGroupCapability, IAssignRoleCapability
 from Products.PlonePAS.interfaces.capabilities import IManageCapabilities
 
+from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.interfaces import IPropertiesProvider
 from Products.membrane.at import interfaces as at_ifaces
 
@@ -73,7 +74,13 @@ class BaseMember(object):
         IRememberGroupsProvider, at_ifaces.IGroupAwareRolesProvider,
         at_ifaces.IUserRoles, IManageCapabilities,
         IAttributeAnnotatable, IRememberUserChanger,
-        at_ifaces.IUserDeleter)
+        at_ifaces.IUserDeleter, user_ifaces.IMembraneUserObjectAvail,
+        user_ifaces.IMembraneUserAuthAvail,
+        user_ifaces.IMembraneUserPropertiesAvail,
+        user_ifaces.IMembraneUserGroupsAvail,
+        user_ifaces.IMembraneUserRolesAvail,
+        user_ifaces.IMembraneUserChangerAvail,
+        user_ifaces.IMembraneUserDeleterAvail)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
