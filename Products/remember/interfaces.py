@@ -3,6 +3,7 @@ from zope.interface import Interface
 from Products.Archetypes.interfaces import IReferenceable
 
 from Products.membrane.interfaces import IMembraneTool
+from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.at import interfaces as at_ifaces
 
 class IReMember(Interface):
@@ -52,7 +53,8 @@ class IRememberMembraneTool(IMembraneTool):
     at setup time
     """
 
-class IRememberUserChanger(IReferenceable):
+class IRememberUserChanger(IReferenceable,
+                           user_ifaces.IMembraneUserChangerAvail):
     """
     IRemember user changer uses the _setPassword method
     This is the mutator function for the member object
