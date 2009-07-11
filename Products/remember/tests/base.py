@@ -51,7 +51,7 @@ def makeContent(container, id, portal_type, title=None):
         o.setTitle(title)
     return o
 
-def addMember(context, name):
+def addMember(context, name, portal_type=config.DEFAULT_MEMBER_TYPE):
     """
     Creates a member object, sets to an active state.
     """
@@ -60,7 +60,7 @@ def addMember(context, name):
     req = context.REQUEST
     req.form['fullname'] = mem_data.get(name, {}).get('fullname', '')
     mdata = getToolByName(context, 'portal_memberdata')
-    mem   = makeContent(mdata, name, config.DEFAULT_MEMBER_TYPE)
+    mem   = makeContent(mdata, name, portal_type)
     # ensure ownership is properly assigned
     mem.setId(name)
     data = def_mem_data.copy()
