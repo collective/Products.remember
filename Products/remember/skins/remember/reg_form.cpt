@@ -61,27 +61,26 @@
           <metal:slot define-slot="heading_registration_form">
             <h1 i18n:translate="heading_registration_form">Registration Form</h1>
           </metal:slot>
-
           <form name="edit_form"
                 id="registration-form"
                 method="post"
                 enctype="multipart/form-data"
-                tal:attributes="action python:here.absolute_url()+'/'+template.id">
-            <fieldset tal:omit-tag="not: is_multipage">
-
-              <metal:slot define-slot="legend_registration_form">
-                <legend
-                    tal:condition="is_multipage"
-                    tal:content="python:(len(fieldsets) &gt; 1 and fieldset != 'default') and fieldset or here.archetype_name" />
-              </metal:slot>
-
-              <tal:fields repeat="field python: schematas[fieldset].fields()">
-                <tal:block tal:condition="field/regfield | nothing">
-                  <metal:fieldMacro
-                      use-macro="python: here.widget(field.getName(), mode='edit')" />
-                </tal:block>
-              </tal:fields>
-
+                tal:attributes="action python:here.absolute_url()+'/'+template.id;
+                    class python:test(len(fieldsets) &gt; 1, 'enableUnloadProtection enableAutoFocus enableFormTabbing enableUnlockProtection', '')">
+              <fieldset tal:repeat="fieldset python:fieldsets" 
+                tal:attributes="id python:'fieldset-'+fieldset"
+                >
+                 <legend tal:attributes="id python:'fieldsetlegend-'+fieldset" 
+                        tal:condition="python:len(fieldsets) &gt; 1"
+                        tal:content="python:'label_schema_'+fieldset" 
+                        i18n:translate="">Dummy</legend>
+                 <tal:fields repeat="field python: schematas[fieldset].fields()">
+                    <tal:block tal:condition="field/regfield | nothing">
+                       <metal:fieldMacro use-macro="python: here.widget(field.getName(), mode='edit')" />
+                    </tal:block>
+                 </tal:fields>
+              </fieldset>
+                
               <input
                   type="hidden"
                   name="form.submitted"
@@ -92,72 +91,18 @@
                   value="1" />
               <input
                   type="hidden"
-                  name="fieldset"
-                  value="default"
-                  tal:attributes="value fieldset" />
-              <input
-                  type="hidden"
                   name="came_from_prefs"
                   value=""
                   tal:attributes="value request/came_from_prefs|nothing" />
 
-              <div class="field formControls"
-                   tal:define="fieldset_index python:fieldsets.index(fieldset);
-                               n_fieldsets python:len(fieldsets);">
-                <tal:block condition="python:fieldset_index &gt; 0">
-                  <input
-                      type="hidden"
-                      name="id"
-                      value=""
-                      tal:attributes="value request/id|nothing" />
-                  <input
-                      type="hidden"
-                      name="password"
-                      value=""
-                      tal:attributes="value request/password | nothing"
-                      tal:condition="request/password | nothing" />
-                  <input
-                      type="hidden"
-                      name="confirm_password"
-                      value=""
-                      tal:attributes="value request/password | nothing"
-                      tal:condition="request/password | nothing" />
-                </tal:block>
+              <div class="field formControls">
 
                 <metal:slot define-slot="controls_registration_form">
                   <label>&nbsp;</label>
-                  <input
-                      tal:condition="python:fieldset_index &gt; 0"
-                      class="context submit"
-                      tabindex=""
-                      type="submit"
-                      name="form.button.previous"
-                      i18n:attributes="value"
-                      value="Previous"
-                      tal:attributes="tabindex tabindex/next;" />
-                  <input
-                      tal:condition="python:fieldset_index &lt; n_fieldsets-1"
-                      class="context next"
-                      tabindex=""
-                      type="submit"
-                      name="form.button.next"
-                      i18n:attributes="value"
-                      value="Next"
-                      tal:attributes="tabindex tabindex/next;" />
                   <metal:slot define-slot="register_button_registration_form">
-                    <input
-                        tal:condition="python:fieldset_index == n_fieldsets-1"
-                        class="context register"
-                        tabindex=""
-                        type="submit"
-                        name="form.button.register"
-                        i18n:attributes="value"
-                        value="Register"
-                        tal:attributes="tabindex tabindex/next;" />
                   </metal:slot>
                 </metal:slot>
               </div>
-            </fieldset>
           </form>
         </div>
       </div>
