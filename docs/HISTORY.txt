@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1b3 - Unreleased
+1.1b3 - 2009-03-23
 ------------------
 
 * allow usage of portal_registration tools  ALLOWED_MEMBER_ID_PATTERN. This 
