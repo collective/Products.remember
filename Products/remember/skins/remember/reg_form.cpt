@@ -1,5 +1,6 @@
 <tal:block metal:define-macro="master"
-           tal:define="errors options/state/getErrors|nothing;
+           tal:define="view context/@@at_base_edit_view;
+                       errors options/state/getErrors|nothing;
                        Iterator python:modules['Products.Archetypes'].IndexIterator;
                        tabindex tabindex|python:Iterator(pos=7000);
                        schematas here/Schemata;
@@ -72,7 +73,7 @@
                 >
                  <legend tal:attributes="id python:'fieldsetlegend-'+fieldset" 
                         tal:condition="python:len(fieldsets) &gt; 1"
-                        tal:content="python:'label_schema_'+fieldset" 
+                          tal:content="python: view.getTranslatedSchemaLabel(fieldset)"
                         i18n:translate="">Dummy</legend>
                  <tal:fields repeat="field python: schematas[fieldset].fields()">
                     <tal:block tal:condition="field/regfield | nothing">
