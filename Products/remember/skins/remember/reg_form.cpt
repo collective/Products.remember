@@ -101,6 +101,14 @@
                 <metal:slot define-slot="controls_registration_form">
                   <label>&nbsp;</label>
                   <metal:slot define-slot="register_button_registration_form">
+                    <input
+                        class="context register"
+                        tabindex=""
+                        type="submit"
+                        name="form.button.register"
+                        i18n:attributes="value"
+                        value="Register"
+                        tal:attributes="tabindex tabindex/next;" />
                   </metal:slot>
                 </metal:slot>
               </div>
