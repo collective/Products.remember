@@ -27,7 +27,7 @@ if 'password' in fieldnames:
     testpwd = 1
 
 if testid and not id:
-    state.setError('id', 'You did not enter an username.', 'invalid_id')
+    state.setError('id', 'You did not enter a username.', 'invalid_id')
 
 properties = context.portal_properties.site_properties
 if not properties.validate_email and testpwd and not password and not mail_me:
