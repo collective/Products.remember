@@ -100,7 +100,9 @@ class BaseMember(object):
         self.base_archetype.setId(self, value)
         
         #XXX: does it make sense this here?
+        # Yes, makes sense to me. :-) [Maurits]
         self.fixOwnership()
+
 
     security.declarePrivate('fixOwnership')
     def fixOwnership(self, old_id=None):
@@ -118,6 +120,10 @@ class BaseMember(object):
             if 'Owner' not in roles:
                 roles += ('Owner',)
             self.manage_setLocalRoles(user.getId(), roles)
+            # Also set this user as the Creator, otherwise with
+            # _at_rename_after_creation=True you get something like
+            # member.2009-09-07.7542188447 as Creator.
+            self.setCreators(user.getId())
 
     security.declareProtected(VIEW_PUBLIC_PERMISSION, 'hasUser')
     def hasUser(self):
