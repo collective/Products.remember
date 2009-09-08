@@ -97,11 +97,12 @@ class BaseMember(object):
         """
         Have to fix up the ownership when the id changes.
         """
+        old_id = self.getId()
         self.base_archetype.setId(self, value)
         
         #XXX: does it make sense this here?
         # Yes, makes sense to me. :-) [Maurits]
-        self.fixOwnership()
+        self.fixOwnership(old_id)
 
 
     security.declarePrivate('fixOwnership')
