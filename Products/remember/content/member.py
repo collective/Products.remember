@@ -704,7 +704,9 @@ class BaseMember(object):
     def widget(self, field_name, mode="view", field=None, **kwargs):
         """Override widget since the field description is dynamic. The method
         updates the description correctly even when toggling the email_login 
-        setting in the configlet."""
+        setting in the configlet.
+        
+        Be warned that plone.reload causes mass confusion in this method"""
 
         adder = getAdderUtility(self)
 
