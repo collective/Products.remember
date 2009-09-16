@@ -27,7 +27,7 @@ id_schema = atapi.Schema((
                                   label_msgid='label_user_name',
                                   size=10,
                                   maxlength=25,
-                                  description="Enter a user name, usually something like "
+                                  description="Enter a nick name, usually something like "
                                   "'jsmith'. No spaces or special characters. User "
                                   "names and passwords are case sensitive, make sure "
                                   "the capslock key is not enabled.",

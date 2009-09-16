@@ -689,7 +689,8 @@ class BaseMember(object):
             return None
 
         mtool = getToolByName(self, 'portal_membership')
-        members = [m for m in mtool.searchForMembers(getEmail=value) if m != self]
+        members = [m for m in mtool.searchForMembers(getEmail=value) \
+            if m.getUserId() != self.getId()]
         # getEmail is a ZCTextIndex, so we must match exactly. We can use 
         # getUserName and not worry about a member not being wrapped.
         # xxx: there may be a problem if mtool returns members that are not 
