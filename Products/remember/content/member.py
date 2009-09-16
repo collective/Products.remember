@@ -17,6 +17,8 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFCore import permissions as cmfpermissions
 from Products.CMFCore.utils import _checkPermission
 
+from Products.CMFPlone import PloneMessageFactory as _
+
 from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
 from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
 
@@ -62,6 +64,9 @@ _marker = []
 member_schema = content_schema + metadata_schema
 # metadata_schema doesn't override any fields in content_schema
 member_schema = member_schema + content_schema
+
+_original_id_widget_description = member_schema['id'].widget.description
+_original_email_widget_description = member_schema['email'].widget.description
 
 class BaseMember(object):
     """
@@ -692,6 +697,34 @@ class BaseMember(object):
             return self.translate("The email address is already in use")
 
         return None
+
+    def widget(self, field_name, mode="view", field=None, **kwargs):
+        """Override widget since the field description is dynamic. The method
+        updates the description correctly even when toggling the email_login 
+        setting in the configlet."""
+
+        adder = getAdderUtility(self)
+
+        if field is None:
+            field = self.Schema()[field_name]
+
+        if (field_name == 'id'): 
+            if not adder.email_login:
+                field.widget.description = _original_id_widget_description \
+                    + " " + _(u"This is the name used to log in.")
+            else:
+                field.widget.description = _original_id_widget_description
+
+        if (field_name == 'email'): 
+            if adder.email_login:
+                field.widget.description = _original_email_widget_description \
+                    + " " + _(u"You log in with your email address.")
+            else:
+                field.widget.description = _original_email_widget_description
+
+        return super(BaseMember, self).widget(
+            field_name, mode, field, **kwargs
+        )
 
 InitializeClass(BaseMember)
 
