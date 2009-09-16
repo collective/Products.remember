@@ -36,7 +36,7 @@ schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
             description="Check this box if you want users to be able to login \
                 with their email addresses."),
         storage = atapi.AnnotationStorage(),
-
+        ),
     ))
 
 search_catalog = 'membrane_tool'
