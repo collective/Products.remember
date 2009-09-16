@@ -163,7 +163,7 @@ class BaseMember(object):
                                   default='You did not enter a nick name.'),
         elif self.id and id != self.id:
             # we only validate if we're changing the id
-            mbtool = getToolByName(self, 'membrane_tool')
+            mtool = getToolByName(self, 'portal_membership')
             if mtool.getMemberById(id) is not None or \
                    not ALLOWED_MEMBER_ID_PATTERN.match(id) or \
                    id == 'Anonymous User':
@@ -686,7 +686,7 @@ class BaseMember(object):
         adder = getAdderUtility(self)
         if not adder.email_login:
             # No need to check uniqueness
-            return True
+            return None
 
         mtool = getToolByName(self, 'portal_membership')
         members = [m for m in mtool.searchForMembers(getEmail=value) if m != self]
