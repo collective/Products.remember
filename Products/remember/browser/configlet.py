@@ -28,7 +28,9 @@ class IRememberConfiglet(Interface):
         description=_(u'Check this box if you want users to be able to login \
                 with their email addresses. If you change this value but \
                 already have members in your site then you must update the \
-                membrane_tool catalog.'),
+                membrane_tool catalog. Also, if you change to email \
+                logins but have members with the same email address then they \
+                will not be able to log in.'),
         )
 
 class RememberConfiglet(PageForm):
