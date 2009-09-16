@@ -447,7 +447,14 @@ class BaseMember(object):
     # IUserAuthentication implementation
     #######################################################################
     def getUserName(self):
-        return self.getId()
+        """Return the value to be used as the username. This may be either 
+        the id or the email address of the member.
+        """
+        mtool = getToolByName(self, 'portal_memberdata')
+        if mtool.getEmailLogin():
+            return self.getEmail()
+        else:
+            return self.getId()
 
     def verifyCredentials(self, credentials):
         login = credentials.get('login')
@@ -665,6 +672,24 @@ class BaseMember(object):
         Used for member searching. Check permissions on viewing the object
         """
         return _checkPermission(cmfpermissions.View, self)
+
+    def validate_email(self, value):
+        """Check that the email address is unique if the policy is email 
+        logins.
+        """     
+        mtool = getToolByName(self, 'portal_memberdata')
+        if not mtool.getEmailLogin():
+            # No need to check uniqueness
+            return True
+
+        members = [m for m in mtool.searchForMembers(getEmail=value) if m != self]
+        # getEmail is a ZCTextIndex, so we must match exactly
+        emails = [e.getEmail() for e in members if e.getEmail() == value]
+
+        if len(emails):
+            return self.translate("The email address is already in use")
+
+        return None
 
 InitializeClass(BaseMember)
 
