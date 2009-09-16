@@ -2,6 +2,8 @@
 <object name="portal_skins" meta_type="Plone Skins Tool">
  <object name="remember" meta_type="Filesystem Directory View"
     directory="remember/skins/remember"/>
+ <object name="remember_passwordreset" meta_type="Filesystem Directory View"
+    directory="remember/skins/remember_passwordreset"/>
  <skin-path name="*">
   <layer name="remember" insert-after="custom" />
  </skin-path>
