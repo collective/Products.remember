@@ -23,6 +23,13 @@ class IRememberConfiglet(Interface):
         vocabulary='RememberTypes',
         )
 
+    email_login = schema.Bool(
+        title=_(u'Members log in with their email addresses'),
+        description=_(u'Check this box if you want users to be able to login \
+                with their email addresses. If you change this value but \
+                already have members in your site then you must update the \
+                membrane_tool catalog.'),
+        )
 
 class RememberConfiglet(PageForm):
     """
@@ -36,9 +43,15 @@ class RememberConfiglet(PageForm):
     def action_submit(self, action, data):
         adder = getAdderUtility(self.context)
         adder.default_member_type = data['default_mem_type']
+        adder.email_login = data['email_login']
 
     def getDefaultMemType(self):
         adder = getAdderUtility(self.context)
         return adder.default_member_type
 
+    def getEmailLogin(self):
+        adder = getAdderUtility(self.context)
+        return adder.email_login
+
     form_fields['default_mem_type'].get_rendered = getDefaultMemType
+    form_fields['email_login'].get_rendered = getEmailLogin

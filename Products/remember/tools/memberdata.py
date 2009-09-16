@@ -27,16 +27,6 @@ schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
         widget = atapi.TextAreaWidget(rows = 5),
         storage = atapi.MetadataStorage(),
         ),
-
-    atapi.BooleanField(
-        'emailLogin',
-        default = False,
-        widget = atapi.BooleanWidget(
-            label=u"Use email address to login",
-            description="Check this box if you want users to be able to login \
-                with their email addresses."),
-        storage = atapi.AnnotationStorage(),
-        ),
     ))
 
 search_catalog = 'membrane_tool'

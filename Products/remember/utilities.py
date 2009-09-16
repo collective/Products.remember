@@ -16,6 +16,7 @@ class UserAdder(SimpleItem):
 
     # can be changed by the configlet
     default_member_type = DEFAULT_MEMBER_TYPE
+    email_login = False
 
     def addUser(self, login, password):
         """

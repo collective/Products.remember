@@ -45,6 +45,7 @@ from Products.remember.config import ANNOT_KEY
 from Products.remember.config import HASHERS
 from Products.remember.utils import stringToList
 from Products.remember.utils import removeAutoRoles
+from Products.remember.utils import getAdderUtility
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
@@ -450,8 +451,8 @@ class BaseMember(object):
         """Return the value to be used as the username. This may be either 
         the id or the email address of the member.
         """
-        mtool = getToolByName(self, 'portal_memberdata')
-        if mtool.getEmailLogin():
+        adder = getAdderUtility(self)
+        if adder.email_login:
             return self.getEmail()
         else:
             return self.getId()
@@ -677,16 +678,17 @@ class BaseMember(object):
         """Check that the email address is unique if the policy is email 
         logins.
         """     
-        mtool = getToolByName(self, 'portal_memberdata')
-        if not mtool.getEmailLogin():
+        adder = getAdderUtility(self)
+        if not adder.email_login:
             # No need to check uniqueness
             return True
 
+        mtool = getToolByName(self, 'portal_membership')
         members = [m for m in mtool.searchForMembers(getEmail=value) if m != self]
         # getEmail is a ZCTextIndex, so we must match exactly
-        emails = [e.getEmail() for e in members if e.getEmail() == value]
+        clashes = [m for m in members if m._getMembraneObject().getEmail() == value]
 
-        if len(emails):
+        if len(clashes):
             return self.translate("The email address is already in use")
 
         return None
