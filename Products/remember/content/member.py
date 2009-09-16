@@ -160,14 +160,14 @@ class BaseMember(object):
         form = self.REQUEST.form
         if form.has_key('id') and not form['id']:
             return self.translate('Input is required but no input given.',
-                                  default='You did not enter a login name.'),
+                                  default='You did not enter a nick name.'),
         elif self.id and id != self.id:
             # we only validate if we're changing the id
             mbtool = getToolByName(self, 'membrane_tool')
             if mbtool.getUserAuthProvider(id) is not None or \
                    not ALLOWED_MEMBER_ID_PATTERN.match(id) or \
                    id == 'Anonymous User':
-                msg = "The login name you selected is already " + \
+                msg = "The nick name you selected is already " + \
                       "in use or is not valid. Please choose another."
                 return self.translate(msg, default=msg)
 
@@ -690,8 +690,11 @@ class BaseMember(object):
 
         mtool = getToolByName(self, 'portal_membership')
         members = [m for m in mtool.searchForMembers(getEmail=value) if m != self]
-        # getEmail is a ZCTextIndex, so we must match exactly
-        clashes = [m for m in members if m._getMembraneObject().getEmail() == value]
+        # getEmail is a ZCTextIndex, so we must match exactly. We can use 
+        # getUserName and not worry about a member not being wrapped.
+        # xxx: there may be a problem if mtool returns members that are not 
+        # remember based - investigate.
+        clashes = [m for m in members if m.getUserName() == value]
 
         if len(clashes):
             return self.translate("The email address is already in use")
