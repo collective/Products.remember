@@ -92,7 +92,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         given User object.
         """
         mbtool = getToolByName(self, 'membrane_tool')
-        mem = mbtool.getUserAuthProvider(user.getId())
+        mem = mbtool.getUserAuthProvider(user.getUserName())
         if mem is None:
             return BaseTool.wrapUser(self, user)
         return mem.__of__(self).__of__(user)

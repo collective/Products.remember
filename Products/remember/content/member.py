@@ -164,7 +164,7 @@ class BaseMember(object):
         elif self.id and id != self.id:
             # we only validate if we're changing the id
             mbtool = getToolByName(self, 'membrane_tool')
-            if mbtool.getUserAuthProvider(id) is not None or \
+            if mtool.getMemberById(id) is not None or \
                    not ALLOWED_MEMBER_ID_PATTERN.match(id) or \
                    id == 'Anonymous User':
                 msg = "The nick name you selected is already " + \
@@ -658,7 +658,7 @@ class BaseMember(object):
         unicode_name = self.getFullname()
         self.setFullname(str(unicode_name))
         if site_props.validate_email or self.getMail_me():
-            rtool.registeredNotify(self.getUserName())
+            rtool.registeredNotify(self.getId())
 
         self.setFullname(unicode_name)
 
