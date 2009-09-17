@@ -4,7 +4,7 @@
 ##bind namespace=
 ##bind script=script
 ##bind subpath=traverse_subpath
-##parameters=id, password=None, came_from_prefs=None
+##parameters=id, email, password=None, came_from_prefs=None
 ##title=Registered
 ##
 #next lines pulled from Archetypes' content_edit.cpy
@@ -25,6 +25,10 @@ elif review_state == 'pending':
      state.set(status='pending',
                portal_status_message='Your registration request has been received')
 else:
+     # Set id on request to email if email logins in use
+     pmd = getToolByName(context, 'portal_memberdata')
+     if pmd.email_login():
+        context.REQUEST.set('id', email)
      state.set(status='success',
                portal_status_message='You have been registered.',
                id=id,

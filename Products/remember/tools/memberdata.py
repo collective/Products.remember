@@ -16,6 +16,7 @@ from Products.PlonePAS.tools.memberdata import MemberDataTool \
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 from Products.remember.interfaces import IMemberDataContainer
+from Products.remember.utils import getAdderUtility
 
 schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
 
@@ -259,6 +260,11 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         if portrait is None:
             return BaseTool._getPortrait(self, member_id)
         return portrait
+
+    def email_login(self):
+        """Return True if email based login is in use, False otherwise"""
+        adder = getAdderUtility(self)
+        return adder.email_login
 
 atapi.registerType(MemberDataContainer)
 InitializeClass(MemberDataContainer)
