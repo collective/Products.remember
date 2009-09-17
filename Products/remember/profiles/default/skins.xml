@@ -6,5 +6,6 @@
     directory="remember/skins/remember_passwordreset"/>
  <skin-path name="*">
   <layer name="remember" insert-after="custom" />
+  <layer name="remember_passwordreset" insert-after="custom" />
  </skin-path>
 </object>
