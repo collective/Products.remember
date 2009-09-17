@@ -28,6 +28,7 @@ from Products.GenericSetup import profile_registry
 
 from permissions import initialize as initialize_permissions
 import config
+import patches
 
 if config.CMFMEMBER_MIGRATION_SUPPORT:
     import cmfmember
