@@ -62,9 +62,5 @@
       class=".content.member.Member" />
   <five:deprecatedManageAddDelete
       class=".content.member.FolderishMember" />
-
-  <five:deprecatedManageAddDelete
-      class=".content.member.Member" />
-
   		
 </configure>
