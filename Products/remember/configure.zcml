@@ -1,5 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:i18n="http://namespaces.zope.org/i18n"
+           xmlns:five="http://namespaces.zope.org/five"
            i18n_domain="remember">
 
   <include package=".browser" />
@@ -53,5 +54,17 @@
   		   zope.app.container.interfaces.IObjectMovedEvent"
   		handler=".utils.fixOwnership"
   		/>
+
+  <!-- Avoid deprecation warnings for manage_afterAdd and friends. -->
+  <five:deprecatedManageAddDelete
+      class=".tools.memberdata.MemberDataContainer" />
+  <five:deprecatedManageAddDelete
+      class=".content.member.Member" />
+  <five:deprecatedManageAddDelete
+      class=".content.member.FolderishMember" />
+
+  <five:deprecatedManageAddDelete
+      class=".content.member.Member" />
+
   		
 </configure>
