@@ -8,8 +8,8 @@
 ##parameters=
 
 from Products.CMFPlone import PloneMessageFactory as pmf
-from alm.content.pas.utils import getUserIdForEmail
-from alm.content.pas.utils import email_login_is_active
+from Products.remember.pas.utils import getUserIdForEmail
+from Products.remember.pas.utils import email_login_is_active
 
 REQUEST=context.REQUEST
 userid = REQUEST['userid']
