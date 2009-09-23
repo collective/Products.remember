@@ -8,9 +8,15 @@
 ##parameters=
 
 from Products.CMFPlone import PloneMessageFactory as pmf
+from alm.content.pas.utils import getUserIdForEmail
+from alm.content.pas.utils import email_login_is_active
+
 REQUEST=context.REQUEST
+userid = REQUEST['userid']
+if '@' in userid and email_login_is_active():
+    userid = getUserIdForEmail(context, userid) or userid
 try:
-    response = context.portal_registration.mailPassword(REQUEST['userid'], REQUEST)
+    response = context.portal_registration.mailPassword(userid, REQUEST)
 except ValueError, e:
     context.plone_utils.addPortalMessage(pmf(str(e)))
     response = context.mail_password_form()
