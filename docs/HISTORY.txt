@@ -4,6 +4,10 @@ Changelog
 2.0 - Unreleased
 ----------------
 
+* Changed getRoles from a FieldIndex to a KeywordIndex in the
+  membrane_tool, so you can search for roles.
+  [maurits]
+
 * Use Plone 3's JS schemata/fieldset switching.
   http://plone.org/products/remember/issues/55 [Matthew Wilkes]
 

@@ -135,6 +135,24 @@ class TestMember(RememberTestBase):
         user_roles = test_roles_tuple + ('Authenticated',)
         self.assertEqual(self.getUser().getRoles(), list(user_roles))
 
+    def testMemberRolesInCatalog(self):
+        membrane = self.portal.membrane_tool
+        self.assertEqual(len(membrane.searchResults(getRoles='Member')), 4)
+        self.assertEqual(len(membrane.searchResults(getRoles='Manager')), 1)
+        result = membrane.searchResults(getRoles='Manager')[0]
+        self.assertEqual(result.getId, 'admin_member')
+        self.assertEqual(len(membrane.searchResults(getRoles='Reviewer')), 0)
+
+        test_roles = str('Reviewer')
+        test_roles_tuple = ('Reviewer',)
+        self.portal_member.setRoles(test_roles)
+        # We need to reindex manually in the tests, otherwise the
+        # catalogs are not updated.
+        self.portal_member.reindexObject()
+        self.assertEqual(len(membrane.searchResults(getRoles='Reviewer')), 1)
+        result = membrane.searchResults(getRoles='Reviewer')[0]
+        self.assertEqual(result.getId, 'portal_member')
+
     def testMemberPassword(self):
         # test member's password
         passwd = 'newpasswd'

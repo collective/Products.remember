@@ -27,7 +27,7 @@
     <extra name="lexicon_id" value="lexicon"/>
   </index>
   
-  <index name="getRoles" meta_type="FieldIndex">
+  <index name="getRoles" meta_type="KeywordIndex">
     <indexed_attr value="getRoles"/>
   </index>
 
