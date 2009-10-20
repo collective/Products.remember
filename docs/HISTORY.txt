@@ -4,6 +4,12 @@ Changelog
 2.0 - Unreleased
 ----------------
 
+* Modernized GenericSetup configuration, moving the profile and import
+  step registration from python code and xml to zcml, and creating
+  upgrade steps to get rid of persistent import steps and update the
+  existing getRoles index from a FieldIndex to a KeywordIndex.
+  [maurits]
+
 * Changed getRoles from a FieldIndex to a KeywordIndex in the
   membrane_tool, so you can search for roles.
   [maurits]

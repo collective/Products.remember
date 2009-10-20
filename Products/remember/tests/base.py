@@ -100,7 +100,8 @@ class RememberProfileLayer(SiteLayer):
                 fget = MemberDataContainer._nope,
                 fset = MemberDataContainer._setDescription)
 
-        setup_tool.runAllImportStepsFromProfile('profile-remember:default')
+        setup_tool.runAllImportStepsFromProfile(
+            'profile-Products.remember:default')
 
         # mock sending emails
         rtool = getToolByName(app.plone, 'portal_registration')

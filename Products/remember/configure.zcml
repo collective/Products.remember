@@ -1,5 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:i18n="http://namespaces.zope.org/i18n"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
            xmlns:five="http://namespaces.zope.org/five"
            i18n_domain="remember">
 
@@ -63,4 +64,43 @@
   <five:deprecatedManageAddDelete
       class=".content.member.FolderishMember" />
   		
+  <genericsetup:registerProfile
+      name="default"
+      title="remember"
+      description="Installs membrane-based Plone member implementation."
+      directory="profiles/default"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
+
+  <genericsetup:importStep
+      name="portal_form_controller"
+      handler="Products.CMFFormController.exportimport.importCMFFormController"
+      title="FormController Tool"
+      description="Install redirect for member edits." />
+
+  <genericsetup:importStep
+      name="remember-setupplugins"
+      handler="Products.remember.setuphandlers.setupPlugins"
+      title="remember plugin setup utility"
+      description="Setup the membrane IUserAdderPlugin first." />
+
+  <genericsetup:upgradeStep
+      title="Remove remember import step"
+      description="Remove remember import steps from import registry."
+      source="1099"
+      destination="1100"
+      handler="Products.remember.setuphandlers.remove_old_import_steps"
+      profile="Products.remember:default" />
+
+  <genericsetup:upgradeStep
+      title="Make getRoles a KeywordIndex"
+      description=""
+      source="1100"
+      destination="1101"
+      handler="Products.remember.setuphandlers.keyword_index_get_roles"
+      profile="Products.remember:default" />
+
+
+
 </configure>

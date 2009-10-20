@@ -51,7 +51,7 @@ MIGRATION_MAP = {
             {'atct_newTypeFor': {'portal_type': 'Member',
                                  'meta_type': 'Member'},
              'project_name': PROJECT_NAME,
-             'profile': 'profile-remember:default',
+             'profile': 'profile-Products.remember:default',
              'replace_workflows': REPLACE_CMFMEMBER_WORKFLOWS,
              'workflow_ids': ('member_auto_workflow',
                               'member_approval_workflow'),
