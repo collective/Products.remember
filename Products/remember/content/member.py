@@ -297,7 +297,7 @@ class BaseMember(object):
     security.declarePublic('getMemberId')
     def getMemberId(self):
         """Get the member id """
-        return self.getUserName()
+        return self.getId()
 
     security.declarePrivate('_callerIsTrustable')
     def _callerIsTrustable(self):
@@ -459,6 +459,11 @@ class BaseMember(object):
     # IUserAuthentication implementation
     #######################################################################
     def getUserName(self):
+        """Return the name used for login.
+
+        This is usually the same as the user id, but try not to count
+        on that, please.
+        """
         return self.getId()
 
     def verifyCredentials(self, credentials):
@@ -657,7 +662,7 @@ class BaseMember(object):
         unicode_name = self.getFullname()
         self.setFullname(str(unicode_name))
         if site_props.validate_email or self.getMail_me():
-            rtool.registeredNotify(self.getUserName())
+            rtool.registeredNotify(self.getId())
 
         self.setFullname(unicode_name)
 
