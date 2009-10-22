@@ -9,6 +9,7 @@ from Testing                 import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase import layer
 from Products.CMFPlone.tests.PloneTestCase import PloneTestCase
+from Products.CMFPlone.tests.PloneTestCase import FunctionalTestCase
 
 import Products.remember.config as config
 from Products.remember.tools.memberdata import MemberDataContainer
@@ -163,7 +164,7 @@ class MailHostMock(object):
         return True
 
 # This is the test case. You will have to add test_<methods> to your
-# class inorder to assert things about your Product.
+# class in order to assert things about your Product.
 class RememberTestBase(PloneTestCase):
     layer = RememberProfileLayer
 
@@ -191,3 +192,7 @@ class RememberTestBase(PloneTestCase):
         self.admin_member = mtool.getMemberById('admin_member')
 
         self.login('portal_member')
+
+
+class RememberFunctionalTestBase(FunctionalTestCase, PloneTestCase):
+    layer = RememberProfileLayer

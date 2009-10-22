@@ -28,7 +28,6 @@ from Products.PlonePAS.interfaces.capabilities import IDeleteCapability, IPasswo
 from Products.PlonePAS.interfaces.capabilities import IGroupCapability, IAssignRoleCapability
 from Products.PlonePAS.interfaces.capabilities import IManageCapabilities
 
-from Products.membrane.interfaces import IPropertiesProvider
 from Products.membrane.at import interfaces as at_ifaces
 
 from Products.remember.interfaces import IReMember
@@ -69,7 +68,7 @@ class BaseMember(object):
 
     implements(
         IReMember, IRememberAuthProvider,
-        at_ifaces.IUserAuthentication, IPropertiesProvider,
+        at_ifaces.IUserAuthentication, at_ifaces.IPropertiesProvider,
         IRememberGroupsProvider, at_ifaces.IGroupAwareRolesProvider,
         at_ifaces.IUserRoles, IManageCapabilities,
         IAttributeAnnotatable, IRememberUserChanger,
@@ -443,7 +442,7 @@ class BaseMember(object):
             # Reset the credentials if the current member initiates
             mem = mtool.getAuthenticatedMember()
             if mem.getUserName() == self.getUserName():
-                mtool.credentialsChanged(password)
+                mtool.credentialsChanged(password, self.REQUEST)
 
     def _migrateSetValue(self, name, value, old_schema=None, **kw):
         if name == 'password':
