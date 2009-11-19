@@ -2,7 +2,6 @@
            tal:define="view context/@@at_base_edit_view;
                        errors options/state/getErrors|nothing;
                        Iterator python:modules['Products.Archetypes'].IndexIterator;
-                       tabindex tabindex|python:Iterator(pos=7000);
                        schematas here/Schemata;
                        fieldsets python:[key for key in schematas.keys() if (key != 'metadata') and (schematas[key].filterFields(regfield=1))];
                        default_fieldset python:(not schematas or schematas.has_key('default')) and 'default' or fieldsets[0];
@@ -103,12 +102,10 @@
                   <metal:slot define-slot="register_button_registration_form">
                     <input
                         class="context register"
-                        tabindex=""
                         type="submit"
                         name="form.button.register"
                         i18n:attributes="value"
-                        value="Register"
-                        tal:attributes="tabindex tabindex/next;" />
+                        value="Register" />
                   </metal:slot>
                 </metal:slot>
               </div>
