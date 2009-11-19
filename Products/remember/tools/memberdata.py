@@ -260,5 +260,5 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
             return BaseTool._getPortrait(self, member_id)
         return portrait
 
-atapi.registerType(MemberDataContainer)
+atapi.registerType(MemberDataContainer, 'remember')
 InitializeClass(MemberDataContainer)

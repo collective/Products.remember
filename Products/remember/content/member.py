@@ -704,7 +704,7 @@ class Member(BrowserDefaultMixin, BaseMember, atapi.BaseContent):
         """
         return self.getId()
 
-atapi.registerType(Member)
+atapi.registerType(Member, 'remember')
 
 
 class FolderishMember(BrowserDefaultMixin, BaseMember, atapi.BaseFolder):
@@ -725,4 +725,4 @@ class FolderishMember(BrowserDefaultMixin, BaseMember, atapi.BaseFolder):
         """
         return self.getId()
 
-atapi.registerType(FolderishMember)
+atapi.registerType(FolderishMember, 'remember')
