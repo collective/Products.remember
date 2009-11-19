@@ -343,7 +343,11 @@ class TestMember(RememberTestBase):
         mdatatool = getToolByName(self.portal, 'portal_memberdata')
         self.setupDummyUser()
         member = mtool.getMemberById('newmember')
-        editor = mdatatool.getProperty('wysiwyg_editor') or 'Kupu'
+        editor = mdatatool.getProperty(
+            'wysiwyg_editor', getToolByName(
+                self, 'portal_properties'
+                ).site_properties.getProperty(
+                'default_editor', 'Kupu'))
         self.failUnless(editor == member.getProperty('wysiwyg_editor'))
 
     def testChangedWysiwygEditor(self):
