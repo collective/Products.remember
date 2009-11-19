@@ -5,15 +5,18 @@ from base import RememberTestBase
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 
-from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFFormController.ControllerState import ControllerState
+
+from Products.GenericSetup import interfaces
 from Products.GenericSetup.testing import DummySetupEnviron
 from Products.GenericSetup import profile_registry, EXTENSION
-from Products.CMFFormController.ControllerState import ControllerState
-from Products.PloneTestCase import layer
-from Products.remember.config import ANNOT_KEY
 
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.PloneTestCase import layer
+from Products.CMFPlone.tests import PloneTestCase
+
+from Products.remember.config import ANNOT_KEY
 
 # set up XML profile for testing
 profile_registry.registerProfile('test',
@@ -25,7 +28,7 @@ profile_registry.registerProfile('test',
                                  for_=IPloneSiteRoot)
 
 
-class TestRememberProfiles(ArcheSiteTestCase):
+class TestRememberProfiles(PloneTestCase.PloneTestCase):
     """
     Uses a different layer so the profile import can be tested.
     """
@@ -76,8 +79,9 @@ class TestRememberMembraneToolXMLAdapter(RememberTestBase):
         RememberTestBase.afterSetUp(self)
 
         self.dummy_env = DummySetupEnviron()
-        self.adapter = getMultiAdapter((self.portal.membrane_tool,
-                                        self.dummy_env))
+        self.adapter = getMultiAdapter(
+            (self.portal.membrane_tool, self.dummy_env),
+            interfaces.IBody)
 
     def testAnnotateHash(self):
         """hash-type nodes with valid/invalid data annotate appropriately"""
