@@ -1,15 +1,18 @@
 import unittest
-import doctest
+from zope.testing import doctest
 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from base import RememberFunctionalTestBase
 
+optionflags = (doctest.ELLIPSIS |
+               doctest.NORMALIZE_WHITESPACE |
+               doctest.REPORT_NDIFF)
 
 def test_suite():
     suite = FunctionalDocFileSuite(
         'control_panel.txt',
         package='Products.remember.tests',
-        optionflags=doctest.ELLIPSIS|doctest.NORMALIZE_WHITESPACE,
+        optionflags=optionflags,
         test_class=RememberFunctionalTestBase)
     return suite
 
