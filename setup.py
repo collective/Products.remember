@@ -2,6 +2,7 @@ from setuptools import setup, find_packages
 import os
 
 version = '1.1b4'
+tests_require = ['collective.testcaselayer']
 
 setup(name='Products.remember',
       version=version,
@@ -28,6 +29,8 @@ setup(name='Products.remember',
           'Products.membrane>=1.1dev',
           # -*- Extra requirements: -*-
       ],
+      tests_require = tests_require,
+      extras_require = {'test': tests_require},
       entry_points="""
       # -*- Entry points: -*-
       """,

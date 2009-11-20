@@ -1,20 +1,15 @@
-from zope.app.component.hooks import setSite
-from zope.app.component.hooks import setHooks
-
-import transaction as txn
-
-from AccessControl.SecurityManagement import newSecurityManager
-
 from Testing                 import ZopeTestCase
+
 from Products.CMFCore.utils  import getToolByName
-from Products.PloneTestCase import layer
+
 from Products.CMFPlone.tests.PloneTestCase import PloneTestCase
 from Products.CMFPlone.tests.PloneTestCase import FunctionalTestCase
 
+from collective.testcaselayer import ptc as tcl_ptc
+from collective.testcaselayer import mail
+
 import Products.remember.config as config
 from Products.remember.tools.memberdata import MemberDataContainer
-
-SiteLayer = layer.PloneSite
 
 ZopeTestCase.installProduct("membrane")
 ZopeTestCase.installProduct("remember")
@@ -70,29 +65,21 @@ def addMember(context, name, portal_type=config.DEFAULT_MEMBER_TYPE):
     mem.update(**data)
     return mem
 
-    
-class RememberProfileLayer(SiteLayer):
 
-    @classmethod
-    def setUp(cls):
+class RememberProfileLayer(tcl_ptc.BasePTCLayer):
+
+    def afertSetUp(self):
         """
         do all universal remember project test initialization in the
         layer here this layer is for tests that are
         non-destructive. destructive tests need to go in a sub-layer
         """
-        txn.begin()
-        app = ZopeTestCase.app()
-
-        setHooks()
-        setSite(app.plone)
 
         # BBB: Plone 3.0 no longer allows anonymous users to join by
         # default.  This should be removed and the tests adjusted when
         # Plone 2.5 is no longer supported in trunk
-        app.plone.manage_permission(
+        self.portal.manage_permission(
             'Add portal member', roles=[], acquire=1)
-
-        setup_tool = app.plone.portal_setup
 
         # XXX: ugly hack to work around interference from the inherited
         # 'description' attribute
@@ -101,72 +88,42 @@ class RememberProfileLayer(SiteLayer):
                 fget = MemberDataContainer._nope,
                 fset = MemberDataContainer._setDescription)
 
-        setup_tool.runAllImportStepsFromProfile(
-            'profile-Products.remember:default')
+        self.addProfile('Products.remember:default')
 
         # mock sending emails
-        rtool = getToolByName(app.plone, 'portal_registration')
-        rtool.MailHost = MailHostMock()
+        rtool = getToolByName(self.portal, 'portal_registration')
         rtool.mail_password_response = do_nothing
 
         # don't send emails out by default
-        ptool = getToolByName(app.plone, 'portal_properties')
+        ptool = getToolByName(self.portal, 'portal_properties')
         ptool.site_properties.validate_email = 0
 
         # add all our remember members (as portal_owner)
-        user = app.acl_users.getUser('portal_owner')
-        newSecurityManager(None, user)
+        self.loginAsPortalOwner()
         
         for mem_id in mem_data:
-            addMember(app.plone, mem_id)
+            addMember(self.portal, mem_id)
         
         # stock default plone non-remember user/member
         user_name = 'non_remember_member'
         user_password = 'secret'
         user_role = 'Member'
 
-        uf = app.plone.acl_users
+        uf = self.portal.acl_users
         uf.source_users.doAddUser(user_name, user_password)
         non_remember_member = uf.getUser(user_name)
         non_remember_member._addRoles(['Member'])
 
-        txn.commit()
-
-    @classmethod
-    def tearDown(cls):
-        pass
-
-    @classmethod
-    def testSetUp(cls):
-        pass
-
-    @classmethod
-    def testTearDown(cls):
-        pass
+remember_profile_layer = RememberProfileLayer([mail.mockmailhost_layer])
 
 def do_nothing(*a):
     """ would make this a lambda, but zodb complains about pickling"""
     return True
 
-class MailHostMock(object):
-    """
-    mock up the send method so that emails do not actually get sent
-    during unit tests we can use this to verify that the registration
-    process is still working as expected
-    """
-    def __init__(self):
-        self.mail_text = ''
-        self.n_mails = 0
-    def send(self, mail_text):
-        self.mail_text += mail_text
-        self.n_mails += 1
-    def validateSingleEmailAddress(self, email):
-        return True
-
 # This is the test case. You will have to add test_<methods> to your
 # class in order to assert things about your Product.
 class RememberTestBase(PloneTestCase):
-    layer = RememberProfileLayer
+    layer = remember_profile_layer
 
     def addMember(self, name):
         return globals()['addMember'](self.portal, name)
@@ -195,4 +152,4 @@ class RememberTestBase(PloneTestCase):
 
 
 class RememberFunctionalTestBase(FunctionalTestCase, PloneTestCase):
-    layer = RememberProfileLayer
+    layer = remember_profile_layer
