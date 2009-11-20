@@ -274,10 +274,12 @@ class TestMember(RememberTestBase):
         # sent out for the correct member
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
-        self.failUnless('Portal Member' in mh.mail_text)
+        msg = mh.pop()
+        mail_text = msg[0][0]
+        self.failUnless('Portal Member' in mail_text)
         self.failUnless('your user account has been created'
-                        in mh.mail_text)
-        self.assertEqual(mh.n_mails, 1)
+                        in mail_text)
+        self.assertEqual(len(mh), 0)
 
     def testPortalSetupMemberRegistration(self):
         """
@@ -285,23 +287,18 @@ class TestMember(RememberTestBase):
         then the mail_me property is irrelevant
         """
         rtool = getToolByName(self.portal, 'portal_registration')
-        
-        # save current state to revert back later
         mh = rtool.MailHost
-        old_mailtext = mh.mail_text
-        old_n_mails = mh.n_mails
+        mh.reset()
 
-        mh.mail_text = ''
-        mh.n_mails = 0
         ptool = getToolByName(self.portal, 'portal_properties')
         ptool.site_properties.validate_email = 1
         mem = self.addMember('lammy')
-        self.assertEqual(mh.mail_text.count('Welcome'), 1)
-        self.assertEqual(mh.n_mails, 1)
+
+        mail_text = mh.pop()[0][0]
+        self.assertEqual(mail_text.count('Welcome'), 1)
+        self.assertEqual(len(mh), 0)
 
         # tear down changes made by current test
-        mh.mail_text = old_mailtext
-        mh.n_mails = old_n_mails
         ptool.site_properties.validate_email = 0
 
     def testVisibleIdsOffInitially(self):

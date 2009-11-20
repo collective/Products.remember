@@ -49,25 +49,20 @@ class TestWorkflow(RememberTestBase):
         # save current state to revert back later
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
+        mh.reset()
         ptool = getToolByName(self.portal, 'portal_properties')
         ptool.site_properties.validate_email = 1
-        old_mailtext = mh.mail_text
-        old_n_mails = mh.n_mails
-
-        mh.mail_text = ''
-        mh.n_mails = 0
         
         # approve new member
         self.login('admin_member')
         wftool.doActionFor(mem, 'register_public')
         
         # check if registration mail is sent
-        self.assertEqual(mh.mail_text.count('Welcome'), 1)
-        self.assertEqual(mh.n_mails, 1)
+        mail_text = mh.pop()[0][0]
+        self.assertEqual(mail_text.count('Welcome'), 1)
+        self.assertEqual(len(mh), 0)
 
         # tear down changes made by current test
-        mh.mail_text = old_mailtext
-        mh.n_mails = old_n_mails
         ptool.site_properties.validate_email = 0
         wftool.setChainForPortalTypes((DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
         wftool.updateRoleMappings()
@@ -89,25 +84,20 @@ class TestWorkflow(RememberTestBase):
         # save current state to revert back later
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
+        mh.reset()
         ptool = getToolByName(self.portal, 'portal_properties')
         ptool.site_properties.validate_email = 1
-        old_mailtext = mh.mail_text
-        old_n_mails = mh.n_mails
-
-        mh.mail_text = ''
-        mh.n_mails = 0
         
         # approve new member
         self.login('admin_member')
         wftool.doActionFor(mem, 'register_private')
         
         # check if registration mail is sent
-        self.assertEqual(mh.mail_text.count('Welcome'), 1)
-        self.assertEqual(mh.n_mails, 1)
+        mail_text = mh.pop()[0][0]
+        self.assertEqual(mail_text.count('Welcome'), 1)
+        self.assertEqual(len(mh), 0)
 
         # tear down changes made by current test
-        mh.mail_text = old_mailtext
-        mh.n_mails = old_n_mails
         ptool.site_properties.validate_email = 0
         wftool.setChainForPortalTypes((DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
         wftool.updateRoleMappings()

@@ -66,9 +66,9 @@ def addMember(context, name, portal_type=config.DEFAULT_MEMBER_TYPE):
     return mem
 
 
-class RememberProfileLayer(tcl_ptc.BasePTCLayer):
+class RememberProfileLayer(mail.MockMailHostLayer):
 
-    def afertSetUp(self):
+    def afterSetUp(self):
         """
         do all universal remember project test initialization in the
         layer here this layer is for tests that are
@@ -89,6 +89,7 @@ class RememberProfileLayer(tcl_ptc.BasePTCLayer):
                 fset = MemberDataContainer._setDescription)
 
         self.addProfile('Products.remember:default')
+        super(RememberProfileLayer, self).afterSetUp()
 
         # mock sending emails
         rtool = getToolByName(self.portal, 'portal_registration')
@@ -100,7 +101,7 @@ class RememberProfileLayer(tcl_ptc.BasePTCLayer):
 
         # add all our remember members (as portal_owner)
         self.loginAsPortalOwner()
-        
+
         for mem_id in mem_data:
             addMember(self.portal, mem_id)
         
@@ -114,7 +115,7 @@ class RememberProfileLayer(tcl_ptc.BasePTCLayer):
         non_remember_member = uf.getUser(user_name)
         non_remember_member._addRoles(['Member'])
 
-remember_profile_layer = RememberProfileLayer([mail.mockmailhost_layer])
+remember_profile_layer = RememberProfileLayer([tcl_ptc.ptc_layer])
 
 def do_nothing(*a):
     """ would make this a lambda, but zodb complains about pickling"""
