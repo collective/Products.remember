@@ -1,4 +1,8 @@
 import unittest
+import hmac
+import sha # BBB Python 2.4
+
+from zope import component
 
 from DateTime import DateTime
 
@@ -7,6 +11,7 @@ import transaction
 from base import RememberTestBase
 from base import makeContent
 
+from plone.keyring.interfaces import IKeyManager
 from Products.CMFPlone.tests import dummy
 
 from Products.remember.config import DEFAULT_MEMBER_TYPE
@@ -218,7 +223,14 @@ class TestMember(RememberTestBase):
 
         # now modify the password at the same level as the password form
         newpasswd = 'newerpasswd'
-        mtool.setPassword(newpasswd)
+        request = self.portal.REQUEST
+        request['_authenticator'] = hmac.new(
+            component.getUtility(IKeyManager)[u"_system"][0],
+            mem.getUserName(), sha).hexdigest()
+        request['method'] = request.environ['REQUEST_METHOD'] = 'POST'
+        mtool.setPassword(newpasswd, REQUEST=request)
+        request['method'] = request.environ['REQUEST_METHOD'] = 'GET'
+        del request.other['_authenticator']
 
         # verify that the password changed
         newhash = mem.getPassword()
@@ -228,7 +240,7 @@ class TestMember(RememberTestBase):
         mem_id = mem.getId()
         user = self.portal.acl_users.authenticate(mem_id,
                                                   newpasswd,
-                                                  self.portal.REQUEST)        
+                                                  request)        
         self.assertEqual(mem_id, user.getId())
 
     def testEmailPasswordCheckbox(self):
