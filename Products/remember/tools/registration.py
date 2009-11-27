@@ -4,7 +4,7 @@ from smtplib import SMTPRecipientsRefused
 from AccessControl import ClassSecurityInfo
 from AccessControl import Unauthorized
 from AccessControl.User import SpecialUser     
-from Globals import InitializeClass
+from App.class_init import InitializeClass
 
 from Products.CMFCore.utils import getToolByName, _checkPermission
 from Products.CMFPlone.RegistrationTool import RegistrationTool as BaseTool

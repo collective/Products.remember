@@ -3,7 +3,7 @@ import re
 
 from AccessControl import ClassSecurityInfo
 from AccessControl import Unauthorized
-from Globals import InitializeClass
+from App.class_init import InitializeClass
 from Acquisition import aq_base
 
 from zope.interface import implements

@@ -1,4 +1,4 @@
-import sha
+import sha # BBB Python 2.4
 import hmac
 
 from persistent.mapping import PersistentMapping

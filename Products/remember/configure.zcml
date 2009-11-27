@@ -42,7 +42,7 @@
 	   />
 
   <adapter for="Products.membrane.interfaces.user.IMembraneUserObject"
-       provides="Products.membrane.interfaces.IUserChanger"
+       provides="Products.membrane.at.interfaces.IUserChanger"
        factory=".content.member.Member"
        />
 
