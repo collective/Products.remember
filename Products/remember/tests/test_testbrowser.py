@@ -9,12 +9,13 @@ optionflags = (doctest.ELLIPSIS |
                doctest.REPORT_NDIFF)
 
 def test_suite():
-    suite = FunctionalDocFileSuite(
+    doc_suite = FunctionalDocFileSuite(
         'control_panel.txt',
+        'reset.txt',
         package='Products.remember.tests',
         optionflags=optionflags,
         test_class=RememberFunctionalTestBase)
-    return suite
+    return doc_suite
 
 if __name__ == "__main__":
     unittest.main(defaultTest='test_suite')
