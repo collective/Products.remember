@@ -36,18 +36,13 @@ Register a new member.
 
 An email has been sent to the new member with a reset link.
 
-    >>> msg = portal.MailHost.pop()[0][0]
+    >>> msg = portal.MailHost.pop().get_payload()
     >>> print msg
-    From: ...
-    To: foo@foo.com
-    Subject: User Account Information for Plone site
-    Content-Type: text/plain; charset=utf-8
         Welcome Foo Full Name,
         your user account has been created. Please activate it by visiting
         http://nohost/plone/passwordreset/...?userid=foo
         You must activate your account within 168
         hours, so before ...
-        With kind regards,...
 
 Visit the reset link and set the password.
 

@@ -286,8 +286,7 @@ class TestMember(RememberTestBase):
         # sent out for the correct member
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
-        msg = mh.pop()
-        mail_text = msg[0][0]
+        mail_text = mh.pop().as_string()
         self.failUnless('Portal Member' in mail_text)
         self.failUnless('your user account has been created'
                         in mail_text)
@@ -306,7 +305,7 @@ class TestMember(RememberTestBase):
         ptool.site_properties.validate_email = 1
         mem = self.addMember('lammy')
 
-        mail_text = mh.pop()[0][0]
+        mail_text = mh.pop().as_string()
         self.assertEqual(mail_text.count('Welcome'), 1)
         self.assertEqual(len(mh), 0)
 

@@ -58,7 +58,7 @@ class TestWorkflow(RememberTestBase):
         wftool.doActionFor(mem, 'register_public')
         
         # check if registration mail is sent
-        mail_text = mh.pop()[0][0]
+        mail_text = mh.pop().as_string()
         self.assertEqual(mail_text.count('Welcome'), 1)
         self.assertEqual(len(mh), 0)
 
@@ -93,7 +93,7 @@ class TestWorkflow(RememberTestBase):
         wftool.doActionFor(mem, 'register_private')
         
         # check if registration mail is sent
-        mail_text = mh.pop()[0][0]
+        mail_text = mh.pop().as_string()
         self.assertEqual(mail_text.count('Welcome'), 1)
         self.assertEqual(len(mh), 0)
 
