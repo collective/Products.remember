@@ -29,12 +29,12 @@ and click "Show all" users::
 
     >>> browser.getControl('Show all').click()
     >>> browser.getLink('blank_member')
-    <Link text='[IMG]\xc2\xa0blank_member ()'...
-    >>> browser.getLink('admin_member ()')
-    <Link text='[IMG]\xc2\xa0admin_member ()'...
-    >>> browser.getLink('portal_member (Portal Member)')
-    <Link text='[IMG]\xc2\xa0portal_member (Portal Member)'...
-    >>> browser.getLink('non_remember_member ()')
-    <Link text='[IMG]\xc2\xa0non_remember_member ()'...
-    >>> browser.getLink('test_user_1_ ()')
-    <Link text='[IMG]\xc2\xa0test_user_1_ ()'...
+    <Link text='... url='http://nohost/plone/portal_memberdata/blank_member'>
+    >>> browser.getLink('admin_member', index=1)
+    <Link text='... url='http://nohost/plone/portal_memberdata/admin_member'>
+    >>> browser.getLink('portal_member')
+    <Link text='... url='http://nohost/plone/portal_memberdata/portal_member'>
+    >>> browser.getLink('non_remember_member')
+    <Link text='... url='...non_remember_member'>
+    >>> browser.getLink('test_user_1_')
+    <Link text='... url='http://nohost/plone/portal_memberdata/test_user_1_'>

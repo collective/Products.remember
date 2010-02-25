@@ -2,7 +2,8 @@ from setuptools import setup, find_packages
 import os
 
 version = '1.1b4'
-tests_require = ['collective.testcaselayer']
+tests_require = ['collective.testcaselayer',
+                 'zope.testbrowser>3.3']
 
 setup(name='Products.remember',
       version=version,

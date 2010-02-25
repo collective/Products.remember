@@ -99,6 +99,10 @@ class RememberProfileLayer(mail.MockMailHostLayer):
         ptool = getToolByName(self.portal, 'portal_properties')
         ptool.site_properties.validate_email = 0
 
+        # Make sure the site has a valid mail sending configuration
+        self.portal.manage_changeProperties(
+            email_from_address='portal_ownwer@nohost.org')
+
         # add all our remember members (as portal_owner)
         self.loginAsPortalOwner()
 
