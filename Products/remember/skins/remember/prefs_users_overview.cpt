@@ -18,7 +18,7 @@
                 portal_roles here/getGlobalPortalRoles;
                 searchstring request/searchstring | nothing;">
 
-      <div id="content" class="documentEditable"
+      <div id="region-content" class="documentEditable"
            tal:condition="python:checkPermission('Manage users', here)">
 
             <ul class="contentViews">
@@ -28,7 +28,8 @@
                    i18n:translate="label_users">Users</a>
               </li>
               <li>
-                <a href="prefs_groups_overview"
+                <a href=""
+                   tal:attributes="href string:$portal_url/prefs_groups_overview"
                    i18n:translate="label_groups">Groups</a>
               </li>
               <li>
@@ -42,7 +43,7 @@
               &nbsp;
             </div>
 
-            <div class="documentContent" id="region-content">
+            <div class="documentContent" id="content">
                 <a name="documentContent"></a>
 
       <div metal:use-macro="here/global_statusmessage/macros/portal_message">
@@ -55,7 +56,7 @@
 
         <a href=""
            class="link-parent"
-           tal:attributes="href string: $portal_url/plone_control_panel"
+           tal:attributes="href string:$portal_url/plone_control_panel"
            i18n:translate="label_up_to_plone_setup">
           Up to Site Setup
         </a>
@@ -111,8 +112,7 @@
               method="post"
               tal:attributes="action template/getId"
               tal:define="findAll python:'form.button.FindAll' in request.keys();
-                          searchstring request/searchstring | nothing;
-                          search_view here/@@pas_search|nocall:here/acl_users;
+                          search_view here/@@pas_search;
                           portal_users python:(searchstring or findAll) and search_view.searchUsers(**(findAll and dict(sort_by='userid') or dict(sort_by='userid', fullname=searchstring))) or [];
                           batch python:Batch(portal_users, b_size, int(b_start), orphan=1)">
           <input type="hidden" name="form.submitted" value="1" />
@@ -161,15 +161,17 @@
         <tal:block repeat="this_user batch">
           <tr tal:define="oddrow repeat/this_user/odd;
                           userid this_user/userid;
-                          user python:mtool.getMemberById(userid);
-                          fullname python:user.getProperty('fullname')"
+                          mq python:modules['ZTUtils'].make_query;
+                          userquery python:mq(userid=userid);
+                          user python:mtool.getMemberById(userid)"
+              tal:condition="python:user is not None"
               tal:attributes="class python:test(oddrow,'odd','even')">
 
                     <td>
               <a href="prefs_user_details"
                  tal:attributes="href user/absolute_url">
             <tal:block replace="structure portal/user.gif"/>&nbsp;<span tal:replace="userid">username</span>
-            (<span tal:replace="fullname">Full Name</span>)
+            (<span tal:replace="python:user.getProperty('fullname')">Full Name</span>)
               </a>
               <input type="hidden" name="users.id:records" tal:attributes="value userid" />
                     </td>
@@ -252,13 +254,15 @@
              tal:condition="batch"
         />
 
+        <input tal:replace="structure context/@@authenticator/authenticator" />
+
         </form>
 
       </div>
     </div>
       </div>
 
-      <div id="content" class="documentEditable"
+      <div id="region-content" class="documentEditable"
            tal:condition="python:not checkPermission('Manage users', here)">
         <tal:block replace="here/raiseUnauthorized" />
       </div>
