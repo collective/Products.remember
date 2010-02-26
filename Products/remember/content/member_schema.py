@@ -281,7 +281,7 @@ security_schema = atapi.Schema((
         user_property=True,
         widget=atapi.BooleanWidget(
             label='Must change password on next login',
-            label_msgid='label_mail_password',
+            label_msgid='label_must_change_password',
             description='',
             i18n_domain='plone',
             condition="object/showPasswordField")),
@@ -351,7 +351,7 @@ security_schema = atapi.Schema((
         multivalued=1,
         user_property=True,
         widget=atapi.LinesWidget(label='Domains',
-             label_msgid='',
+             label_msgid='label_domains',
              description="If you would like to restrict this user to "
              "logging in only from certain domains, enter those "
              "domains here.",
