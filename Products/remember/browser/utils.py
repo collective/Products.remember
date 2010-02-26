@@ -9,7 +9,7 @@ class PrefsUrlComputer(BrowserView):
     Trivial view class that computes the appropriate URL for the
     'preferences' link.
     """
-    def getPrefsUrl(self):
+    def __call__(self):
         mtool = getToolByName(self.context, 'portal_membership')
         member = mtool.getAuthenticatedMember()
         if IRememberAuthProvider.providedBy(member):

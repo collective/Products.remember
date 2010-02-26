@@ -8,7 +8,6 @@
      name="prefs_url"
      class=".utils.PrefsUrlComputer"
      permission="zope2.View"
-     attribute="getPrefsUrl"
      />
 
   <browser:page
