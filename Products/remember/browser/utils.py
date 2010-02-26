@@ -33,6 +33,17 @@ class MemberPrefsUrl(object):
     'preferences' link for a non-remember user.
     """
     def __call__(self):
+        member = aq_parent(self.context)
+        portal_url = getToolByName(self.context, 'portal_url')()
+        return "%s/prefs_user_details?%s" % (
+            portal_url, make_query(userid=member.getUserId()))
+
+class BBBMemberPrefsUrl(object):
+    """
+    Trivial view class that computes the appropriate URL for the
+    'preferences' link for a non-remember user.
+    """
+    def __call__(self):
         member = aq_parent(aq_parent(self.context))
         portal_url = getToolByName(self.context, 'portal_url')()
         return "%s/prefs_user_details?%s" % (
