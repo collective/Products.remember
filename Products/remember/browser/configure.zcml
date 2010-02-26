@@ -6,7 +6,19 @@
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      name="prefs_url"
-     class=".utils.PrefsUrlComputer"
+     class=".utils.PortalPrefsUrl"
+     permission="zope2.View"
+     />
+  <browser:page
+     for="..interfaces.IReMember"
+     name="prefs_url"
+     class=".utils.RememberPrefsUrl"
+     permission="zope2.View"
+     />
+  <browser:page
+     for="*"
+     name="prefs_url"
+     class=".utils.MemberPrefsUrl"
      permission="zope2.View"
      />
 
