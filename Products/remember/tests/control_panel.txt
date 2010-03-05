@@ -60,3 +60,82 @@ The links for remember and non-remember members work.
     ...
                             <div class="field">
     ...
+
+Disable setting the password.
+
+    >>> from plone.app.controlpanel import security
+    >>> sec = security.ISecuritySchema(portal)
+    >>> sec.enable_user_pwd_choice = False
+
+Clear the registration message sent out for the test member.
+
+    >>> msg = self.portal.MailHost.pop()
+    >>> len(self.portal.MailHost)
+    0
+
+A member can be added using the control panel and an email will be sent.
+
+    >>> browser.open(users_url)
+    >>> browser.getControl('Add New User').click()
+    >>> try:
+    ...     browser.getControl("User Name").value = 'foo'
+    ... except LookupError: # BBB Plone 3
+    ...     browser.getControl(name="id").value = 'foo'
+    >>> try:
+    ...     browser.getControl('Full Name').value = 'Foo Full Name'
+    ... except LookupError: # BBB Plone 3
+    ...     browser.getControl('Full name').value = 'Foo Full Name'
+    >>> browser.getControl('E-mail').value = 'foo@foo.com'
+    >>> browser.getControl('Register').click()
+    >>> print browser.contents
+    <...
+                <dd>Changes saved.</dd>
+    ...
+    <h1>Welcome!</h1>
+    <p>You have been registered as a member.</p>
+    ...
+
+    >>> msg = portal.MailHost.pop().get_payload()
+    >>> len(portal.MailHost)
+    0
+    >>> print msg
+        Welcome Foo Full Name,
+        your user account has been created. Please activate it by visiting
+        http://nohost/plone/passwordreset/...?userid=foo
+        You must activate your account within 168
+        hours, so before ...
+
+A member can also be added directly to the portal_memberdata folder
+using portal_factory.  An email will be sent.
+
+    >>> browser.open(portal.portal_memberdata.absolute_url())
+    >>> browser.getLink('Add Member').click()
+    >>> browser.url
+    'http://nohost/plone/portal_memberdata/portal_factory/Member/.../edit'
+    >>> try:
+    ...     browser.getControl("User Name").value = 'bar'
+    ... except LookupError: # BBB Plone 3
+    ...     browser.getControl(name="id").value = 'bar'
+    >>> try:
+    ...     browser.getControl('Full Name').value = 'Bar Full Name'
+    ... except LookupError: # BBB Plone 3
+    ...     browser.getControl('Full name').value = 'Bar Full Name'
+    >>> browser.getControl('E-mail').value = 'bar@bar.com'
+    >>> browser.getControl('Save').click()
+    >>> print browser.contents
+    <...
+                <dd>Changes saved.</dd>
+    ...
+    >>> portal.portal_workflow.getInfoFor(
+    ...     portal.portal_memberdata.bar, 'review_state')
+    'public'
+
+    >>> msg = portal.MailHost.pop().get_payload()
+    >>> len(portal.MailHost)
+    0
+    >>> print msg
+        Welcome Bar Full Name,
+        your user account has been created. Please activate it by visiting
+        http://nohost/plone/passwordreset/...?userid=bar
+        You must activate your account within 168
+        hours, so before ...
