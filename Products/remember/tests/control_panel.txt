@@ -61,6 +61,27 @@ The links for remember and non-remember members work.
                             <div class="field">
     ...
 
+Searching for text in a member's full name will list only the matching
+members.
+
+    >>> browser.open(users_url)
+    >>> browser.getControl(name="searchstring").value = 'Portal'
+    >>> browser.getControl(name="form.button.Search").click()
+    >>> browser.getLink('blank_member')
+    Traceback (most recent call last):
+    LinkNotFoundError
+    >>> browser.getLink('admin_member', index=1)
+    Traceback (most recent call last):
+    LinkNotFoundError
+    >>> browser.getLink('portal_member')
+    <Link text='...' url='http://nohost/plone/portal_memberdata/portal_member'>
+    >>> browser.getLink('non_remember_member')
+    Traceback (most recent call last):
+    LinkNotFoundError
+    >>> browser.getLink('test_user_1_')
+    Traceback (most recent call last):
+    LinkNotFoundError
+
 Disable setting the password.
 
     >>> from plone.app.controlpanel import security
