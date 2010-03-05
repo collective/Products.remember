@@ -87,13 +87,6 @@ A member can be added using the control panel and an email will be sent.
     ...     browser.getControl('Full name').value = 'Foo Full Name'
     >>> browser.getControl('E-mail').value = 'foo@foo.com'
     >>> browser.getControl('Register').click()
-    >>> print browser.contents
-    <...
-                <dd>Changes saved.</dd>
-    ...
-    <h1>Welcome!</h1>
-    <p>You have been registered as a member.</p>
-    ...
 
     >>> msg = portal.MailHost.pop().get_payload()
     >>> len(portal.MailHost)
