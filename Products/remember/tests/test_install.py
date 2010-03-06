@@ -50,6 +50,7 @@ class TestRememberProfiles(PloneTestCase.PloneTestCase):
         self.assertRaises(AttributeError, getattr,
                           self.portal, 'membrane_tool')
         # imports the xml file in the test profile
+        setup_tool.runAllImportStepsFromProfile('profile-Products.remember:default')
         setup_tool.runAllImportStepsFromProfile('profile-remember:test')
 
         mbtool = self.portal.membrane_tool

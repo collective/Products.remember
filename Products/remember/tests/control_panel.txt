@@ -3,6 +3,10 @@
 Control Panels
 ==============
 
+Install another remember member type.
+
+    >>> self.addProfile('remember:test')
+
 Log in as a Manager::
 
     >>> from Products.Five.testbrowser import Browser
@@ -94,9 +98,19 @@ Clear the registration message sent out for the test member.
     >>> len(self.portal.MailHost)
     0
 
-A member can be added using the control panel and an email will be sent.
+The control panel supports adding multiple member types via a pulldown
+menu.
 
     >>> browser.open(users_url)
+    >>> browser.getControl(name='type_name').controls
+    [<ItemControl name='type_name' type='select' optionValue='Member'
+    selected=True>,
+    <ItemControl name='type_name' type='select'
+    optionValue='AlternateMember' selected=False>]
+    >>> browser.getControl('Alternate Member').selected = True
+
+A member can be added using the control panel and an email will be sent.
+
     >>> browser.getControl('Add New User').click()
     >>> try:
     ...     browser.getControl("User Name").value = 'foo'
@@ -123,7 +137,7 @@ A member can also be added directly to the portal_memberdata folder
 using portal_factory.  An email will be sent.
 
     >>> browser.open(portal.portal_memberdata.absolute_url())
-    >>> browser.getLink('Add Member').click()
+    >>> browser.getLink(url='createObject?type_name=Member').click()
     >>> browser.url
     'http://nohost/plone/portal_memberdata/portal_factory/Member/.../edit'
     >>> try:

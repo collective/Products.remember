@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object name="MemberDataContainer" meta_type="Factory-based Type Information"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="allowed_content_types">
+   <element value="Member" />
+   <element value="AlternateMember" />
+ </property>
+</object>
