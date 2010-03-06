@@ -43,3 +43,9 @@ Users can still successfully register in the portal.
     >>> browser.getControl('Register').click()
     >>> portal.portal_memberdata.foo
     <Member at /plone/portal_memberdata/foo>
+
+A remember installation can also be successfully exported using
+portal_setup.
+
+    >>> self.loginAsPortalOwner()
+    >>> ignored = portal.portal_setup.runAllExportSteps()

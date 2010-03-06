@@ -15,9 +15,11 @@
            Products.GenericSetup.interfaces.ISetupEnviron"
       />
 
-  <adapter for="..interfaces.IMemberDataContainer"
-      provides="Products.GenericSetup.interfaces.IFilesystemExporter"
-      factory=".memberdata.NoneFileSystemExporter"
-      />
+  <adapter
+     factory="Products.CMFPlone.exportimport.propertiestool.SimpleItemWithPropertiesXMLAdapter"
+     provides="Products.GenericSetup.interfaces.IBody"
+     for="..interfaces.IMemberDataContainer
+          Products.GenericSetup.interfaces.ISetupEnviron"
+     />
 
 </configure>
