@@ -93,7 +93,7 @@
             <option tal:repeat="type_name member_types"
                     tal:attributes="value type_name;
                                     selected python:type_name == default_type and 'selected' or nothing"
-                    tal:content="type_name">
+                    tal:content="python:portal.portal_types.getTypeInfo(type_name).Title()">
             </option>
           </select>
 
