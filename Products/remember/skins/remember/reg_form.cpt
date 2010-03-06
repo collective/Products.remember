@@ -1,7 +1,6 @@
 <tal:block metal:define-macro="master"
            tal:define="view context/@@at_base_edit_view;
                        errors options/state/getErrors|nothing;
-                       Iterator python:modules['Products.Archetypes'].IndexIterator;
                        schematas here/Schemata;
                        fieldsets python:[key for key in schematas.keys() if (key != 'metadata') and (schematas[key].filterFields(regfield=1))];
                        default_fieldset python:(not schematas or schematas.has_key('default')) and 'default' or fieldsets[0];
