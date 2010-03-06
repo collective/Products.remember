@@ -44,6 +44,24 @@ Users can still successfully register in the portal.
     >>> portal.portal_memberdata.foo
     <Member at /plone/portal_memberdata/foo>
 
+Members in the approval workflow can be viewed by a member with review
+permissions.
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> from Products.PloneTestCase import ptc
+    >>> owner_browser = Browser()
+    >>> owner_browser.handleErrors = False
+    >>> owner_browser.open(portal.absolute_url())
+    >>> owner_browser.getLink('Log in').click()
+    >>> owner_browser.getControl('Login Name').value = ptc.portal_owner
+    >>> owner_browser.getControl('Password').value = ptc.default_password
+    >>> owner_browser.getControl('Log in').click()
+    >>> owner_browser.open(portal.portal_memberdata.foo.absolute_url())
+    >>> print owner_browser.contents
+    <...
+                Foo Full Name
+    ...
+
 A remember installation can also be successfully exported using
 portal_setup.
 
