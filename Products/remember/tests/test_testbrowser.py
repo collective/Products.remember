@@ -12,6 +12,7 @@ def test_suite():
     doc_suite = FunctionalDocFileSuite(
         'control_panel.txt',
         'reset.txt',
+        'reinstall.txt',
         package='Products.remember.tests',
         optionflags=optionflags,
         test_class=RememberFunctionalTestBase)

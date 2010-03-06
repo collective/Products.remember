@@ -1,0 +1,45 @@
+;-*-Doctest-*-
+
+=========
+Reinstall
+=========
+
+Allow self registration and disable setting the password.
+
+    >>> from plone.app.controlpanel import security
+    >>> sec = security.ISecuritySchema(portal)
+    >>> sec.enable_self_reg = True
+    >>> sec.enable_user_pwd_choice = False
+
+Remember can be reinstalled safely.
+
+    >>> self.loginAsPortalOwner()
+    >>> portal.portal_quickinstaller.reinstallProducts(
+    ...     ['membrane', 'remember'])
+
+The workflow for a remember type can be changed safely.
+
+    >>> portal.portal_workflow.setChainForPortalTypes(
+    ...     ['Member'], ('member_approval_workflow',))
+    >>> ignored = portal.portal_workflow.updateRoleMappings()
+    >>> self.logout()
+
+Users can still successfully register in the portal.
+
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> browser.handleErrors = False
+    >>> browser.open(portal.absolute_url())
+    >>> browser.getLink('Register').click()
+    >>> try:
+    ...     browser.getControl("User Name").value = 'foo'
+    ... except LookupError: # BBB Plone 3
+    ...     browser.getControl(name="id").value = 'foo'
+    >>> try:
+    ...     browser.getControl('Full Name').value = 'Foo Full Name'
+    ... except LookupError: # BBB Plone 3
+    ...     browser.getControl('Full name').value = 'Foo Full Name'
+    >>> browser.getControl('E-mail').value = 'foo@foo.com'
+    >>> browser.getControl('Register').click()
+    >>> portal.portal_memberdata.foo
+    <Member at /plone/portal_memberdata/foo>
