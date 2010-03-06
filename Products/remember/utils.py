@@ -31,11 +31,7 @@ def getRememberTypes(context):
     """
     attool = getToolByName(context, 'archetype_tool')
     mbtool = getToolByName(context, MBTOOLNAME)
-    mbtypes = set(mbtool.listMembraneTypes())
-    remtypes = [t.getId() for t in
-                attool.listPortalTypesWithInterfaces([IReMember])]
-    remtypes = set(remtypes)
-    return list(mbtypes.intersection(remtypes))
+    return mbtool.listMembraneTypes()
 
 security.declarePublic('getAdderUtility')
 def getAdderUtility(context):
