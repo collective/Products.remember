@@ -18,7 +18,6 @@ from Products.membrane.interfaces import IUserAdder
 
 from config import AUTO_ROLES
 from config import ADDUSER_UTILITY_NAME
-from interfaces import IReMember
 from zope.app.container.interfaces import IObjectRemovedEvent
 
 
@@ -29,7 +28,6 @@ def getRememberTypes(context):
     """
     Return a list of all the membrane types that implement IReMember.
     """
-    attool = getToolByName(context, 'archetype_tool')
     mbtool = getToolByName(context, MBTOOLNAME)
     return mbtool.listMembraneTypes()
 
