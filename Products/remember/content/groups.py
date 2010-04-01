@@ -1,6 +1,7 @@
 from AccessControl import ClassSecurityInfo
 from Products.membrane.at.groups import Groups as BaseGroups
 
+
 class Groups(BaseGroups):
     """
     Adapts from IRememberGroupsProvider to IMembraneUserGroups.
@@ -9,7 +10,7 @@ class Groups(BaseGroups):
     member object.
     """
     security = ClassSecurityInfo()
-    
-    security.declarePrivate('getGroupsForPrincipal')
+
     def getGroupsForPrincipal(self, principal, request=None):
         return self.context.getGroups()
+    security.declarePrivate('getGroupsForPrincipal')

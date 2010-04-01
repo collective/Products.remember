@@ -1,7 +1,8 @@
 import unittest
 
 try:
-    import bcrypt; bcrypt # pyflakes
+    import bcrypt
+    bcrypt  # pyflakes
     HAS_BCRYPT = True
 except ImportError:
     HAS_BCRYPT = False
@@ -17,6 +18,7 @@ from Products.remember.config import HASHERS
 
 from base import RememberTestBase
 from base import def_mem_data
+
 
 class TestMigration(RememberTestBase):
     """
@@ -52,7 +54,6 @@ class TestMigration(RememberTestBase):
 
         self.assertEqual(salt_str, annot[ANNOT_KEY]['bcrypt_salt'])
 
-        
 
 def test_suite():
     suite = unittest.TestSuite()

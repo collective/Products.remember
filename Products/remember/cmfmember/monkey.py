@@ -9,7 +9,8 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.migrations.v2_5.betas import installPortalSetup
 from Products.CMFPlone.migrations.v2_5 import alphas
-from Products.CMFPlone.migrations.migration_util import installOrReinstallProduct
+from Products.CMFPlone.migrations.migration_util import (
+    installOrReinstallProduct)
 
 from Products.PlonePAS.Extensions import Install as InstallPlonePAS
 from Products.PlonePAS.Extensions.Install import addPAS
@@ -24,8 +25,8 @@ from Products.contentmigration.utils import unrestricted_move
 ################################################
 
 from config import MIGRATION_MAP
-from config import REPLACE_CMFMEMBER_WORKFLOWS
 from migrator import migrateCMFMembers
+
 
 ################################################
 # from CMFPlone.migrations.v2_5.alphas
@@ -35,7 +36,7 @@ def installPlonePAS(portal, out):
     instead of through QuickInstaller because our patches won't take
     if the function is called as an ExternalMethod."""
     NO_PLONEPAS = os.environ.get('SUPPRESS_PLONEPAS_INSTALLATION',
-                                 None)=='YES'
+                                 None) == 'YES'
     if NO_PLONEPAS:
         return
 
@@ -77,6 +78,7 @@ def grabUserData(portal, out):
     need to grab any user data."""
     print >> out, "\nSkipping Member information extraction..."
 
+
 def replaceUserFolder(portal, out):
     print >> out, ("\nUser folder replacement from CMFMember to "
                    "remember:")
@@ -91,6 +93,7 @@ def replaceUserFolder(portal, out):
     addPAS(portal, out)
 
     print >> out, "...replace done"
+
 
 def migrateMemberDataTool(portal, out):
     print >> out, ("MemberData Tool (portal_memberdata) from "
@@ -172,6 +175,7 @@ def migrateMemberDataTool(portal, out):
         updateProp(portal.portal_memberdata, elt)
 
     print >> out, " ...done"
+
 
 def restoreUserData(portal, out, userdata):
     print >> out, ("\nMigrating CMFMember content to remember "

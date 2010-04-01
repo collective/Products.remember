@@ -27,6 +27,7 @@ import config
 
 if config.CMFMEMBER_MIGRATION_SUPPORT:
     import cmfmember
+    cmfmember  # pyflakes
     from cmfmember.migrator import registerMigrators
 
 # BBB from when we had a custom membership tool
@@ -45,6 +46,7 @@ def initialize(context):
     # Importing the content types allows for their registration
     # with the Archetypes runtime
     import content
+    content  # pyflakes
 
     # Ask Archetypes to handback all the type information needed
     # to make the CMF happy.
@@ -61,12 +63,11 @@ def initialize(context):
         kind = "%s: %s" % (config.PROJECT_NAME, atype.archetype_name)
         cmf_utils.ContentInit(
             kind,
-            content_types = (atype, ),
-            permission = permissions[atype.portal_type],
-            extra_constructors = (constructor, ),
-            fti = ftis,
+            content_types=(atype, ),
+            permission=permissions[atype.portal_type],
+            extra_constructors=(constructor, ),
+            fti=ftis,
             ).initialize(context)
-
 
     # register image property type for user property sheets
     PropertySchema.addType('image',

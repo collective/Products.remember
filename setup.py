@@ -7,10 +7,12 @@ tests_require = ['collective.testcaselayer',
 
 setup(name='Products.remember',
       version=version,
-      description="A content-based implementation of Plone's default member infrastructure",
+      description="""\
+A content-based implementation of Plone's default member infrastructure""",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      # Get more strings from
+      # http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
@@ -30,8 +32,8 @@ setup(name='Products.remember',
           'Products.membrane>=1.1dev',
           # -*- Extra requirements: -*-
       ],
-      tests_require = tests_require,
-      extras_require = {'test': tests_require},
+      tests_require=tests_require,
+      extras_require={'test': tests_require},
       entry_points="""
       # -*- Entry points: -*-
       """,

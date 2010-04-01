@@ -4,7 +4,7 @@ from Products.membrane import permissions as membrane_permissions
 import config
 
 # This file is used to set up permissions for your product.
- 
+
 # Add a new member
 ADD_PERMISSION = ADD_MEMBER_PERMISSION = cmfcore_permissions.AddPortalMember
 # Register a new member, i.e. "activate" a membership
@@ -46,6 +46,8 @@ MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 
 ADD_PERMISSIONS = {config.DEFAULT_MEMBER_TYPE: ADD_MEMBER_PERMISSION,
                    }
+
+
 def initialize():
     permissions = {}
     types = atapi.listTypes(config.PROJECT_NAME)

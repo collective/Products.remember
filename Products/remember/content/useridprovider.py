@@ -1,5 +1,6 @@
 from Products.membrane.at import useridprovider
 
+
 class UserIdProvider(useridprovider.UserIdProvider):
     """
     Adapts from IUserAuthProvider to IMembraneUserObject.  Uses the

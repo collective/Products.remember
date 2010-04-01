@@ -15,8 +15,9 @@ from base import mem_data
 MEM_DATA = def_mem_data.copy()
 MEM_DATA.update(mem_data['portal_member'])
 
+
 class TestHasher(RememberTestBase):
-    """ 
+    """
     test the different hashing methods available
     """
 
@@ -25,7 +26,7 @@ class TestHasher(RememberTestBase):
             login_id = 'hashtest_%s' % htype
             member = self.portal_member
             if not getAdapter(member, IHashPW, htype).isAvailable(): continue
-            
+
             mbtool = getToolByName(member, 'membrane_tool')
             annot = IAnnotations(mbtool)
             annot.setdefault(ANNOT_KEY, {})['hash_type'] = htype
@@ -36,8 +37,9 @@ class TestHasher(RememberTestBase):
             hash_type, hashed = password.split(':', 1)
 
             self.assertEqual(htype, hash_type)
-            self.failUnless(member.verifyCredentials(dict(login='portal_member',
-                                                          **MEM_DATA)))
+            self.failUnless(member.verifyCredentials(
+                dict(login='portal_member', **MEM_DATA)))
+
 
 def test_suite():
     suite = unittest.TestSuite()

@@ -20,7 +20,7 @@ class TestWorkflow(RememberTestBase):
             'state_change', '')
         trans = wftool.plone_workflow.transitions.publish
         trans.script_name = 'dummy'
-    
+
     def test_WorkflowScript(self):
         """Make sure that workflows with scripts play nicely with
         remember members."""
@@ -33,30 +33,31 @@ class TestWorkflow(RememberTestBase):
                          'published')
 
     def test_ApprovalWorkflowPublicMemberRegistration(self):
-        """Make sure that a new member being approved with a public profile, receive
-        its registration mail"""
+        """Make sure that a new member being approved with a public
+        profile, receive its registration mail"""
         # set approval workflow on remember object
         wftool = getToolByName(self.portal, 'portal_workflow')
-        wftool.setChainForPortalTypes((DEFAULT_MEMBER_TYPE,), 'member_approval_workflow')
+        wftool.setChainForPortalTypes(
+            (DEFAULT_MEMBER_TYPE,), 'member_approval_workflow')
         wftool.updateRoleMappings()
-        
+
         # create new user
         mem = self.addMember('lammy')
         # check if new user state is pending
         self.assertEqual(wftool.getInfoFor(mem, 'review_state'),
                                 'pending')
-        
+
         # save current state to revert back later
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
         mh.reset()
         ptool = getToolByName(self.portal, 'portal_properties')
         ptool.site_properties.validate_email = 1
-        
+
         # approve new member
         self.login('admin_member')
         wftool.doActionFor(mem, 'register_public')
-        
+
         # check if registration mail is sent
         mail_text = mh.pop().as_string()
         self.assertEqual(mail_text.count('Welcome'), 1)
@@ -64,34 +65,36 @@ class TestWorkflow(RememberTestBase):
 
         # tear down changes made by current test
         ptool.site_properties.validate_email = 0
-        wftool.setChainForPortalTypes((DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
+        wftool.setChainForPortalTypes(
+            (DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
         wftool.updateRoleMappings()
-        
+
     def test_ApprovalWorkflowPrivateMemberRegistration(self):
-        """Make sure that a new member being approved with a private profile, receive
-        its registration mail"""
+        """Make sure that a new member being approved with a private
+        profile, receive its registration mail"""
         # set approval workflow on remember object
         wftool = getToolByName(self.portal, 'portal_workflow')
-        wftool.setChainForPortalTypes((DEFAULT_MEMBER_TYPE,), 'member_approval_workflow')
+        wftool.setChainForPortalTypes(
+            (DEFAULT_MEMBER_TYPE,), 'member_approval_workflow')
         wftool.updateRoleMappings()
-        
+
         # create new user
         mem = self.addMember('lammy')
         # check if new user state is pending
         self.assertEqual(wftool.getInfoFor(mem, 'review_state'),
                                 'pending')
-        
+
         # save current state to revert back later
         rtool = getToolByName(self.portal, 'portal_registration')
         mh = rtool.MailHost
         mh.reset()
         ptool = getToolByName(self.portal, 'portal_properties')
         ptool.site_properties.validate_email = 1
-        
+
         # approve new member
         self.login('admin_member')
         wftool.doActionFor(mem, 'register_private')
-        
+
         # check if registration mail is sent
         mail_text = mh.pop().as_string()
         self.assertEqual(mail_text.count('Welcome'), 1)
@@ -99,7 +102,8 @@ class TestWorkflow(RememberTestBase):
 
         # tear down changes made by current test
         ptool.site_properties.validate_email = 0
-        wftool.setChainForPortalTypes((DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
+        wftool.setChainForPortalTypes(
+            (DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
         wftool.updateRoleMappings()
 
     def test_ApprovalWorkflowAuthentication(self):
@@ -109,7 +113,7 @@ class TestWorkflow(RememberTestBase):
         wftool.setChainForPortalTypes(
             (DEFAULT_MEMBER_TYPE,), 'member_approval_workflow')
         wftool.updateRoleMappings()
-        
+
         # create new user
         mem = self.addMember('lammy')
         # check if new user state is pending
@@ -119,7 +123,7 @@ class TestWorkflow(RememberTestBase):
         uf = self.portal.acl_users
         user = uf.authenticate('lammy', 'secret', self.portal.REQUEST)
         self.failUnless(user is None)
-        
+
         # approve new member
         self.login('admin_member')
         wftool.doActionFor(mem, 'register_private')

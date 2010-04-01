@@ -2,6 +2,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 from Products.remember.utils import getRememberTypes
 
+
 def rememberTypes(context):
     """
     Returns a vocabulary of the remember member types.

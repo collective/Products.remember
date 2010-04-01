@@ -8,6 +8,7 @@ optionflags = (doctest.ELLIPSIS |
                doctest.NORMALIZE_WHITESPACE |
                doctest.REPORT_NDIFF)
 
+
 def test_suite():
     doc_suite = FunctionalDocFileSuite(
         'control_panel.txt',

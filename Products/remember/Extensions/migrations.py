@@ -3,7 +3,6 @@ from zope.annotation.interfaces import IAnnotations
 from Products.CMFCore.utils import getToolByName
 
 from Products.remember.config import ANNOT_KEY
-from Products.remember.config import HASHERS
 
 
 def migrate_bcrypt_password_storage(self):
@@ -16,7 +15,7 @@ def migrate_bcrypt_password_storage(self):
     """
 
     output = ['Beginning bcrypt salt Migration', '']
-    
+
     mtool = getToolByName(self, 'portal_membership')
 
     for mem_id in mtool.listMemberIds():

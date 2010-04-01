@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 
 keep_types = ('MemberDataContainer', 'Member')
 
+
 def remove_cmfmember(self):
     qi = getToolByName(self, 'portal_quickinstaller')
 
@@ -11,7 +12,7 @@ def remove_cmfmember(self):
         for ktype in keep_types:
             if ktype in cmfm_prod.types:
                 cmfm_prod.types.remove(ktype)
-        cmfm_prod.workflows = [] # triggers persistence
+        cmfm_prod.workflows = []  # triggers persistence
 
         # uninstall the product
         qi.uninstallProducts(products=['CMFMember'])

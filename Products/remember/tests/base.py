@@ -20,7 +20,7 @@ def_mem_data = {
     'password': mem_password,
     'confirm_password': mem_password,
      }
-    
+
 mem_data = {
         'portal_member':
         {
@@ -36,8 +36,11 @@ mem_data = {
     }
 
 our_num_remem_mems = len(mem_data.items())
-all_num_remem_mems = our_num_remem_mems + 1  # PortalTestCase creates a remember member during setup
-all_mems = all_num_remem_mems + 1            # 1 Non remember member is created during setup
+# PortalTestCase creates a remember member during setup
+all_num_remem_mems = our_num_remem_mems + 1
+# 1 Non remember member is created during setup
+all_mems = all_num_remem_mems + 1
+
 
 # util for making content in a container
 def makeContent(container, id, portal_type, title=None):
@@ -46,6 +49,7 @@ def makeContent(container, id, portal_type, title=None):
     if title is not None:
         o.setTitle(title)
     return o
+
 
 def addMember(context, name, portal_type=config.DEFAULT_MEMBER_TYPE):
     """
@@ -60,7 +64,8 @@ def addMember(context, name, portal_type=config.DEFAULT_MEMBER_TYPE):
     # ensure ownership is properly assigned
     mem.setId(name)
     data = def_mem_data.copy()
-    # mem_data now only contains properties BEYOND those specified in def_mem_data
+    # mem_data now only contains properties BEYOND those specified in
+    # def_mem_data
     data.update(mem_data.get(name, {}))
     mem.update(**data)
     return mem
@@ -85,8 +90,8 @@ class RememberProfileLayer(mail.MockMailHostLayer):
         # 'description' attribute
         if type(MemberDataContainer.description) != property:
             MemberDataContainer.description = property(
-                fget = MemberDataContainer._nope,
-                fset = MemberDataContainer._setDescription)
+                fget=MemberDataContainer._nope,
+                fset=MemberDataContainer._setDescription)
 
         self.addProfile('Products.remember:default')
         super(RememberProfileLayer, self).afterSetUp()
@@ -108,7 +113,7 @@ class RememberProfileLayer(mail.MockMailHostLayer):
 
         for mem_id in mem_data:
             addMember(self.portal, mem_id)
-        
+
         # stock default plone non-remember user/member
         user_name = 'non_remember_member'
         user_password = 'secret'
@@ -121,9 +126,11 @@ class RememberProfileLayer(mail.MockMailHostLayer):
 
 remember_profile_layer = RememberProfileLayer([tcl_ptc.ptc_layer])
 
+
 def do_nothing(*a):
     """ would make this a lambda, but zodb complains about pickling"""
     return True
+
 
 # This is the test case. You will have to add test_<methods> to your
 # class in order to assert things about your Product.
@@ -148,7 +155,7 @@ class RememberTestBase(PloneTestCase):
         self.mbtool = self.portal.membrane_tool
         mtool = self.mtool = getToolByName(self.portal,
                                            'portal_membership')
-        
+
         self.blank_member = mtool.getMemberById('blank_member')
         self.portal_member = mtool.getMemberById('portal_member')
         self.admin_member = mtool.getMemberById('admin_member')

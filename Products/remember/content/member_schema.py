@@ -15,9 +15,10 @@ id_schema = atapi.Schema((
         read_permission=permissions.VIEW_PUBLIC_PERMISSION,
         write_permission=permissions.EDIT_ID_PERMISSION,
         default=None,
-        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex:brains',
-              'FieldIndex:brains'),
-        regfield=1,  ### this field is part of the registration form
+        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,'
+               'index_type=Cosine Measure|TextIndex:brains',
+               'FieldIndex:brains'),
+        regfield=1,  # this field is part of the registration form
         user_property=True,
         widget=atapi.IdWidget(
             label='User name',
@@ -56,8 +57,9 @@ contact_schema = atapi.Schema((
         mode='rw',
         read_permission=permissions.VIEW_PUBLIC_PERMISSION,
         write_permission=permissions.EDIT_PROPERTIES_PERMISSION,
-        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex:brains',
-        'ZCTextIndex|TextIndex:brains'),
+        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,'
+               'index_type=Cosine Measure|TextIndex:brains',
+               'ZCTextIndex|TextIndex:brains'),
         regfield=1,
         user_property=True,
         widget=atapi.StringWidget(
@@ -76,8 +78,9 @@ contact_schema = atapi.Schema((
         read_permission=permissions.VIEW_PUBLIC_PERMISSION,
         write_permission=permissions.EDIT_PROPERTIES_PERMISSION,
         validators=('isEmail',),
-        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex:brains',
-        'ZCTextIndex|TextIndex:brains'),
+        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,'
+               'index_type=Cosine Measure|TextIndex:brains',
+               'ZCTextIndex|TextIndex:brains'),
         regfield=1,
         user_property=True,
         widget=atapi.StringWidget(
@@ -135,7 +138,7 @@ plone_schema = atapi.Schema((
         mode='rw',
         accessor='getPortrait',
         mutator='setPortrait',
-        max_size=(150,150),
+        max_size=(150, 150),
         read_permission=permissions.VIEW_PUBLIC_PERMISSION,
         write_permission=permissions.EDIT_PROPERTIES_PERMISSION,
         required=0,
@@ -182,7 +185,7 @@ plone_schema = atapi.Schema((
             description="Member home page.",
             description_msgid='help_home_page',
             i18n_domain='plone',
-            visible={'view':'invisible', 'edit':'invisible'})),
+            visible={'view': 'invisible', 'edit': 'invisible'})),
 
     atapi.StringField(
         'location',
@@ -248,7 +251,7 @@ security_schema = atapi.Schema((
             description="Minimum 5 characters",
             description_msgid='help_password_creation',
             i18n_domain='plone',
-            visible = {'view' : 'invisible'},
+            visible={'view': 'invisible'},
             condition="object/showPasswordField")),
     atapi.StringField(
         'confirm_password',
@@ -266,7 +269,7 @@ security_schema = atapi.Schema((
             "passwords are identical.",
             description_msgid='help_confirm_password',
             i18n_domain='plone',
-            visible = {'view' : 'invisible'},
+            visible={'view': 'invisible'},
             condition="object/showPasswordField")),
    atapi.BooleanField(
         'must_change_password',
@@ -274,7 +277,7 @@ security_schema = atapi.Schema((
         mode='rw',
         mutator='setMust_change_password',
         accessor='getMust_change_password',
-        searchable = 0,
+        searchable=0,
         read_permission=permissions.VIEW_SECURITY_PERMISSION,
         write_permission=permissions.EDIT_SECURITY_PERMISSION,
         regfield=1,
@@ -291,7 +294,7 @@ security_schema = atapi.Schema((
         mode='rw',
         mutator='setMail_me',
         accessor='getMail_me',
-        searchable = 0,
+        searchable=0,
         write_permission=permissions.EDIT_PASSWORD_PERMISSION,
         regfield=1,
         user_property=True,
@@ -361,20 +364,21 @@ security_schema = atapi.Schema((
         'review_state',
         mode='r',
         read_permission=permissions.VIEW_SECURITY_PERMISSION,
-        expression="context.portal_workflow.getInfoFor(context, 'review_state')",
+        expression="""\
+context.portal_workflow.getInfoFor(context, 'review_state')""",
         index=('membrane_tool/FieldIndex:brains',),
         user_property=True,
         widget=atapi.ComputedWidget(
             label="Status",
             label_msgid='label_review_state',
             modes=('view',),
-            visible={'edit':'invisible', 'view':'visible'},
+            visible={'edit': 'invisible', 'view': 'visible'},
             i18n_domain='plone')),
     atapi.BooleanField(
         'make_private',
         default=0,
         mode='w',
-        searchable = 0,
+        searchable=0,
         mutator='setMakePrivate',
         accessor='getMakePrivate',
         write_permission=permissions.EDIT_PASSWORD_PERMISSION,
@@ -408,7 +412,7 @@ login_info_schema = atapi.Schema((
         widget=atapi.StringWidget(
             label="Login time",
             modes=('view',),
-            visible={'edit':'invisible', 'view':'visible'})),
+            visible={'edit': 'invisible', 'view': 'visible'})),
     atapi.DateTimeField(
         'last_login_time',
         default='2000/01/01',  # for Plone 1.0.1 compatibility
@@ -422,7 +426,7 @@ login_info_schema = atapi.Schema((
         widget=atapi.StringWidget(
             label="Last login time",
             modes=('view',),
-            visible={'edit':'invisible', 'view':'visible'})),
+            visible={'edit': 'invisible', 'view': 'visible'})),
     ))
 
 

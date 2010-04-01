@@ -21,17 +21,18 @@ from config import ADDUSER_UTILITY_NAME
 from zope.app.container.interfaces import IObjectRemovedEvent
 
 
-security = ModuleSecurityInfo( 'Products.remember.utils' )
+security = ModuleSecurityInfo('Products.remember.utils')
 
-security.declarePublic('getRememberTypes')
+
 def getRememberTypes(context):
     """
     Return a list of all the membrane types that implement IReMember.
     """
     mbtool = getToolByName(context, MBTOOLNAME)
     return mbtool.listMembraneTypes()
+security.declarePublic('getRememberTypes')
 
-security.declarePublic('getAdderUtility')
+
 def getAdderUtility(context):
     """
     Return the local remember adder utility.
@@ -42,17 +43,20 @@ def getAdderUtility(context):
     if adder is None:
         raise(RuntimeError, "Unable to retrieve IUserAdder utility")
     return adder
+security.declarePublic('getAdderUtility')
+
 
 def stringToList(s):
     if s is None:
         return []
     if isinstance(s, types.StringType):
         # split on , or \n and ignore \r
-        s = s.replace('\r',',')
-        s = s.replace('\n',',')
+        s = s.replace('\r', ',')
+        s = s.replace('\n', ',')
         s = s.split(',')
-    s= [v.strip() for v in s if v.strip()]
+    s = [v.strip() for v in s if v.strip()]
     return [o for o in s if o]
+
 
 def removeAutoRoles(roles_list):
     """ removes automatic roles from passed in list """
@@ -62,18 +66,23 @@ def removeAutoRoles(roles_list):
 
 DIR_PATH = abspath(dirname(__file__))
 
+
 def conf_file(file):
     return join(DIR_PATH, 'conf', file)
 
+
 def log(message, summary='', severity=logging.INFO):
     logger.log(severity, '%s \n%s', summary, message)
+
 
 def log_exc():
     """Dump an exception to the log"""
     import traceback
     import sys
 
-    s = sys.exc_info()[:2]  # don't assign the traceback to s (otherwise will generate a circular reference)
+    # don't assign the traceback to s
+    # (otherwise will generate a circular reference)
+    s = sys.exc_info()[:2]
     if s[0] == None:
         summary = 'None'
     else:
@@ -82,11 +91,14 @@ def log_exc():
         else:
             summary = str(s[1])
 
-    logger.log(logging.ERROR, '%s \n%s', summary, '\n'.join(traceback.format_exception(*sys.exc_info())))
+    logger.log(logging.ERROR, '%s \n%s', summary,
+               '\n'.join(traceback.format_exception(*sys.exc_info())))
 
-def fixOwnership(ob,event):
+
+def fixOwnership(ob, event):
     if not IObjectRemovedEvent.providedBy(event):
         ob.fixOwnership()
+
 
 def trusted(fn):
     """

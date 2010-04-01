@@ -58,6 +58,7 @@ class RememberMembraneToolXMLAdapter(MembraneToolXMLAdapter):
             fragment.appendChild(child)
             node.appendChild(fragment)
             self._logger.info("Remember hash-type exported: %s" % htype)
-        except KeyError: # no hash_type annotated on mbtool, no need to add node
+        except KeyError:
+            # no hash_type annotated on mbtool, no need to add node
             pass
         return node

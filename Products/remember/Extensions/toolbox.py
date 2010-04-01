@@ -7,6 +7,7 @@ from Products.remember.utils import getAdderUtility
 DEFAULT_WORKFLOW = 'member_auto_workflow'
 DEFAULT_CATALOGS = ['portal_catalog', 'membrane_tool']
 
+
 class SetupMember:
 
     """
@@ -15,7 +16,7 @@ class SetupMember:
     call methods separately or in one fell swoop
 
 
-    0. Setup a member type: 
+    0. Setup a member type:
 
         SetupMember(member_type='Freemason', workflow='Initiation')()
 
@@ -56,15 +57,14 @@ class SetupMember:
             adder = getAdderUtility(self.context)
             adder.default_member_type = self.type
 
-        return "set %s: workflow->%s, catalogs->%s" %(self.type,
-                                                      self.workflow,
-                                                      self.catalogs)
+        return "set %s: workflow->%s, catalogs->%s" % (
+            self.type, self.workflow, self.catalogs)
 
     def __call__(self, **kw):
         """ set all, do all """
         if kw:
             self.set(**kw)
-        
+
         return self.finish()
 
     def setWorkflow(self, workflow=None):
@@ -85,7 +85,7 @@ class SetupMember:
     def setupPortalFactoryProps(self):
         ftool = getToolByName(self.context, 'portal_factory')
         ftypes = ftool.getFactoryTypes()
-        if not ftypes.has_key(self.type):
+        if self.type not in ftypes:
             ftypes = ftypes.keys()
             ftypes.append(self.type)
             ftool.manage_setPortalFactoryTypes(listOfTypeIds=ftypes)

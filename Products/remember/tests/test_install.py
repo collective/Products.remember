@@ -40,7 +40,7 @@ class TestRememberProfiles(PloneTestCase.PloneTestCase):
         self.failIf('Member' in ttool.listContentTypes())
 
     def testImportHash(self):
-        """ 
+        """
         test importing the hash from XML
         annotates membrane_tool
         """
@@ -50,7 +50,8 @@ class TestRememberProfiles(PloneTestCase.PloneTestCase):
         self.assertRaises(AttributeError, getattr,
                           self.portal, 'membrane_tool')
         # imports the xml file in the test profile
-        setup_tool.runAllImportStepsFromProfile('profile-Products.remember:default')
+        setup_tool.runAllImportStepsFromProfile(
+            'profile-Products.remember:default')
         setup_tool.runAllImportStepsFromProfile('profile-remember:test')
 
         mbtool = self.portal.membrane_tool
@@ -75,7 +76,7 @@ class TestRememberInstall(RememberTestBase):
 
 class TestRememberMembraneToolXMLAdapter(RememberTestBase):
     """test to see if the XML file is read correctly for remember"""
-    
+
     def afterSetUp(self):
         RememberTestBase.afterSetUp(self)
 
@@ -88,8 +89,10 @@ class TestRememberMembraneToolXMLAdapter(RememberTestBase):
         """hash-type nodes with valid/invalid data annotate appropriately"""
         class Child(object):
             nodeName = 'hash-type'
+
             def __init__(self, htype):
                 self.htype = htype
+
             def getAttribute(self, a):
                 return self.htype
 
@@ -140,12 +143,13 @@ class TestRememberMembraneToolXMLAdapter(RememberTestBase):
         # clear the bogus annotation
         del annot[ANNOT_KEY]
 
+
 class TestCMFFormControllerAction(RememberTestBase):
     """
     an action should be added on the CMFFormController that contains a redirect
     to the edit page after saving a member's preferences
     """
-    
+
     def testAdditionalActionImported(self):
         """
         additional traverse to action should exist on the cmf form controller
@@ -192,7 +196,7 @@ class TestSearchIndicesInstalled(RememberTestBase):
         for idx in remember_idxs:
             self.failUnless(idx in membrane_idxs)
 
- 
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRememberInstall))

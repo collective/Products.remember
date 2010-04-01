@@ -7,6 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.membrane.interfaces import IUserAdder
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
+
 class UserAdder(SimpleItem):
     """
     UserAdder that adds the current default remember-based member

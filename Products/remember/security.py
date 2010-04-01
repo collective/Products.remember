@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.controlpanel import security
 
+
 class SecurityControlPanelAdapter(
     security.SecurityControlPanelAdapter):
 
@@ -10,7 +11,7 @@ class SecurityControlPanelAdapter(
               ).set_enable_self_reg(value)
 
         md = getToolByName(self.portal, 'portal_memberdata')
-        
+
         app_perms = md.rolesOfPermission(permission='Add portal content')
         reg_roles = []
         for appperm in app_perms:

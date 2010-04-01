@@ -4,6 +4,7 @@ from Products.membrane.interfaces import IMembraneUserChanger
 
 from Products.remember.interfaces import IRememberUserChanger
 
+
 class RememberUserChanger(object):
     """
     adapter from IRememberUserChanger -> IMembraneUserChanger

@@ -6,6 +6,7 @@ from base import our_num_remem_mems
 from base import all_mems
 from base import RememberTestBase
 
+
 class TestRememberSearching(RememberTestBase):
     """
     verify searching for members
@@ -52,7 +53,7 @@ class TestRememberSearching(RememberTestBase):
             last_login_time=DateTime('2/1/2000'),
             before_specified_time=True)
         # portal member is not in all list because is logged in
-        self.assertEqual(len(results), all_mems-1)
+        self.assertEqual(len(results), all_mems - 1)
 
     # XXX deactivating this test until the PlonePAS behaviour is
     #     resolved
@@ -62,7 +63,7 @@ class TestRememberSearching(RememberTestBase):
         no members should be found
         """
         results = self.mtool.searchForMembers(
-            login='halstingdingdingworth') # this guy shouldn't exist
+            login='halstingdingdingworth')  # this guy shouldn't exist
         self.failIf(len(results))
 
     def testSearchByEmail(self):
@@ -78,4 +79,3 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRememberSearching))
     return suite
-

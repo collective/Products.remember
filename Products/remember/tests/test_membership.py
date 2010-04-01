@@ -44,29 +44,30 @@ class TestMembershipTool(RememberTestBase):
     def test_addCustomMemberTypeToFolderPermission(self):
         """
         verify that any custom ReMember-based objects
-        are addable only for managers as well.  Tests 
-        integration of the ReMember UI with the membrane 
+        are addable only for managers as well.  Tests
+        integration of the ReMember UI with the membrane
         tool's listMembraneTypes - Note: this could have
-        been done with the Generic Setup test profile 
+        been done with the Generic Setup test profile
         or with Python.  The latter is done below.
         """
         self.types = self.portal.portal_types
-        
+
         # Copy Member and make it AnotherMember in types tool
         self.types.manage_pasteObjects(
             self.types.manage_copyObjects('Member'))
 
         self.types.manage_renameObject('copy_of_Member',
             'AnotherMember')
-                
+
         # Add the "AnotherMember" type to PortalMemberdata's allowed types
         memberdatacontainer = self.types['MemberDataContainer']
         if 'AnotherMember' not in memberdatacontainer.allowed_content_types:
-            list(memberdatacontainer.allowed_content_types).append('AnotherMember')
-        
+            list(memberdatacontainer.allowed_content_types
+                 ).append('AnotherMember')
+
         # Make sure it's listed as a Membrane Type
         self.portal.membrane_tool.registerMembraneType('AnotherMember')
-        
+
         # Prove that listMembraneTypes is providing correct values to
         # the memberdata tools implementation of getAllowedMemberTypes
         self.login('portal_member')

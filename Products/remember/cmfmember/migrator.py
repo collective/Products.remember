@@ -23,6 +23,7 @@ from config import MIGRATION_MAP
 
 migrators = []
 
+
 def getClassFromClassPath(classpath):
     module_name = '.'.join(classpath.split('.')[:-1])
     classname = classpath.split('.')[-1]
@@ -30,6 +31,7 @@ def getClassFromClassPath(classpath):
                                locals(), classname),
                     classname)
     return klass
+
 
 class CMFMemberMigrator(TranslocatingInplaceMigrator,
                        InplaceATItemMigrator):
@@ -83,7 +85,7 @@ class CMFMemberMigrator(TranslocatingInplaceMigrator,
         self.log(logging.INFO, msg)
         self.patchUserInfo()
         return InplaceATItemMigrator.migrate(self, *args, **kw)
-    
+
     def beforeChange_password(self):
         """The CMFMember password field has mode 'w' so we need to put
         it in the schema kwargs here."""
@@ -100,9 +102,9 @@ class CMFMemberMigrator(TranslocatingInplaceMigrator,
         if is_encrypted(old_pw):
             field = self.new.getField('password')
             new_pw = "zauth:%s" % old_pw
-            field.set(self.new, new_pw) # don't use mutator!
-            
-            
+            field.set(self.new, new_pw)  # don't use mutator!
+
+
 def registerCMFMemberMigrator(migrator, klass, project_name):
     """Register a migrator for migrating CMFMember based content to
     remember based content.  Migrators registered here will be run on
@@ -154,11 +156,13 @@ def registerCMFMemberMigrator(migrator, klass, project_name):
 
     migrators.append(migrateCMFMemberType)
 
+
 def migrateCMFMembers(portal, out):
     """Run all the registered CMFMember migrators."""
     print >> out, "...running all CMFMember migrators"
     for migrator in migrators:
         migrator(portal, out)
+
 
 def registerMigrators():
     for classpath, info in MIGRATION_MAP.items():

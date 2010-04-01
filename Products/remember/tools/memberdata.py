@@ -23,13 +23,14 @@ schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
     # property used for old-school MemberData objects
     atapi.TextField(
         'description',
-        default = 'Container for Members',
-        widget = atapi.TextAreaWidget(rows = 5),
-        storage = atapi.MetadataStorage(),
+        default='Container for Members',
+        widget=atapi.TextAreaWidget(rows=5),
+        storage=atapi.MetadataStorage(),
         ),
     ))
 
 search_catalog = 'membrane_tool'
+
 
 class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     """
@@ -37,7 +38,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     actually need to live here any more, but for BBB reasons we are
     still storing them here.
     """
-    implements(IMemberDataTool,IMemberDataContainer)
+    implements(IMemberDataTool, IMemberDataContainer)
 
     security = ClassSecurityInfo()
 
@@ -61,7 +62,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     ###################################################################
     # Property hack to mask the unused 'description' attribute
     # inherited from PortalFolderBase
-    ###################################################################    
+    ###################################################################
     def _getDescription(self):
         """
         Masks the 'description' attribute that is inherited from the
@@ -79,13 +80,12 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         """
         self._description = desc
 
-    description = property(fget = _getDescription,
-                           fset = _setDescription)
+    description = property(fget=_getDescription,
+                           fset=_setDescription)
 
     ###################################################################
     # IMemberDataTool implementation
     ###################################################################
-    security.declarePrivate('wrapUser')
     def wrapUser(self, user):
         """
         If possible, returns the Member object that corresponds to the
@@ -96,9 +96,8 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         if mem is None:
             return BaseTool.wrapUser(self, user)
         return mem.__of__(self).__of__(user)
+    security.declarePrivate('wrapUser')
 
-    security.declareProtected(cmfcore_permissions.ManageProperties,
-                              'getMemberDataContents')
     def getMemberDataContents(self):
         """
         Returns a list containing a dictionary with information about
@@ -111,9 +110,9 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         impossible to have orphaned member objects.  :-).
         """
         pass
-
     security.declareProtected(cmfcore_permissions.ManageProperties,
-                              'pruneMemberDataContents')
+                              'getMemberDataContents')
+
     def pruneMemberDataContents(self):
         """
         Check for every Member object if it's orphan and delete it.
@@ -125,30 +124,32 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         it is now impossible to orphan member objects.
         """
         pass
+    security.declareProtected(cmfcore_permissions.ManageProperties,
+                              'pruneMemberDataContents')
 
-    security.declarePrivate('searchMemberData')
     def searchMemberData(self, search_param, search_term, attributes=()):
         """ Search members. """
         pass
+    security.declarePrivate('searchMemberData')
 
-    security.declarePrivate('registerMemberData')
     def registerMemberData(self, m, id):
         """
         Add a member to the member set w/ the given member data.
-        
+
         o 'm' is an object whose attributes are the memberdata for the
            member.
 
         o 'id' is the userid of the member.
         """
         pass
+    security.declarePrivate('registerMemberData')
 
-    security.declarePrivate('deleteMemberData')
     def deleteMemberData(self, member_id):
         """
         Delete member data of the specified member.
         """
         pass
+    security.declarePrivate('deleteMemberData')
 
     def getNotAddableTypes(self):
         """
@@ -169,7 +170,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         mbtool = getToolByName(self, 'membrane_tool')
         return mbtool.listMembraneTypes()
 
-    def searchForMembers( self, REQUEST=None, **kw ):
+    def searchForMembers(self, REQUEST=None, **kw ):
         """
         Do a catalog search on a sites members. If a 'brains' argument
         is set to a True value, search will return only member_catalog
@@ -185,18 +186,18 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
             REQUEST = {}
             search_dict = kw
 
-        results=[]
-        catalog=getToolByName(self, search_catalog)
+        results = []
+        catalog = getToolByName(self, search_catalog)
 
         # only iterate over the indexes we're searching on
-        indexes=Set(catalog.indexes()) 
+        indexes = Set(catalog.indexes())
         indexes = indexes & Set(search_dict.keys())
 
-        query={}
+        query = {}
 
         def dateindex_query(field_value, field_usage):
             usage, val = field_usage.split(':')
-            return { 'query':  field_value, usage:val }
+            return {'query': field_value, usage: val}
 
         def zctextindex_query(field_value):
             # Auto Globbing
@@ -205,8 +206,8 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
             return field_value
 
         special_query = dict((
-            ( 'DateIndex',    dateindex_query ),
-            ( 'ZCTextIndex',  zctextindex_query )
+            ('DateIndex', dateindex_query),
+            ('ZCTextIndex', zctextindex_query)
             ))
 
         if search_dict:
@@ -218,8 +219,8 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
                 )
 
             for i in indexes:
-                val=search_dict.get(i, None)
-                usage_val = search_dict.get('%s_usage' %i)
+                val = search_dict.get(i, None)
+                usage_val = search_dict.get('%s_usage' % i)
                 if type(val) == type([]):
                     val = filter(None, val)
 
@@ -230,9 +231,9 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
                         val = idx_fx[i](val)
 
                 if val:
-                    query.update({i:val})
+                    query.update({i: val})
 
-        results=catalog(query) 
+        results = catalog(query)
 
         # return objects by default
         if results and not (search_dict.get('brains', False) or \

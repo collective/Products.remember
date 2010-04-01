@@ -5,6 +5,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.remember.interfaces import IRememberAuthProvider
 
+
 class PortalPrefsUrl(object):
     """
     Trivial view class that computes the appropriate URL for the
@@ -19,6 +20,7 @@ class PortalPrefsUrl(object):
         portal_url = getToolByName(self.context, 'portal_url')()
         return "%s/personalize_form" % portal_url
 
+
 class RememberPrefsUrl(object):
     """
     Trivial view class that computes the appropriate URL for the
@@ -26,6 +28,7 @@ class RememberPrefsUrl(object):
     """
     def __call__(self):
         return self.context.absolute_url()
+
 
 class MemberPrefsUrl(object):
     """
@@ -37,6 +40,7 @@ class MemberPrefsUrl(object):
         portal_url = getToolByName(self.context, 'portal_url')()
         return "%s/prefs_user_details?%s" % (
             portal_url, make_query(userid=member.getUserId()))
+
 
 class BBBMemberPrefsUrl(object):
     """

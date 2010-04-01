@@ -1,6 +1,6 @@
 import unittest
 import hmac
-import sha # BBB Python 2.4
+import sha  # BBB Python 2.4
 
 from zope import component
 
@@ -17,6 +17,7 @@ from Products.CMFPlone.tests import dummy
 from Products.remember.config import DEFAULT_MEMBER_TYPE
 
 from Products.CMFCore.utils import getToolByName
+
 
 class TestMember(RememberTestBase):
 
@@ -41,7 +42,7 @@ class TestMember(RememberTestBase):
                   'confirm_password': password,
                   }
         mem.processForm(values=values)
-        
+
     def testCopyMember(self):
         id = 'newmember'
         password = 'secret'
@@ -53,24 +54,24 @@ class TestMember(RememberTestBase):
 
         # need to be a manager to use copy
         self.loginAsPortalOwner()
-        
+
         cb = mdata.manage_copyObjects((id,))
         mdata.manage_pasteObjects(cb)
         self.failUnless(copy_id in mdata.objectIds())
-        
+
         user = uf.authenticate(copy_id, password, self.portal.REQUEST)
         self.failIf(user is None)
-        
+
         new_user = mdata._getOb(copy_id)
         self.assertEqual(new_user.owner_info()['id'], copy_id)
-                
+
     def testRenameMember(self):
         id = 'newmember'
         password = 'secret'
         new_id = 'newmember_renamed'
         uf = self.portal.acl_users
         mdata = self.portal.portal_memberdata
-        
+
         self.setupDummyUser()
 
         # need manager to use rename
@@ -78,21 +79,20 @@ class TestMember(RememberTestBase):
 
         self.failUnless(id in mdata.objectIds())
 
-        # for some reason renaming fails unless the transaction has been committed
-        # so we use a subtransaciton that we can rollback to prevent causing problems
-        # to other tests
+        # for some reason renaming fails unless the transaction has
+        # been committed so we use a subtransaciton that we can
+        # rollback to prevent causing problems to other tests
         transaction.savepoint()
 
         mdata.manage_renameObject(id, new_id)
         self.failUnless(new_id in mdata.objectIds())
-        
+
         user = uf.authenticate(new_id, password, self.portal.REQUEST)
         self.failIf(user is None)
-        
+
         new_user = mdata._getOb(new_id)
         self.assertEqual(new_user.owner_info()['id'], new_id)
-        
-        
+
     def testCreateNewMember(self):
         wftool = getToolByName(self.portal, 'portal_workflow')
         mdata = self.portal.portal_memberdata
@@ -117,7 +117,7 @@ class TestMember(RememberTestBase):
         self.failUnless(review_state == 'public')
         user = uf.authenticate(id, password, self.portal.REQUEST)
         self.failIf(user is None)
-        
+
     def testMemberTitle(self):
         # title should be fullname, w/ failover to member id
         id = 'newmember'
@@ -129,7 +129,7 @@ class TestMember(RememberTestBase):
         self.failUnless(mem.Title() == fullname)
         mem.setFullname('')
         self.failUnless(mem.Title() == id)
-        
+
     def testMemberRoles(self):
         # test member roles
         test_roles = str('Reviewer')
@@ -240,16 +240,16 @@ class TestMember(RememberTestBase):
         mem_id = mem.getId()
         user = self.portal.acl_users.authenticate(mem_id,
                                                   newpasswd,
-                                                  request)        
+                                                  request)
         self.assertEqual(mem_id, user.getId())
 
     def testEmailPasswordCheckbox(self):
-        """ 
+        """
         test to see if the "Send a mail with the password"
         checkbox appears on joining, but not on editting
         preferences once logged in
         """
-        # in addition, a test should be written to verify that for a 
+        # in addition, a test should be written to verify that for a
         # member that is not in the acl_users list,
         # the password field should be shown
         self.failIf(self.portal_member.showPasswordField())
@@ -316,7 +316,8 @@ class TestMember(RememberTestBase):
         """
         visible ids should not be displayed initially
         """
-        self.failIf(self.portal_member.isVisible_ids()) # don't show by default
+        # don't show by default
+        self.failIf(self.portal_member.isVisible_ids())
 
     def testVisibleIdsPortalSettingModified(self):
         """
@@ -360,7 +361,8 @@ class TestMember(RememberTestBase):
 
     def testChangedWysiwygEditor(self):
         """
-        Test if default wysiwyg editor is taken into account after change to another value
+        Test if default wysiwyg editor is taken into account after
+        change to another value
         """
         mtool = getToolByName(self.portal, 'portal_membership')
         mdatatool = getToolByName(self.portal, 'portal_memberdata')
@@ -368,7 +370,7 @@ class TestMember(RememberTestBase):
         self.setupDummyUser()
         member = mtool.getMemberById('newmember')
         self.failUnless(member.getProperty('wysiwyg_editor') == 'FCKeditor')
-        
+
 
 def test_suite():
     suite = unittest.TestSuite()

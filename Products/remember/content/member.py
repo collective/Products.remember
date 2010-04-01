@@ -18,14 +18,18 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFCore import permissions as cmfpermissions
 from Products.CMFCore.utils import _checkPermission
 
-from Products.PluggableAuthService.interfaces.authservice import IPluggableAuthService
-from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
+from Products.PluggableAuthService.interfaces.authservice import (
+    IPluggableAuthService)
+from Products.PluggableAuthService.interfaces.plugins import (
+    IRoleAssignerPlugin)
 
 from Products.PlonePAS.interfaces.plugins import IUserManagement
 from Products.PlonePAS.interfaces.group import IGroupManagement
 from Products.PlonePAS.interfaces.propertysheets import IMutablePropertySheet
-from Products.PlonePAS.interfaces.capabilities import IDeleteCapability, IPasswordSetCapability
-from Products.PlonePAS.interfaces.capabilities import IGroupCapability, IAssignRoleCapability
+from Products.PlonePAS.interfaces.capabilities import IDeleteCapability
+from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
+from Products.PlonePAS.interfaces.capabilities import IGroupCapability
+from Products.PlonePAS.interfaces.capabilities import IAssignRoleCapability
 from Products.PlonePAS.interfaces.capabilities import IManageCapabilities
 
 from Products.membrane.at import interfaces as at_ifaces
@@ -60,6 +64,7 @@ member_schema = content_schema + metadata_schema
 # metadata_schema doesn't override any fields in content_schema
 member_schema = member_schema + content_schema
 
+
 class BaseMember(object):
     """
     Abstract member object base class.
@@ -79,32 +84,29 @@ class BaseMember(object):
 
     # Give a nice icon
     content_icon = "user.gif"
-    
+
     # Note that we override BaseContent.schema
     schema = member_schema
-    
+
     global_allow = 0
 
     # for Plone compatibility -- managed by workflow state
     listed = 0
 
     default_roles = ('Member',)
-    
 
-    security.declarePrivate('setId')
     def setId(self, value):
         """
         Have to fix up the ownership when the id changes.
         """
         old_id = self.getId()
         self.base_archetype.setId(self, value)
-        
+
         #XXX: does it make sense this here?
         # Yes, makes sense to me. :-) [Maurits]
         self.fixOwnership(old_id)
+    security.declarePrivate('setId')
 
-
-    security.declarePrivate('fixOwnership')
     def fixOwnership(self, old_id=None):
         """
         Member objects should always be owned by the corresponding
@@ -124,26 +126,26 @@ class BaseMember(object):
             # _at_rename_after_creation=True you get something like
             # member.2009-09-07.7542188447 as Creator.
             self.setCreators(user.getId())
+    security.declarePrivate('fixOwnership')
 
-    security.declareProtected(VIEW_PUBLIC_PERMISSION, 'hasUser')
     def hasUser(self):
         uf = getToolByName(self, 'acl_users')
         if uf.getUser(self.getId()) is not None:
             return True
+    security.declareProtected(VIEW_PUBLIC_PERMISSION, 'hasUser')
 
-    security.declarePrivate('getUser')
     def getUser(self):
         uf = getToolByName(self, 'acl_users').aq_inner
         user = uf.getUserById(self.getId())
         if user is not None:
             user = user.__of__(self)
         return user
+    security.declarePrivate('getUser')
 
-    security.declarePrivate('getDefaultRoles')
     def getDefaultRoles(self):
         return self.default_roles
+    security.declarePrivate('getDefaultRoles')
 
-    security.declareProtected(VIEW_PUBLIC_PERMISSION, 'fileAs')
     def fileAs(self):
         """
         Returns a user friendly identifier of the member, fullname by
@@ -151,16 +153,16 @@ class BaseMember(object):
         filing policies.  Used by the title field.
         """
         return self.getFullname()
+    security.declareProtected(VIEW_PUBLIC_PERMISSION, 'fileAs')
 
     #######################################################################
     # Validators and vocabulary methods
     #######################################################################
-    security.declarePrivate('validate_id')
     def validate_id(self, id):
         # we can't always trust the id argument, b/c the autogen'd
         # id will be passed in if the reg form id field is blank
         form = self.REQUEST.form
-        if form.has_key('id') and not form['id']:
+        if 'id' in form and not form['id']:
             return self.translate('Input is required but no input given.',
                                   default='You did not enter a login name.'),
         elif self.id and id != self.id:
@@ -176,16 +178,16 @@ class BaseMember(object):
                 msg = "The login name you selected is already " + \
                       "in use or is not valid. Please choose another."
                 return self.translate(msg, default=msg)
+    security.declarePrivate('validate_id')
 
-    security.declarePrivate('validate_password')
     def validate_password(self, password):
         # no change -- ignore
         if not password:
             return None
         regtool = getToolByName(self, 'portal_registration')
         return regtool.testPasswordValidity(password)
+    security.declarePrivate('validate_password')
 
-    security.declarePrivate('validate_roles')
     def validate_roles(self, roles):
         roles = stringToList(roles)
         valid = self.valid_roles()
@@ -194,14 +196,14 @@ class BaseMember(object):
             if r not in valid:
                 return '%s is not a valid role.' % (r)
         return None
+    security.declarePrivate('validate_roles')
 
-    security.declarePrivate('post_validate')
     def post_validate(self, REQUEST, errors):
         form = REQUEST.form
-        if form.has_key('password'):
+        if 'password' in form:
             password = form.get('password', None)
             confirm = form.get('confirm_password', None)
-            
+
             # test to see if we are on the reg_form so we don't have
             # to enter a password on the base_edit form
             is_reg_form = int(form.get('is_reg_form', 0))
@@ -214,12 +216,12 @@ class BaseMember(object):
                 if password and \
                        (password == REQUEST.get('id', None) or \
                         password == self.id):
-                    errors['password'] = \
-                        self.translate('id_pass_same',
-                                       default="Your username and password are the " +
-                                       "same.  This is really not a good idea.",
-                                       domain='remember-plone')
-                    
+                    errors['password'] = self.translate(
+                        'id_pass_same',
+                        default="Your username and password are the " +
+                        "same.  This is really not a good idea.",
+                        domain='remember-plone')
+
             if not (errors.get('password', None)) and \
                    not (errors.get('confirm_password', None)):
                 if password != confirm:
@@ -227,8 +229,8 @@ class BaseMember(object):
                         errors['confirm_password'] = \
                         self.translate('Passwords do not match.',
                                        default='Passwords do not match.')
+    security.declarePrivate('post_validate')
 
-    security.declarePublic('isValid')
     def isValid(self):
         """
         Check to make sure a Member object's fields satisfy schema
@@ -240,6 +242,7 @@ class BaseMember(object):
         if errors:
             return 0
         return 1
+    security.declarePublic('isValid')
 
     # Vocabulary validation workaround
     def unicodeEncode(self, value, site_charset=None):
@@ -296,16 +299,15 @@ class BaseMember(object):
         if editor is None:
             editor = site_props.getProperty('default_editor', 'Kupu')
         return editor
-        
+
     #######################################################################
     # Contract with portal_membership
     #######################################################################
-    security.declarePublic('getMemberId')
     def getMemberId(self):
         """Get the member id """
         return self.getId()
+    security.declarePublic('getMemberId')
 
-    security.declarePrivate('_callerIsTrustable')
     def _callerIsTrustable(self):
         """
         only check AT field security if the calling context is
@@ -317,8 +319,8 @@ class BaseMember(object):
         frame = sys._getframe(1)
         untrusted = ('?', '<expression>')
         return frame.f_code.co_name not in untrusted
+    security.declarePrivate('_callerIsTrustable')
 
-    security.declareProtected(EDIT_PROPERTIES_PERMISSION, 'setProperties')
     def setProperties(self, mapping=None, **kwargs):
         """
         assign all the props to member attributes, we expect to be
@@ -328,7 +330,7 @@ class BaseMember(object):
         if mapping:
             if not type(mapping) == type({}):
                 data = {}
-                for k,v in mapping.form.items():
+                for k, v in mapping.form.items():
                     data[k] = v
                 mapping = data
         else:
@@ -347,14 +349,14 @@ class BaseMember(object):
                    field is not None and \
                    not field.checkPermission("edit", self):
                 raise Unauthorized
-                        
-        self.update(**mapping)
 
-    security.declarePrivate('setMemberProperties')
+        self.update(**mapping)
+    security.declareProtected(EDIT_PROPERTIES_PERMISSION, 'setProperties')
+
     def setMemberProperties(self, mapping):
         self.setProperties(mapping)
+    security.declarePrivate('setMemberProperties')
 
-    security.declarePrivate('_getProperty')
     def _getProperty(self, id, security_check=True):
         """Try to get a member property.  If the property is not found,
         raise an AttributeError"""
@@ -368,14 +370,14 @@ class BaseMember(object):
             base = aq_base(self)
             value = getattr(base, id)
         return value
+    security.declarePrivate('_getProperty')
 
-    security.declarePublic('getProperty')
     def getProperty(self, id, default=_marker):
         """
         Retrieve property values from AT field values.
         """
         security_check = not self._callerIsTrustable()
-        
+
         try:
             return self._getProperty(id, security_check)
         except AttributeError:
@@ -392,7 +394,7 @@ class BaseMember(object):
                 elif default is not _marker:
                     return default
                 else:
-                    raise ValueError, 'The property %s does not exist' % id
+                    raise ValueError('The property %s does not exist' % id)
 
             # If the tool has an empty property and we have a
             # user_value, use it
@@ -401,8 +403,8 @@ class BaseMember(object):
 
             # Otherwise return the tool value
             return tool_value
+    security.declarePublic('getProperty')
 
-    security.declarePublic('showPasswordField')
     def showPasswordField(self):
         """Indicates if the password fields should be visible on
            either the reg_form or base_edit
@@ -411,6 +413,7 @@ class BaseMember(object):
             return False
         site_props = self.portal_properties.site_properties
         return not site_props.validate_email
+    security.declarePublic('showPasswordField')
 
     # dummy method
     def _setConfirmPassword(self, value):
@@ -487,7 +490,6 @@ class BaseMember(object):
         else:
             return False
 
-
     #######################################################################
     # IManageCapabilities implementation
     #######################################################################
@@ -503,7 +505,6 @@ class BaseMember(object):
                     return 1
         return 0
 
-
     def canPasswordSet(self):
         """True iff user can change password."""
         # IUserManagement provides doChangeUser
@@ -515,7 +516,6 @@ class BaseMember(object):
                    manager.allowPasswordSet(self.getId()):
                     return 1
         return 0
-
 
     def passwordInClear(self):
         """True iff password can be retrieved in the clear (not hashed.)
@@ -530,7 +530,6 @@ class BaseMember(object):
         if mdata:
             return mdata.hasProperty(prop_name)
         return 0
-
 
     def canWriteProperty(self, prop_name):
         """True iff the member/group property named in 'prop_name'
@@ -555,7 +554,6 @@ class BaseMember(object):
                     break  # shadowed by read-only
         return 0
 
-
     def canAddToGroup(self, group_id):
         """True iff member can be added to group."""
         # IGroupManagement provides IGroupCapability
@@ -578,7 +576,6 @@ class BaseMember(object):
                     return manager.allowGroupRemove(self.getId(), group_id)
         return 0
 
-
     def canAssignRole(self, role_id):
         """True iff member can be assigned role. Role id is string."""
         # IRoleAssignerPlugin provides IAssignRoleCapability
@@ -592,10 +589,9 @@ class BaseMember(object):
 
     ## plugin getters
 
-    security.declarePrivate('_getPlugins')
     def _getPlugins(self):
         return self.acl_users.plugins
-
+    security.declarePrivate('_getPlugins')
 
     #######################################################################
     # Overrides of base class mutators that trigger workflow transitions
@@ -612,7 +608,7 @@ class BaseMember(object):
         # XXX Need to remove this once we have real events
         # invoke any automated workflow transitions after update
         triggerAutomaticTransitions(self)
-    
+
     # we are doing the same thing on create
     at_post_create_script = at_post_edit_script
 
@@ -635,7 +631,7 @@ class BaseMember(object):
             except KeyError:
                 pass
         return False
-            
+
     def getMakePrivate(self):
         """
         returns True if the member workflow state is private
@@ -659,11 +655,12 @@ class BaseMember(object):
 
     def register(self):
         """
-        perform any registration information necessary after a member is registered
+        perform any registration information necessary after a member
+        is registered
         """
         rtool = getToolByName(self, 'portal_registration')
         site_props = getToolByName(self, 'portal_properties').site_properties
-        
+
         # XXX unicode names break sending the email
         unicode_name = self.getFullname()
         self.setFullname(str(unicode_name))
@@ -674,7 +671,8 @@ class BaseMember(object):
 
     def isVisible_ids(self):
         """
-        condition to check if short names should be specified on the edit screen
+        condition to check if short names should be specified on the
+        edit screen
         """
         props = getToolByName(self, 'portal_properties').site_properties
         return props.visible_ids
