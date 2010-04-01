@@ -83,3 +83,41 @@ Log in using the new password.
     >>> print browser.contents
     <...
     ...You are now logged in...
+
+The password for a non-remember user can also be reset.
+
+    >>> user = portal.acl_users.getUserById('non_remember_member')
+    >>> user.setProperties(email='non_remember_member@nohost.com')
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.getLink('Log in').click()
+    >>> browser.getLink('we can send you a new one').click()
+    >>> browser.getControl(name="userid").value = 'non_remember_member'
+    >>> browser.getControl('Start password reset').click()
+
+    >>> msg = portal.MailHost.pop().get_payload()
+    >>> len(portal.MailHost)
+    0
+    >>> reset_link = re.search(r'(http://.*)', msg).group()
+
+    >>> browser.open(reset_link)
+    >>> browser.getControl(name="userid").value = 'non_remember_member'
+    >>> browser.getControl(
+    ...     'New password').value = ptc.default_password
+    >>> browser.getControl(
+    ...     name="password2").value = ptc.default_password
+    >>> browser.getControl('Set my password').click()
+    >>> print browser.contents
+    <...
+            Your password has been set successfully. You may now log in with your
+            new password...
+
+    >>> browser.open(portal.absolute_url())
+    >>> browser.getLink('Log in').click()
+    >>> browser.getControl('Login Name').value = 'non_remember_member'
+    >>> browser.getControl(
+    ...     'Password').value = ptc.default_password
+    >>> browser.getControl('Log in').click()
+    >>> print browser.contents
+    <...
+    ...You are now logged in...
