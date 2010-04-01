@@ -86,6 +86,23 @@ members.
     Traceback (most recent call last):
     LinkNotFoundError
 
+Non-remember users can be successfully deleted using the control panel.
+
+    >>> browser.open(users_url)
+    >>> browser.getControl('Show all').click()
+    >>> browser.getControl(name="delete:list").getControl(
+    ...     value='non_remember_member').selected = True
+    >>> browser.getControl('Apply Changes').click()
+    >>> print browser.contents
+    <...
+                <dd>Changes applied.</dd>
+    ...
+    >>> browser.getControl('Show all').click()
+    >>> browser.getLink('non_remember_member')
+    Traceback (most recent call last):
+    LinkNotFoundError
+    >>> portal.acl_users.getUserById('non_remember_member')
+
 Disable setting the password.
 
     >>> from plone.app.controlpanel import security
