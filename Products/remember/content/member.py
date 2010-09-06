@@ -2,6 +2,7 @@ import sys
 import re
 
 from AccessControl import ClassSecurityInfo
+from AccessControl import SecurityManagement
 from AccessControl import Unauthorized
 from App.class_init import InitializeClass
 from Acquisition import aq_base
@@ -47,6 +48,7 @@ from Products.remember.config import ANNOT_KEY
 from Products.remember.config import HASHERS
 from Products.remember.utils import stringToList
 from Products.remember.utils import removeAutoRoles
+from Products.remember.permissions import CAN_AUTHENTICATE_PERMISSION
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
@@ -489,6 +491,29 @@ class BaseMember(object):
             return True
         else:
             return False
+
+    def authenticateCredentials(self, credentials):
+        """ See IAuthenticationPlugin.
+        """
+        # Check the permission on the member content object so that
+        # workflow or anything else changing permissions can control
+        # authentication
+        info = credentials.IMembraneUserObject(member, auth)
+        user_id = info.getUserId()
+        pas = self._getPAS()
+        user = pas._findUser(pas._getOb('plugins'), user_id, login)
+        orig_sm = SecurityManagement.getSecurityManager()
+        try:
+            SecurityManagement.newSecurityManager(None, user)
+            if not SecurityManagement.getSecurityManager(
+                ).checkPermission(CAN_AUTHENTICATE_PERMISSION, member):
+                return None
+        finally:
+            SecurityManagement.setSecurityManager(orig_sm)
+
+        return auth.authenticateCredentials(credentials)
+
+
 
     #######################################################################
     # IManageCapabilities implementation
