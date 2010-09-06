@@ -3,6 +3,11 @@ from Products.CMFCore import permissions as cmfcore_permissions
 from Products.membrane import permissions as membrane_permissions
 import config
 
+CAN_AUTHENTICATE_PERMISSION = 'remember: Can authenticate'
+
+cmfcore_permissions.setDefaultRoles(
+    CAN_AUTHENTICATE_PERMISSION, ('Manager', 'Authenticated'))
+
 # This file is used to set up permissions for your product.
 
 # Add a new member
@@ -30,7 +35,6 @@ VIEW_OTHER_PERMISSION = EDIT_PROPERTIES_PERMISSION
 # Enable password mailing
 MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 
-
 # The code below will create a unique add permission for each of your
 # content types.  The permission for adding the type MyContentType will
 # be 'MyProject: Add MyContentType'.  If instead you want to specify
@@ -46,7 +50,6 @@ MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 
 ADD_PERMISSIONS = {config.DEFAULT_MEMBER_TYPE: ADD_MEMBER_PERMISSION,
                    }
-
 
 def initialize():
     permissions = {}
