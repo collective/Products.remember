@@ -476,6 +476,10 @@ class BaseMember(object):
         on that, please.
         """
         return self.getId()
+    def getUserId(self):
+        """Return the user login id.
+        """
+        return self.getId()
 
     def verifyCredentials(self, credentials):
         login = credentials.get('login')
