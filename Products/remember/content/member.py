@@ -78,6 +78,7 @@ class BaseMember(object):
         at_ifaces.IUserAuthentication, at_ifaces.IPropertiesProvider,
         IRememberGroupsProvider, at_ifaces.IGroupAwareRolesProvider,
         at_ifaces.IUserRoles, IManageCapabilities,
+        IRememberUserChanger,
         IAttributeAnnotatable, at_ifaces.IUserDeleter)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
