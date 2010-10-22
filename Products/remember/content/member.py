@@ -34,6 +34,7 @@ from Products.PlonePAS.interfaces.capabilities import IAssignRoleCapability
 from Products.PlonePAS.interfaces.capabilities import IManageCapabilities
 
 from Products.membrane.at import interfaces as at_ifaces
+from Products.membrane.interfaces.user import IMembraneUserAuth
 
 from Products.remember.interfaces import IReMember
 from Products.remember.interfaces import IRememberAuthProvider
@@ -78,7 +79,7 @@ class BaseMember(object):
         at_ifaces.IUserAuthentication, at_ifaces.IPropertiesProvider,
         IRememberGroupsProvider, at_ifaces.IGroupAwareRolesProvider,
         at_ifaces.IUserRoles, IManageCapabilities,
-        IRememberUserChanger,
+        IRememberUserChanger, IMembraneUserAuth,
         IAttributeAnnotatable, at_ifaces.IUserDeleter)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
@@ -499,24 +500,22 @@ class BaseMember(object):
     def authenticateCredentials(self, credentials):
         """ See IAuthenticationPlugin.
         """
-        # Check the permission on the member content object so that
-        # workflow or anything else changing permissions can control
-        # authentication
-        info = credentials.IMembraneUserObject(member, auth)
-        user_id = info.getUserId()
-        pas = self._getPAS()
-        user = pas._findUser(pas._getOb('plugins'), user_id, login)
+        # Fail if authentication is not permitted for this member.  Otherwise,
+        # return the result of verifying the credentials.
+
         orig_sm = SecurityManagement.getSecurityManager()
         try:
-            SecurityManagement.newSecurityManager(None, user)
+            SecurityManagement.newSecurityManager(None, self.getUser())
             if not SecurityManagement.getSecurityManager(
-                ).checkPermission(CAN_AUTHENTICATE_PERMISSION, member):
+                ).checkPermission(CAN_AUTHENTICATE_PERMISSION, self):
                 return None
         finally:
             SecurityManagement.setSecurityManager(orig_sm)
 
-        return auth.authenticateCredentials(credentials)
-
+        if self.verifyCredentials(credentials):
+            login = credentials.get('login')
+            userid = self.getUserId()
+            return userid, login
 
 
     #######################################################################
