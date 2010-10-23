@@ -4,6 +4,23 @@ Changelog
 2.0 - Unreleased
 ----------------
 
+* October, 2010 Products.remember now works with membrane 2.0 (and
+  Plone 4):
+
+  - Removed and/or converted "I*Avail" interfaces
+  - Added missing BaseMember.getUserId() method
+  - Make BaseMember Provide IMembraneUserAuth, so it can do
+    .authenticateCredentials(), and
+  - Implemented BaseMember.authenticateCredentials() method to be
+    used instead of the version removed from membrane.
+
+  NOTE WELL:
+
+  If you have sites with pre-existing member objects you must update their
+  membrane_tool catalog when you upgrade.  Via the ZMI in your site's
+  membrane_tool, select the 'Advanced' tab and 'Update Catalog' to
+  reconcile existing index entries.  [klm]
+
 * Modernized GenericSetup configuration, moving the profile and import
   step registration from python code and xml to zcml, and creating
   upgrade steps to get rid of persistent import steps and update the
