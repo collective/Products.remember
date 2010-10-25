@@ -3,9 +3,6 @@ from Products.CMFCore.utils import getToolByName
 from plone.app.controlpanel import security
 
 
-# XXX klm 2010-10-25 the remember SecurityControlPanelAdapter probably should
-# not be in the way unless remember is quick installed.
-
 class SecurityControlPanelAdapter(
     security.SecurityControlPanelAdapter):
 
