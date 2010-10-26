@@ -4,6 +4,10 @@ Changelog
 2.0 - Unreleased
 ----------------
 
+* Products.remember no longer disrupts non-membrane membership when
+  Products.remember is present but not yet quick-installed.
+  [2010-10-25 klm]
+
 * Products.remember now works with membrane 2.0 (and Plone 4):
 
   - Removed and/or converted "I*Avail" interfaces
