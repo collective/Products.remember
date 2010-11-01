@@ -6,6 +6,7 @@
 
   <include package=".browser" />
   <include package=".exportimport" />
+  <include package="plone.browserlayer" />
 
   <adapter for=".interfaces.IRememberAuthProvider"
            provides="Products.membrane.interfaces.user.IMembraneUserObject"
@@ -50,7 +51,7 @@
        provides="Products.membrane.interfaces.IMembraneUserChanger"
        factory=".content.rememberuserchanger.RememberUserChanger"
        />
-       
+
   <subscriber for=".interfaces.IReMember
   		   zope.app.container.interfaces.IObjectMovedEvent"
   		handler=".utils.fixOwnership"
@@ -63,7 +64,7 @@
       class=".content.member.Member" />
   <five:deprecatedManageAddDelete
       class=".content.member.FolderishMember" />
-  		
+
   <genericsetup:registerProfile
       name="default"
       title="remember"

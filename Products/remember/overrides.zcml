@@ -1,6 +1,16 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope">
-
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:browser="http://namespaces.zope.org/browser">
+  <browser:page
+     zcml:condition="installed plone.app.users"
+     name="usergroup-userprefs"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     class="plone.app.controlpanel.usergroups.UsersOverviewControlPanel"
+     permission="zope2.ManageUsers"
+     template="browser/usergroups_usersoverview.pt"
+     layer=".interfaces.IRememberCustomization"
+     />
   <include package=".browser" file="overrides.zcml" />
 
   <adapter factory=".security.SecurityControlPanelAdapter" />
