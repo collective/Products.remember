@@ -48,7 +48,7 @@ reset link.
     0
     >>> print msg
         Welcome Foo Full Name,
-        your user account has been created. Please activate it by visiting
+        your ... account has been created. Please activate it by visiting
         http://nohost/plone/passwordreset/...?userid=foo
         You must activate your account within 168
         hours, so before ...

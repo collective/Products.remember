@@ -147,10 +147,9 @@ A member can be added using the control panel and an email will be sent.
     0
     >>> print msg
         Welcome Foo Full Name,
-        your user account has been created. Please activate it by visiting
+        Your ... account has been created.  Please activate it by visiting
         http://nohost/plone/passwordreset/...?userid=foo
-        You must activate your account within 168
-        hours, so before ...
+        You must activate your account within ...
 
 A member can also be added directly to the portal_memberdata folder
 using portal_factory.  An email will be sent.
@@ -182,7 +181,7 @@ using portal_factory.  An email will be sent.
     0
     >>> print msg
         Welcome Bar Full Name,
-        your user account has been created. Please activate it by visiting
+        Your ... account has been created.  Please activate it by visiting
         http://nohost/plone/passwordreset/...?userid=bar
         You must activate your account within 168
         hours, so before ...
