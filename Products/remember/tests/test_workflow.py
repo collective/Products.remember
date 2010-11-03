@@ -107,8 +107,8 @@ class TestWorkflow(RememberTestBase):
         wftool.updateRoleMappings()
 
     def test_ApprovalWorkflowAuthentication(self):
-        """A member controlled by the approval workflow cannot login
-        authenticate until approved"""
+        """A member controlled by the approval workflow cannot authenticate
+        until approved"""
         wftool = getToolByName(self.portal, 'portal_workflow')
         wftool.setChainForPortalTypes(
             (DEFAULT_MEMBER_TYPE,), 'member_approval_workflow')
@@ -130,6 +130,32 @@ class TestWorkflow(RememberTestBase):
 
         user = uf.authenticate('lammy', 'secret', self.portal.REQUEST)
         self.failIf(user is None)
+
+
+    def test_AutoWorkflowAuthentication(self):
+        """A member controlled by the automatic workflow can 
+        authenticate until disabled"""
+        wftool = getToolByName(self.portal, 'portal_workflow')
+        wftool.setChainForPortalTypes(
+            (DEFAULT_MEMBER_TYPE,), 'member_auto_workflow')
+        wftool.updateRoleMappings()
+
+        # create new user
+        mem = self.addMember('lammy')
+        # check if new user state is pending
+        self.assertEqual(
+            wftool.getInfoFor(mem, 'review_state'), 'public')
+
+        uf = self.portal.acl_users
+        user = uf.authenticate('lammy', 'secret', self.portal.REQUEST)
+        self.failIf(user is None)
+
+        # disable new member
+        self.login('admin_member')
+        wftool.doActionFor(mem, 'disable')
+
+        user = uf.authenticate('lammy', 'secret', self.portal.REQUEST)
+        self.failUnless(user is None)
 
 
 def test_suite():
