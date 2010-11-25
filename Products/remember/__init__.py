@@ -80,6 +80,14 @@ def initialize(context):
                                      EXTENSION,
                                      for_=IPloneSiteRoot,
                                      )
+    profile_registry.registerProfile('uninstall',
+                                     'uninstall remember',
+                                     'Uninstall remember.',
+                                     'profiles/uninstall',
+                                     'remember',
+                                     EXTENSION,
+                                     for_=IPloneSiteRoot,
+                                     )
 
     # register image property type for user property sheets
     PropertySchema.addType('image',

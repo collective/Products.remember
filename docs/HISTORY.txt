@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.1 - unreleased
+----------------
+
+* Uninstall method [elro]
+
 1.1b3 - 2009-03-23
 ------------------
 
