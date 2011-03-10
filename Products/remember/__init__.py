@@ -21,6 +21,8 @@ from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.DirectoryView import registerDirectory
 
 from Products.PlonePAS.sheet import PropertySchema
+from Products.GenericSetup import profile_registry, EXTENSION
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 
 from permissions import initialize as initialize_permissions
 import config
@@ -68,6 +70,24 @@ def initialize(context):
             extra_constructors=(constructor, ),
             fti=ftis,
             ).initialize(context)
+
+    profile_desc = "Installs membrane-based Plone member implementation."
+    profile_registry.registerProfile('default',
+                                     'remember',
+                                     profile_desc,
+                                     'profiles/default',
+                                     'remember',
+                                     EXTENSION,
+                                     for_=IPloneSiteRoot,
+                                     )
+    profile_registry.registerProfile('uninstall',
+                                     'uninstall remember',
+                                     'Uninstall remember.',
+                                     'profiles/uninstall',
+                                     'remember',
+                                     EXTENSION,
+                                     for_=IPloneSiteRoot,
+                                     )
 
     # register image property type for user property sheets
     PropertySchema.addType('image',
