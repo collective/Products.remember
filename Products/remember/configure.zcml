@@ -67,7 +67,7 @@
   <genericsetup:registerProfile
       name="default"
       title="remember"
-      description="Installs membrane-based Plone member implementation."
+      description="Portal members as workflowable content, based on membrane."
       directory="profiles/default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
