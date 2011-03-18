@@ -2,6 +2,7 @@ import sys
 import re
 
 from AccessControl import ClassSecurityInfo
+from AccessControl import SecurityManagement
 from AccessControl import Unauthorized
 from App.class_init import InitializeClass
 from Acquisition import aq_base
@@ -33,6 +34,7 @@ from Products.PlonePAS.interfaces.capabilities import IAssignRoleCapability
 from Products.PlonePAS.interfaces.capabilities import IManageCapabilities
 
 from Products.membrane.at import interfaces as at_ifaces
+from Products.membrane.interfaces.user import IMembraneUserAuth
 
 from Products.remember.interfaces import IReMember
 from Products.remember.interfaces import IRememberAuthProvider
@@ -47,6 +49,7 @@ from Products.remember.config import ANNOT_KEY
 from Products.remember.config import HASHERS
 from Products.remember.utils import stringToList
 from Products.remember.utils import removeAutoRoles
+from Products.remember.permissions import CAN_AUTHENTICATE_PERMISSION
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
@@ -76,8 +79,8 @@ class BaseMember(object):
         at_ifaces.IUserAuthentication, at_ifaces.IPropertiesProvider,
         IRememberGroupsProvider, at_ifaces.IGroupAwareRolesProvider,
         at_ifaces.IUserRoles, IManageCapabilities,
-        IAttributeAnnotatable, IRememberUserChanger,
-        at_ifaces.IUserDeleter)
+        IRememberUserChanger, IMembraneUserAuth,
+        IAttributeAnnotatable, at_ifaces.IUserDeleter)
 
     archetype_name = portal_type = meta_type = DEFAULT_MEMBER_TYPE
     base_archetype = None
@@ -474,6 +477,10 @@ class BaseMember(object):
         on that, please.
         """
         return self.getId()
+    def getUserId(self):
+        """Return the user login id.
+        """
+        return self.getId()
 
     def verifyCredentials(self, credentials):
         login = credentials.get('login')
@@ -489,6 +496,27 @@ class BaseMember(object):
             return True
         else:
             return False
+
+    def authenticateCredentials(self, credentials):
+        """ See IAuthenticationPlugin.
+        """
+        # Fail if authentication is not permitted for this member.  Otherwise,
+        # return the result of verifying the credentials.
+
+        orig_sm = SecurityManagement.getSecurityManager()
+        try:
+            SecurityManagement.newSecurityManager(None, self.getUser())
+            if not SecurityManagement.getSecurityManager(
+                ).checkPermission(CAN_AUTHENTICATE_PERMISSION, self):
+                return None
+        finally:
+            SecurityManagement.setSecurityManager(orig_sm)
+
+        if self.verifyCredentials(credentials):
+            login = credentials.get('login')
+            userid = self.getUserId()
+            return userid, login
+
 
     #######################################################################
     # IManageCapabilities implementation
