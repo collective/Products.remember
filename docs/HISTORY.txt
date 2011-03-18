@@ -6,7 +6,7 @@ Changelog
 
 * Products.remember no longer disrupts non-membrane membership when
   Products.remember is present but not yet quick-installed.
-  [2010-10-25 klm]
+  [2010-10-25 ken manheimer]
 
 * Products.remember now works with membrane 2.0 (and Plone 4):
 
