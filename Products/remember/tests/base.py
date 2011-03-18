@@ -14,6 +14,26 @@ from Products.remember.tools.memberdata import MemberDataContainer
 ZopeTestCase.installProduct("membrane")
 ZopeTestCase.installProduct("remember")
 
+# klm 2011-03-18 workaround collective.testcaselayer bug:
+# the current version uses SecureMailHost, which is obsolete and causes test
+# failures.  this measure should still work fine when collective.testcaselayer
+# is fixed, but would best be retired then.
+from collective.testcaselayer import mail
+from Products.MailHost import MailHost
+#mail.MockMailHost.__bases__ = (MailHost.MailHost,)
+mail.dubiousMockMailHost = mail.MockMailHost
+class fixedMockMailHost(MailHost.MailHost, mail.MockMailHost):
+    """"Derive class to use MailHost instead of SecureMailHost methods."""
+    def __init__(self, id):
+        MailHost.MailHost.__init__(self, id)
+        self.reset()
+    # must force some methods from MockMailHost to be used
+    _send = mail.MockMailHost._send
+    __len__ = mail.MockMailHost.__len__
+    reset = mail.MockMailHost.reset
+
+mail.MockMailHost = fixedMockMailHost
+
 mem_password = 'secret'
 def_mem_data = {
     'email': 'noreply@xxxxxxxxyyyyyy.com',
