@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0 - Unreleased
-----------------
+1.9b1 - Unreleased
+------------------
 
 * Products.remember no longer disrupts non-membrane membership when
   Products.remember is present but not yet quick-installed.
