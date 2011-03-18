@@ -12,6 +12,7 @@
  <permission>View</permission>
  <permission>membrane: Edit member id</permission>
  <permission>membrane: Register member</permission>
+ <permission>remember: Can authenticate</permission>
  <state state_id="disabled" title="Disabled">
   <exit-transition transition_id="enable_private"/>
   <exit-transition transition_id="enable_public"/>
@@ -43,6 +44,10 @@
    <permission-role>Manager</permission-role>
   </permission-map>
   <permission-map name="membrane: Register member"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -87,6 +92,10 @@
    <permission-role>Anonymous</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
+  <permission-map name="remember: Can authenticate"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
  </state>
  <state state_id="new_private" title="Newly created member">
   <exit-transition transition_id="auto_register_private"/>
@@ -126,6 +135,10 @@
   <permission-map name="membrane: Register member"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Can authenticate"
+                  acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
  </state>
@@ -169,6 +182,11 @@
   <permission-map name="membrane: Register member"
                   acquired="False">
    <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Can authenticate"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
   </permission-map>
  </state>
  <state state_id="public"
@@ -214,6 +232,11 @@
   <permission-map name="membrane: Register member"
                   acquired="False">
    <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="remember: Can authenticate"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
   </permission-map>
  </state>
  <transition transition_id="auto_register"
