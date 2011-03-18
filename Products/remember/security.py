@@ -12,18 +12,21 @@ class SecurityControlPanelAdapter(
 
         md = getToolByName(self.portal, 'portal_memberdata')
 
-        app_perms = md.rolesOfPermission(permission='Add portal content')
         reg_roles = []
-        for appperm in app_perms:
-            if appperm['selected'] == 'SELECTED':
-                reg_roles.append(appperm['name'])
         if value == True and 'Anonymous' not in reg_roles:
             reg_roles.append('Anonymous')
         if value == False and 'Anonymous' in reg_roles:
             reg_roles.remove('Anonymous')
 
-        md.manage_permission('Add portal content', roles=reg_roles,
-                                      acquire=0)
+        try:
+            app_perms = md.rolesOfPermission(permission='Add portal content')
+        except ValueError:
+            # XXX remember probably not quick installed, skip the rest.
+            return
+        for appperm in app_perms:
+            if appperm['selected'] == 'SELECTED':
+                reg_roles.append(appperm['name'])
+        md.manage_permission('Add portal content', roles=reg_roles, acquire=0)
 
     enable_self_reg = property(
         security.SecurityControlPanelAdapter.get_enable_self_reg,
