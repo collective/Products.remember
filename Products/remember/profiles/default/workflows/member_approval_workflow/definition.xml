@@ -12,7 +12,7 @@
  <permission>View</permission>
  <permission>membrane: Edit member id</permission>
  <permission>membrane: Register member</permission>
- <permission>membrane: Can authenticate</permission>
+ <permission>remember: Can authenticate</permission>
  <state state_id="disabled" title="Disabled">
   <exit-transition transition_id="enable_pending"/>
   <exit-transition transition_id="enable_private"/>
@@ -48,7 +48,7 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="membrane: Can authenticate"
+  <permission-map name="remember: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -92,7 +92,7 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="membrane: Can authenticate"
+  <permission-map name="remember: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -133,7 +133,7 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="membrane: Can authenticate"
+  <permission-map name="remember: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -179,7 +179,7 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="membrane: Can authenticate"
+  <permission-map name="remember: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
@@ -229,7 +229,7 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="membrane: Can authenticate"
+  <permission-map name="remember: Can authenticate"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
