@@ -11,6 +11,7 @@ try:
     from Products.membrane.interfaces.user import IMembraneUserChangerAvail as IMembraneUserChanger
 except:
     from Products.membrane.interfaces.user import IMembraneUserChanger
+from Products.membrane.at import interfaces as at_ifaces
 
 
 
@@ -65,8 +66,7 @@ class IRememberMembraneTool(IMembraneTool):
     membrane tool at setup time
     """
 
-class IRememberUserChanger(IReferenceable,
-                           IMembraneUserChanger):
+class IRememberUserChanger(at_ifaces.IUserChanger):
     """
     IRemember user changer uses the _setPassword method
     This is the mutator function for the member object
