@@ -24,7 +24,14 @@ from Products.MailHost import MailHost
 mail.dubiousMockMailHost = mail.MockMailHost
 class fixedMockMailHost(MailHost.MailHost, mail.MockMailHost):
     """"Derive class to use MailHost instead of SecureMailHost methods."""
-    pass
+    def __init__(self, id):
+        MailHost.MailHost.__init__(self, id)
+        self.reset()
+    # must force some methods from MockMailHost to be used
+    _send = mail.MockMailHost._send
+    __len__ = mail.MockMailHost.__len__
+    reset = mail.MockMailHost.reset
+
 mail.MockMailHost = fixedMockMailHost
 
 mem_password = 'secret'
