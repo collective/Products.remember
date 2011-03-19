@@ -15,7 +15,8 @@ typical Plone 2.5 (and greater) installation.
 See Products.remember releases prior to version 1.9 for migration from
 existing CMFMember-based sites.
 
-NOTE: This version of Remember requires Plone 4 and membrane 2.
+NOTE: This version of Remember requires Plone 4 and membrane 2.  It does
+not suppport Plone 3 and earlier - see Products.remember > 1.9 for that.
 
 For questions and support, please see the Remember mailing list:
 http://www.openplans.org/projects/remember/lists/remember/
