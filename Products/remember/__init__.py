@@ -1,4 +1,3 @@
-#{Header, text, replace}#
 """
 remember
 
