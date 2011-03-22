@@ -14,11 +14,14 @@ __docformat__ = 'text/restructured'
 
 import sys
 
+from AccessControl import allow_module
 from OFS.Image import Image
 
 from Products.Archetypes import public as atapi
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.DirectoryView import registerDirectory
+from zope.component import getUtility
+from Products.CMFCore.interfaces import ISiteRoot
 
 from Products.PlonePAS.sheet import PropertySchema
 
@@ -37,11 +40,20 @@ sys.modules['Products.remember.tools.membership'] = \
 # Register the skins directory
 registerDirectory(config.SKINS_DIR, config.GLOBALS)
 
+# Make email PAS plugin available:
+from Products.remember.pas import install as pas_install
+pas_install.register_pas_plugin()
+
 
 def initialize(context):
     # register the CMFMember migrators, if necessary
     if config.CMFMEMBER_MIGRATION_SUPPORT:
         registerMigrators()
+
+    # Register a PAS plugin
+    pas_install.register_pas_plugin_class(context)
+    # Some methods are needed in restricted python:
+    allow_module('Products.remember.pas.utils')
 
     # Importing the content types allows for their registration
     # with the Archetypes runtime

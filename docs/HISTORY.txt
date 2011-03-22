@@ -6,7 +6,7 @@ Changelog
 
 * Products.remember no longer disrupts non-membrane membership when
   Products.remember is present but not yet quick-installed.
-  [2010-10-25 klm]
+  [march 2011 ken manheimer]
 
 * Products.remember now works with membrane 2.0 (and Plone 4):
 
@@ -23,7 +23,20 @@ Changelog
   membrane_tool catalog when you upgrade.  Via the ZMI in your site's
   membrane_tool, select the 'Advanced' tab and 'Update Catalog' to
   reconcile existing index entries.
-  [2010-10-23 ken manheimer]
+  [march 2011 ken manheimer]
+
+* Respect Site Setup/Security/"Use email address as login name".
+
+  New accounts are not allowed to have the same email address as already
+  existing ones when the property is True, but the policy is not enforced
+  when it is false.  (Already existing accounts are not subject to the
+  constraint in either case.)
+
+  Currently the setup requires manual addition of the Remember Email User
+  Authentication plugin in acl_users, and enabling of the Extraction
+  functionality (by visiting the added plugin) once the plugin has been
+  added.
+  [march 2011 ken manheimer]
 
 * Modernized GenericSetup configuration, moving the profile and import
   step registration from python code and xml to zcml, and creating

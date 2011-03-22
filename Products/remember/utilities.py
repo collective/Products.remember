@@ -6,12 +6,12 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces import IUserAdder
 from Products.remember.config import DEFAULT_MEMBER_TYPE
+from Products.remember.pas.utils import email_login_is_active
 
 
 class UserAdder(SimpleItem):
     """
-    UserAdder that adds the current default remember-based member
-    types.
+    UserAdder that adds the current default remember-based member types.
     """
     implements(IUserAdder)
 
@@ -26,3 +26,9 @@ class UserAdder(SimpleItem):
         mdtool = getToolByName(self, 'portal_memberdata')
         mtype = self.default_member_type
         mdtool.invokeFactory(mtype, login, password=password)
+
+    @property
+    def email_login(self):
+        """True when the email PAS plugin is used and site property is set.
+        """
+        return email_login_is_active()
