@@ -50,7 +50,7 @@
        provides="Products.membrane.interfaces.IMembraneUserChanger"
        factory=".content.rememberuserchanger.RememberUserChanger"
        />
-       
+
   <subscriber for=".interfaces.IReMember
   		   zope.app.container.interfaces.IObjectMovedEvent"
   		handler=".utils.fixOwnership"
@@ -63,7 +63,7 @@
       class=".content.member.Member" />
   <five:deprecatedManageAddDelete
       class=".content.member.FolderishMember" />
-  		
+
   <genericsetup:registerProfile
       name="default"
       title="remember"
@@ -101,6 +101,12 @@
       handler="Products.remember.setuphandlers.keyword_index_get_roles"
       profile="Products.remember:default" />
 
-
+  <genericsetup:upgradeStep
+      title="Establish the Products.remember email auth PAS plugin"
+      description=""
+      source="1101"
+      destination="1102"
+      handler="Products.remember.setuphandlers.setupEmailPASPlugin"
+      profile="Products.remember:default" />
 
 </configure>
