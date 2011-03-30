@@ -41,3 +41,12 @@ def register_pas_plugin_class(context):
                                           manage_add_remember_emaillogin_user_authentication),
                           visibility = None,
                           icon='pas/browser/icon.gif')
+
+def activate_pas_plugin(context, id, title):
+    try:
+        manage_add_remember_emaillogin_user_authentication(context, id, title)
+        plugin = getattr(context, id)
+        plugin.manage_activateInterfaces(('IExtractionPlugin',))
+    except RuntimeError, BadRequest:
+        # don't complain on refresh or already-present:
+        pass
