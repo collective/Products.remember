@@ -31,6 +31,13 @@ Changelog
   existing ones when the property is True, but the policy is not enforced
   when it is false.  (Already existing accounts are not subject to the
   constraint in either case.)
+
+  This feature is essentially Maurits van Rees' email login branch:
+  http://svn.plone.org/svn/collective/Products.remember/branches/maurits-emaillogin-pas/
+
+  ... plus added automatic activation of the PAS authentication plugin and
+  connection to the security setup "Use email address as login name"
+  setting.
   [march 2011 ken manheimer]
 
 * Modernized GenericSetup configuration, moving the profile and import
