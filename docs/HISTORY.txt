@@ -31,11 +31,6 @@ Changelog
   existing ones when the property is True, but the policy is not enforced
   when it is false.  (Already existing accounts are not subject to the
   constraint in either case.)
-
-  Currently the setup requires manual addition of the Remember Email User
-  Authentication plugin in acl_users, and enabling of the Extraction
-  functionality (by visiting the added plugin) once the plugin has been
-  added.
   [march 2011 ken manheimer]
 
 * Modernized GenericSetup configuration, moving the profile and import
