@@ -4,6 +4,7 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService import registerMultiPlugin
 
 from interface import IRememberEmailAuth
+from zExceptions import BadRequest
 
 import plugin
 
@@ -47,6 +48,6 @@ def activate_pas_plugin(context, id, title):
         manage_add_remember_emaillogin_user_authentication(context, id, title)
         plugin = getattr(context, id)
         plugin.manage_activateInterfaces(('IExtractionPlugin',))
-    except RuntimeError, BadRequest:
+    except (RuntimeError, BadRequest):
         # don't complain on refresh or already-present:
         pass
