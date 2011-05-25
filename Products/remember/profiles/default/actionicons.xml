@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <action-icons>
-  <action-icon category="controlpanel" action_id="RememberSettings"
-               title="Remember Settings" priority="0"
-               icon_expr="group.gif" />
+  <action-icon category="controlpanel"
+               action_id="MemberPrefs"
+               title="Personal Preferences" priority="0"
+               icon_expr="user.gif"/>
+  <action-icon category="controlpanel"
+               action_id="MemberPassword"
+               title="Change Password" priority="0"
+               icon_expr="lock_icon.gif"/>
 </action-icons>

@@ -4,7 +4,7 @@
   <utilities>
     <utility
        interface="Products.membrane.interfaces.IUserAdder"
-       factory="Products.remember.utilities.UserAdder"
-       name="remember" />
+       name="remember"
+       remove="True"/>
   </utilities>
 </componentregistry>

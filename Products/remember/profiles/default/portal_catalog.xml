@@ -6,24 +6,24 @@
     <element name="Unicode Whitespace splitter" group="Word Splitter" />
   </object>
 
-  <index name="getId" meta_type="FieldIndex">
+  <index name="getId" meta_type="FieldIndex" remove="True">
     <indexed_attr value="getId"/>
   </index>
 
-  <index name="getFullname" meta_type="ZCTextIndex">
+  <index name="getFullname" meta_type="ZCTextIndex" remove="True">
     <indexed_attr value="getFullname"/>
     <extra name="index_type" value="Cosine Measure"/>
     <extra name="lexicon_id" value="lexicon"/>
   </index>
 
-  <index name="getEmail" meta_type="ZCTextIndex">
+  <index name="getEmail" meta_type="ZCTextIndex" remove="True">
     <indexed_attr value="getEmail"/>
     <extra name="index_type" value="Cosine Measure"/>
     <extra name="lexicon_id" value="lexicon"/>
   </index>
 
-  <column value="getId"/>
-  <column value="getFullname"/>
-  <column value="getEmail"/>
+  <column value="getId" remove="True"/>
+  <column value="getFullname" remove="True"/>
+  <column value="getEmail" remove="True"/>
 
 </object>
