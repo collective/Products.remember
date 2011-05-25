@@ -73,6 +73,14 @@
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />
 
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Remove Products.remember Support"
+        directory="profiles/uninstall"
+        description="Removes Products.remember registrations, but not memberdata folder."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
   <genericsetup:importStep
       name="portal_form_controller"
       handler="Products.CMFFormController.exportimport.importCMFFormController"
