@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<import-steps>
+
+  <import-step
+     id="remember-uninstall"
+     version="*"
+     handler="Products.remember.setuphandlers.uninstall"
+     title="Remember uninstall various">
+    Remove Products.remember machinery various
+  </import-step>
+
+</import-steps>
