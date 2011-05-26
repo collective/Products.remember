@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<componentregistry>
+  <adapters/>
+  <utilities>
+    <utility
+       interface="Products.membrane.interfaces.IUserAdder"
+       name="remember"
+       remove="True"/>
+  </utilities>
+</componentregistry>
