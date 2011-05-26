@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<object name="membrane_tool" meta_type="MembraneTool">
+  <membrane-type name="Member">
+    <active-workflow-state name="public" />
+    <active-workflow-state name="private" />
+  </membrane-type>
+
+  <object name="lexicon" meta_type="ZCTextIndex Lexicon">
+    <element name="Case Normalizer" group="Case Normalizer" />
+    <!--element name=" Don't remove stop words" group="Stop Words" /-->
+    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+  </object>
+
+  <index name="getId" meta_type="FieldIndex">
+    <indexed_attr value="getId"/>
+  </index>
+
+  <index name="getFullname" meta_type="ZCTextIndex">
+    <indexed_attr value="getFullname"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+
+  <index name="getEmail" meta_type="ZCTextIndex">
+    <indexed_attr value="getEmail"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+  
+  <index name="getRoles" meta_type="KeywordIndex">
+    <indexed_attr value="getRoles"/>
+  </index>
+
+  <index name="getGroups" meta_type="FieldIndex">
+    <indexed_attr value="getGroups"/>
+  </index>
+
+  <index name="getReview_state" meta_type="FieldIndex">
+    <indexed_attr value="getReview_state"/>
+  </index>
+
+  <index name="getLast_login_time" meta_type="DateIndex">
+    <indexed_attr value="getLast_login_time"/>
+  </index>
+
+  <column value="getId"/>
+  <column value="getFullname"/>
+  <column value="getEmail"/>
+  <column value="getRoles"/>
+  <column value="getGroups"/>
+  <column value="getReview_state"/>
+  <column value="getLast_login_time"/>
+
+  <query_index_map>
+    <index name="email">getEmail</index>
+    <index name="fullname">getFullname</index>
+    <index name="review_state">getReview_state</index>
+  </query_index_map>
+
+  <user-adder name="remember" />
+
+</object>
