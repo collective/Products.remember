@@ -2,7 +2,14 @@
    xmlns="http://namespaces.zope.org/zope"
    xmlns:zcml="http://namespaces.zope.org/zcml"
    xmlns:browser="http://namespaces.zope.org/browser">
-  
+
+  <!-- XXX klm 2011-05-25: Overriding the Users and Groups control panel in
+       this way affects all plone portals in the zope instance, whether or
+       not they have remember installed.  If possible, we should
+       substituting for the Users and Groups configlet as a portal-specific
+       customization, and restore the standard underlying configlet for
+       when Products.remember is uninstalled. -->
+
   <browser:page
      zcml:condition="installed plone.app.users"
      name="usergroup-userprefs"
