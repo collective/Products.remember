@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<cmfformcontroller>
+  <action
+     object_id="validate_integrity"
+     status="success"
+     button=""
+     context_type="Member"
+     action_type="traverse_to"
+     action_arg="string:choose_destination"
+     />
+</cmfformcontroller>
+
