@@ -25,6 +25,9 @@ from Products.CMFCore.interfaces import ISiteRoot
 
 from Products.PlonePAS.sheet import PropertySchema
 
+from Products.GenericSetup import EXTENSION
+from Products.GenericSetup import profile_registry
+
 from permissions import initialize as initialize_permissions
 import config
 
@@ -80,6 +83,15 @@ def initialize(context):
             extra_constructors=(constructor, ),
             fti=ftis,
             ).initialize(context)
+
+    profile_registry.registerProfile('uninstall',
+                                     'uninstall remember',
+                                     'Uninstall remember.',
+                                     'profiles/uninstall',
+                                     'remember',
+                                     EXTENSION,
+                                     for_=ISiteRoot,
+                                     )
 
     # register image property type for user property sheets
     PropertySchema.addType('image',
