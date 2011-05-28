@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9b1 - Unreleased
+1.5b1 - Unreleased
 ----------------
 
 * Products.remember can now be quick-uninstalled, so that Plain members can
