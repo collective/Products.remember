@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1b4'
+version = '1.5b1'
 tests_require = ['collective.testcaselayer',
+                 'plone.browserlayer',
                  'zope.testbrowser>3.3']
 
 setup(name='Products.remember',
@@ -29,7 +30,7 @@ A content-based implementation of Plone's default member infrastructure""",
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'Products.membrane>=1.1dev',
+          'Products.membrane>=2.0dev',
           # -*- Extra requirements: -*-
       ],
       tests_require=tests_require,
