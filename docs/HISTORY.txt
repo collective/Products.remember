@@ -4,23 +4,6 @@ Changelog
 1.5b1 - Unreleased
 ----------------
 
-* Products.remember can now be quick-uninstalled, so that Plain members can
-  be created and operate properly.
-
-  Products.remember can subsequently be re-installed, to resume working
-  with already-existing Products.remember accounts.  (You have to reindex
-  the membrane_tool catalog to see the pre-existing accounts.)
-
-  Note that some Products.remember infrastructure is left behind, most
-  notably the portal_memberdata and workflows, so that the accounts can be
-  reestablished if Products.remember is reinstalled.  The accounts do not
-  obtain, however, unless Products.remember is actively installed.
-
-  Note also that, as of this writing, Products.membrane cannot be
-  uninstalled without breaking the site - but that should not interfere
-  with operation or creation of plain, non-membrane membership accounts.
-  [may 2011 ken manheimer]
-
 * Products.remember now can be installed in some portals without affecting
   the operation of the other portals in the same Zope instance.
   [may 2011 ken manheimer]
@@ -28,6 +11,20 @@ Changelog
   Products.remember no longer disrupts non-membrane membership when
   Products.remember is present but not yet quick-installed.
   [march 2011 ken manheimer]
+
+* Products.remember can now be quick-uninstalled, so that Plain members can
+  be created and operate properly.  The uninstall is not complete, however.
+  The portal still depends on presence of the Products.remember code for
+  proper operation, even when the product is not quick-installed.
+
+  Products.remember can subsequently be re-installed, to resume working
+  with already-existing Products.remember accounts.  (You have to reindex
+  the membrane_tool catalog to see the pre-existing accounts.)
+
+  Note also that, as of this writing, Products.membrane cannot be
+  uninstalled without breaking the site - but that should not interfere
+  with operation or creation of plain, non-membrane membership accounts.
+  [may 2011 ken manheimer]
 
 * Products.remember now works with membrane 2.0 (and Plone 4):
 
