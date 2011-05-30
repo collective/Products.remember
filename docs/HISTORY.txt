@@ -13,13 +13,15 @@ Changelog
   [march 2011 ken manheimer]
 
 * Products.remember can now be quick-uninstalled, so that Plain members can
-  be created and operate properly.  The uninstall is not complete, however.
+  be created and operate properly.  The uninstall is not complete, however!
   The portal still depends on presence of the Products.remember code for
   proper operation, even when the product is not quick-installed.
 
-  Products.remember can subsequently be re-installed, to resume working
-  with already-existing Products.remember accounts.  (You have to reindex
-  the membrane_tool catalog to see the pre-existing accounts.)
+  If Products.remember is subsequently re-installed, already-existing
+  Products.remember accounts will resume working.  (You have to manually
+  reindex the membrane_tool catalog to see the pre-existing accounts after
+  reinstall.  Via the ZMI in your site's membrane_tool, select the
+  'Advanced' tab and 'Update Catalog'.)
 
   Note also that, as of this writing, Products.membrane cannot be
   uninstalled without breaking the site - but that should not interfere
