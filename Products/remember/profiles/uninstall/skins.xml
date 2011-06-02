@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_skins" meta_type="Plone Skins Tool">
+ <object name="remember" meta_type="Filesystem Directory View"
+    directory="remember/skins/remember"
+    remove="True"/>
+ <skin-path name="*">
+  <layer name="remember"
+         remove="True" />
+ </skin-path>
+</object>

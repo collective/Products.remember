@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+  <object name="lexicon" meta_type="ZCTextIndex Lexicon">
+    <element name="Case Normalizer" group="Case Normalizer" />
+    <!--element name=" Don't remove stop words" group="Stop Words" /-->
+    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+  </object>
+
+  <index name="getId" meta_type="FieldIndex" remove="True">
+    <indexed_attr value="getId"/>
+  </index>
+
+  <index name="getFullname" meta_type="ZCTextIndex" remove="True">
+    <indexed_attr value="getFullname"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+
+  <index name="getEmail" meta_type="ZCTextIndex" remove="True">
+    <indexed_attr value="getEmail"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+
+  <column value="getId" remove="True"/>
+  <column value="getFullname" remove="True"/>
+  <column value="getEmail" remove="True"/>
+
+</object>

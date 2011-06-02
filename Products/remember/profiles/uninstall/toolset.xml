@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tool-setup>
+  <required tool_id="portal_memberdata"
+            class="Products.remember.tools.memberdata.MemberDataContainer"
+            remove="True"/>
+  <required tool_id="portal_registration"
+            class="Products.remember.tools.registration.RegistrationTool"
+            remove="True"/>
+</tool-setup>

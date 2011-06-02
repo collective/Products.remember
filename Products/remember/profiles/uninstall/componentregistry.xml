@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<componentregistry>
+  <adapters>
+    <adapter for="Products.remember.interfaces.IRememberAuthProvider"
+             provides="Products.membrane.interfaces.user.IMembraneUserObject"
+             factory="Products.remember.content.useridprovider.UserIdProvider"
+             remove="True"
+             />
+    <adapter for="Products.remember.interfaces.IRememberGroupsProvider"
+             provides="Products.membrane.interfaces.IMembraneUserGroups"
+             factory="Products.remember.content.groups.Groups"
+             remove="True"
+             />
+    <adapter for="Products.membrane.interfaces.user.IMembraneUserObject"
+             provides="Products.membrane.at.interfaces.IUserChanger"
+             factory="Products.remember.content.member.Member"
+             remove="True"
+             />
+    <adapter for="Products.remember.interfaces.IRememberUserChanger"
+             provides="Products.membrane.interfaces.IMembraneUserChanger"
+             factory="Products.remember.content.rememberuserchanger.RememberUserChanger"
+             remove="True"
+             />
+  </adapters>
+  <utilities>
+    <utility
+       interface="Products.membrane.interfaces.IUserAdder"
+       name="remember"
+       remove="True"/>
+  </utilities>
+</componentregistry>

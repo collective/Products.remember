@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel" meta_type="Plone Control Panel Tool">
+ <configlet title="Personal Preferences" action_id="MemberPrefs" appId="Plone"
+    category="Member" condition_expr=""
+    url_expr="string:${portal/prefs_url}" visible="True"
+    remove="True">
+  <permission>Set own properties</permission>
+ </configlet>
+ <configlet title="Change Password" action_id="MemberPassword" appId="Plone"
+    category="Member" condition_expr=""
+    url_expr="string:${portal_url}/password_form" visible="True"
+    remove="True">
+  <permission>Set own password</permission>
+ </configlet>
+ <configlet title="Remember Settings" action_id="RememberSettings"
+    appId="remember" category="Products" visible="True" condition_expr=""
+    url_expr="string:$portal_url/prefs_remember_settings"
+    remove="True">
+   <permission>Manager users</permission>
+ </configlet>
+</object>
