@@ -1,3 +1,8 @@
+6/2/2011
+
+The tutorial and product need much attention to track Products.remember 1.9
+changes which bring Plone 4 and membrane 2 compatability.
+
 
 9/3/07
 
