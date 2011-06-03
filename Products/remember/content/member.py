@@ -53,6 +53,8 @@ from Products.remember.permissions import CAN_AUTHENTICATE_PERMISSION
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
+from Products.remember.pas.utils import validate_unique_email
+from Products.remember.pas.utils import email_login_is_active
 
 from member_schema import content_schema
 metadata_schema = atapi.ExtensibleMetadata.schema.copy()
@@ -201,6 +203,26 @@ class BaseMember(object):
         return None
     security.declarePrivate('validate_roles')
 
+    security.declareProtected(EDIT_PROPERTIES_PERMISSION, 'validate_email')
+    def validate_email(self, value):
+        """Validate the uniqueness of the email address.
+
+        Only do this when we use emaillogins.
+        """
+        if email_login_is_active():
+            return validate_unique_email(self, value)
+
+    security.declareProtected(EDIT_PROPERTIES_PERMISSION, 'setEmail')
+    def setEmail(self, value):
+        """Set the email of this member.
+
+        Run the validation to be sure.
+        """
+        if self.validate_email(value):
+            raise ValueError("Email is already in use.")
+        self.getField('email').set(self, value)
+
+    security.declarePrivate('post_validate')
     def post_validate(self, REQUEST, errors):
         form = REQUEST.form
         if 'password' in form:
