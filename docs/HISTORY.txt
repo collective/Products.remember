@@ -1,15 +1,34 @@
 Changelog
 =========
 
-1.9 - Unreleased
+1.5b1 - Unreleased
 ----------------
 
-* Products.remember no longer disrupts non-membrane membership when
-  Products.remember is present but not yet quick-installed.
-  [2010-10-25 ken manheimer]
+* Products.remember now can be installed in some portals without affecting
+  the operation of the other portals in the same Zope instance.
+  [may 2011 ken manheimer]
 
-* Products.remember now works with Plone 4 and Products.membrane 2.
-  (Use versions prior to 1.9 with Plone 3 and Products.membrane < 2.)
+  Products.remember no longer disrupts non-membrane membership when
+  Products.remember is present but not yet quick-installed.
+  [march 2011 ken manheimer]
+
+* Products.remember can now be quick-uninstalled, so that Plain members can
+  be created and operate properly.  The uninstall is not complete, however!
+  The portal still depends on presence of the Products.remember code for
+  proper operation, even when the product is not quick-installed.
+
+  If Products.remember is subsequently re-installed, already-existing
+  Products.remember accounts will resume working.  (You have to manually
+  reindex the membrane_tool catalog to see the pre-existing accounts after
+  reinstall.  Via the ZMI in your site's membrane_tool, select the
+  'Advanced' tab and 'Update Catalog'.)
+
+  Note also that, as of this writing, Products.membrane cannot be
+  uninstalled without breaking the site - but that should not interfere
+  with operation or creation of plain, non-membrane membership accounts.
+  [may 2011 ken manheimer]
+
+* Products.remember now works, and depends on, membrane 2+ and Plone 4+.
 
   - Removed and/or converted "I*Avail" interfaces
   - Added missing BaseMember.getUserId() method
@@ -24,7 +43,22 @@ Changelog
   membrane_tool catalog when you upgrade.  Via the ZMI in your site's
   membrane_tool, select the 'Advanced' tab and 'Update Catalog' to
   reconcile existing index entries.
-  [2010-10-23 ken manheimer]
+  [march 2011 ken manheimer]
+
+* Respect Site Setup/Security/"Use email address as login name".
+
+  New accounts are not allowed to have the same email address as already
+  existing ones when the property is True, but the policy is not enforced
+  when it is false.  (Already existing accounts are not subject to the
+  constraint in either case.)
+
+  This feature is essentially Maurits van Rees' email login branch:
+  http://svn.plone.org/svn/collective/Products.remember/branches/maurits-emaillogin-pas/
+
+  ... plus added automatic activation of the PAS authentication plugin and
+  connection to the security setup "Use email address as login name"
+  setting.
+  [march 2011 ken manheimer]
 
 * Modernized GenericSetup configuration, moving the profile and import
   step registration from python code and xml to zcml, and creating
