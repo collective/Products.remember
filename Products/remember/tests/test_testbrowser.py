@@ -1,5 +1,6 @@
 import unittest
-from zope.testing import doctest
+#from zope.testing import doctest
+import doctest
 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from base import RememberFunctionalTestBase
