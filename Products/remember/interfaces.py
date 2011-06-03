@@ -14,6 +14,10 @@ except:
 from Products.membrane.at import interfaces as at_ifaces
 
 
+class IRememberLayer(Interface):
+    """Products.remember browser layer marker.
+
+    Installed via browserlayer.xml."""
 
 class IReMember(Interface):
     """
