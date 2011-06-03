@@ -4,6 +4,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.PluggableAuthService.interfaces.plugins \
      import IUserAdderPlugin
 
+from Products.remember.pas import install as pas_install
+from zope.component import getUtility
+from Products.CMFCore.interfaces import ISiteRoot
+
 logger = logging.getLogger("Products.remember")
 
 
@@ -60,3 +64,11 @@ def setupPlugins(context):
 
     # Make sure that the UserAdding is handled by membrane
     plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
+    # Install and activate the email login auth extraction handler:
+    setupEmailPASPlugin(context)
+
+def setupEmailPASPlugin(context):
+    """ Activate the email auth PAS plugin """
+    pas_install.activate_pas_plugin(getUtility(ISiteRoot).acl_users,
+                                    'remember_email_auth',
+                                    "Remember Email User Authentication")
