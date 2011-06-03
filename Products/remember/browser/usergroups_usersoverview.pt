@@ -6,9 +6,6 @@
     metal:use-macro="context/prefs_main_template/macros/master"
     i18n:domain="plone">
 
-<metal:block metal:fill-slot="top_slot"
-             tal:define="dummy python:request.set('disable_border',1)" />
-
 <body>
 
 <metal:main fill-slot="prefs_configlet_content"
@@ -19,7 +16,7 @@
                 portal_roles view/portal_roles;
                 portal_url context/portal_url;">
 
-    <div class="documentEditable">          
+    <div class="documentEditable">
         <div id="edit-bar">
             <ul class="contentViews" id="content-views">
               <li class="selected">
@@ -43,7 +40,7 @@
                    i18n:translate="label_member_registration">Member Registration</a>
               </li>
             </ul>
-            <div class="contentActions">&nbsp;</div>            
+            <div class="contentActions">&nbsp;</div>
         </div>
 
         <div metal:use-macro="context/global_statusmessage/macros/portal_message">
@@ -53,7 +50,7 @@
         <div id="content">
             <h1 class="documentFirstHeading"
                 i18n:translate="heading_users_overview">Users Overview</h1>
-        
+
             <div id="content-core">
                 <a href=""
                    class="link-parent"
@@ -63,13 +60,13 @@
                 </a>
                 <p i18n:translate="description_user_management">
                   Click the user's name to see and change the details of a
-                  specific user. Click the envelope icon to send a mail to
+                  specific user. Click the envelope icon to send an e-mail to
                   the user. You can also edit the e-mail addresses, and
                   add/remove users.
                 </p>
                 <p i18n:translate="user_role_note">
                   Note that roles set here apply directly to a user.
-                  The symbol <img i18n:name="image_link_icon" tal:replace="structure context/site_icon.gif" /> 
+                  The symbol <img i18n:name="image_link_icon" tal:replace="structure context/site_icon.gif" />
                   indicates a role inherited from membership in a group.
                 </p>
                 <p i18n:translate="description_pas_users_listing"
@@ -85,7 +82,7 @@
                       method="post"
                       tal:attributes="action string:$portal_url/join_form">
                   <select name="type_name"
-                          tal:define="member_types python:modules['Products.remember.utils'].getRememberTypes(here); 
+                          tal:define="member_types python:modules['Products.remember.utils'].getRememberTypes(here);
                                       adder python:modules['Products.remember.utils'].getAdderUtility(here);
                                       default_type adder/default_member_type;"
                           tal:condition="python: len(member_types) > 1"
@@ -120,7 +117,7 @@
                   <input type="hidden" name="form.submitted" value="1" />
 
                   <table class="listing" summary="User Listing">
-                      <tbody>     
+                      <tbody>
                           <tr class="odd">
                               <th colspan="6" tal:attributes="colspan python:len(portal_roles)+4">
                                   <span tal:omit-tag="" i18n:translate="label_user_search">User Search</span>:
@@ -130,14 +127,14 @@
                                          value=""
                                          tal:attributes="value view/searchString;"
                                          />
-                          
+
                                   <input type="submit"
                                          class="searchButton"
                                          name="form.button.Search"
                                          value="Search"
                                          i18n:attributes="value label_search;"
                                          />
-              
+
                                   <input type="submit"
                                          class="searchButton"
                                          name="form.button.FindAll"
@@ -176,13 +173,7 @@
                                     <input type="hidden" name="users.id:records" tal:attributes="value userid" />
                                 </td>
 
-                                <td tal:define="email user/email">
-                                  <a href="#"
-                                             class="link-plain"
-                                             tal:attributes="href string:mailto:${email}"
-                                             title="Send a mail to this user"
-                                             i18n:attributes="title title_send_mail_to_user;"
-                                             ><tal:block replace="structure context/mail_icon.png"/></a>
+                                <td tal:define="email user/email" nowrap="">
                                   <input style="margin:2px;"
                                                  type="text"
                                      size="15"
@@ -190,6 +181,12 @@
                                      value=""
                                      tal:attributes="value email;
                                                      disabled python:user['can_set_email'] and default or 'disabled'" />
+                                  <a href="#"
+                                             class="link-plain"
+                                             tal:attributes="href string:mailto:${email}"
+                                             title="Send an e-mail to this user"
+                                             i18n:attributes="title title_send_mail_to_user;"
+                                             ><tal:block replace="structure context/mail_icon.png"/></a>
                                 </td>
 
                                 <td class="listingCheckbox"
