@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5b1 - Unreleased
+1.9b1 - Unreleased
 ----------------
 
 * Products.remember now can be installed in some portals without affecting
@@ -45,7 +45,10 @@ Changelog
   reconcile existing index entries.
   [march 2011 ken manheimer]
 
-* Respect Site Setup/Security/"Use email address as login name".
+* Incorporate Maurits van Rees' email login branch, plus finish the hookup
+  so the plugin is fully installed along with Products.remember, but it
+  operates according to the standard Site Setup/Security/"Use email address
+  as login name".
 
   New accounts are not allowed to have the same email address as already
   existing ones when the property is True, but the policy is not enforced
@@ -55,9 +58,16 @@ Changelog
   This feature is essentially Maurits van Rees' email login branch:
   http://svn.plone.org/svn/collective/Products.remember/branches/maurits-emaillogin-pas/
 
-  ... plus added automatic activation of the PAS authentication plugin and
-  connection to the security setup "Use email address as login name"
-  setting.
+  plus completion of hookup, so that:
+
+  - the new PAS email authentication plugin operates with respect to the
+    standard portal Site Setup / Security / "Use email address as login
+    name" setting, so that it is activated and deactivated in the standard
+    way
+  - the new plugin is fully installed when Products.remember is
+    installed
+  - a new Products.remember upgrade step fully installs the new plugin for
+    portals with Products.remember already installed
   [march 2011 ken manheimer]
 
 * Modernized GenericSetup configuration, moving the profile and import
