@@ -55,7 +55,7 @@ class RememberEmailAuth(BasePlugin):
     def extractCredentials(self, request):
         login_email = request.get("__ac_name", '').strip()
 
-        if ((not site_policy_allows_email_login())
+        if ((not self.site_policy_allows_email_login())
             or (login_email == '')
             or ('@' not in login_email)):
             return {}
