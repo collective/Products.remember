@@ -1,7 +1,0 @@
-setuptools
-Products.membrane>=2.0dev
-
-[test]
-collective.testcaselayer
-plone.browserlayer
-zope.testbrowser>3.3
