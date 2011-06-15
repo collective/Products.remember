@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.5b1 - Unreleased
-----------------
+1.9b1 - 2011-06-14
+------------------
 
-* Products.remember now can be installed in some portals without affecting
+* Products.remember now can be installed in a portal without affecting
   the operation of the other portals in the same Zope instance.
   [may 2011 ken manheimer]
 
@@ -12,7 +12,7 @@ Changelog
   Products.remember is present but not yet quick-installed.
   [march 2011 ken manheimer]
 
-* Products.remember can now be quick-uninstalled, so that Plain members can
+* Products.remember can now be quick-uninstalled, so that plain members can
   be created and operate properly.  The uninstall is not complete, however!
   The portal still depends on presence of the Products.remember code for
   proper operation, even when the product is not quick-installed.
@@ -23,17 +23,17 @@ Changelog
   reinstall.  Via the ZMI in your site's membrane_tool, select the
   'Advanced' tab and 'Update Catalog'.)
 
-  Note also that, as of this writing, Products.membrane cannot be
-  uninstalled without breaking the site - but that should not interfere
-  with operation or creation of plain, non-membrane membership accounts.
+  Note that, as of this writing, Products.membrane cannot be uninstalled
+  without breaking the site - but that should not interfere with operation
+  or creation of plain, non-membrane membership accounts.
   [may 2011 ken manheimer]
 
 * Respect Site Setup/Security/"Use email address as login name".
 
   New accounts are not allowed to have the same email address as already
-  existing ones when the property is True, but the policy is not enforced
-  when it is false.  (Already existing accounts are not subject to the
-  constraint in either case.)
+  existing ones when the "Use email address as login name" property is
+  True, but the policy is not enforced when it is false.  (Already existing
+  accounts are not subject to the constraint in either case.)
 
   This feature is essentially Maurits van Rees' maurits-emaillogin-pas
   email login branch, plus: added automatic activation of the PAS
