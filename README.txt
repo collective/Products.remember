@@ -1,5 +1,4 @@
-========
-Products.remember
+Overview
 ========
 
 Products.remember is a full implementation of the default Plone member
@@ -9,22 +8,20 @@ very much like a regular Plone membership accounts, except that member
 information is stored in Member objects that are (by default) stored in the
 portal_memberdata tool.
 
-This version works with versions of Plone 4.0 and later and
-Products.membrane 2.0 and later.
+Products.remember 1.9b1 works with Plone 4+ and Products.membrane 2+.  It
+does not suppport Plone 3 and Products.membrane 1 - for that, see instead
+versions of Products.remember before 1.9, eg 1.1b3.  Visit
+http://pypi.python.org/pypi/Products.remember for the index of all
+available Products.remember releases.
 
 Products.remember is a successor to CMFMember, which will not work with
 PluggableAuthService-based user folders, and thus will not work with a
-typical Plone 2.5 (and greater) installation.  Previous versions of
-Products.remember, eg 1.1b3, provide a migration path for existing
-CMFMember-based sites.
-
-NOTE: This version of Remember requires Plone 4 and membrane 2.  It does
-not suppport Plone 3 and earlier - see Products.remember > 1.9 for that.
+typical Plone 2.5 (and greater) installation.  Products.remember 1.1b3
+provides a migration path for existing CMFMember-based sites.
 
 For questions and support, please see the Remember mailing list:
 http://www.openplans.org/projects/remember/lists/remember/
 
-============
 INSTALLATION
 ============
 
@@ -39,7 +36,6 @@ site by selecting remember from the list of available setup profiles
 when you are creating the site.  In an existing site, you can use
 Plone's regular product installation interface.
 
-============
 REQUIREMENTS
 ============
 
