@@ -1,0 +1,23 @@
+Pending TODOs:
+
+- simplify member-object workflow design and operation by using content
+  rules to detect member profile changes and trigger automatic transitions,
+  rather than Extensions/triggerAutomaticTransitions keyed on the update
+  methods.  (i have a working implementation in a subproduct, but it would
+  need some backwards compat provisions for existing member based content.)
+  - todo added by klm, 2011-07-07
+
+- Reconcile membership account's incidentals - preferences / dashboard /
+  password-change stuff - with standard membership provisions, so there
+  aren't multiple and disparate places to set things.  similarly, integrate
+  the portal_memberdata container with views that make it useful.
+  - todo added by klm, 2011-07-07
+
+- simplify extension and customization of member profile schemas, perhaps
+  by migrating to dexterity.
+  - todo added by klm, 2011-07-07
+
+- complete the uninstall provisions, so portals from which
+  Products.remember was uninstalled do not depend in any way on
+  Products.remember code being present.
+  - todo added by klm, 2011-07-07
