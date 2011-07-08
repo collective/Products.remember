@@ -10,7 +10,12 @@ Pending TODOs:
 - Reconcile membership account's incidentals - preferences / dashboard /
   password-change stuff - with standard membership provisions, so there
   aren't multiple and disparate places to set things.  similarly, integrate
-  the portal_memberdata container with views that make it useful.
+  the portal_memberdata container with views that make it useful.  Among
+  many things: the remove option in the users configlet
+  (@@usergroup-userprefs) fails; the standard 'Personal' / Personal
+  Information (@@personal-information) configlet involves an overlapping
+  but different set of attributes than the member content item's edit view;
+  there is more.
   - todo added by klm, 2011-07-07
 
 - simplify extension and customization of member profile schemas, perhaps
