@@ -87,11 +87,12 @@
                                       default_type adder/default_member_type;"
                           tal:condition="python: len(member_types) > 1"
                           tal:attributes="value string:foo;">
-                    <option tal:repeat="type_name member_types"
-                            tal:attributes="value type_name;
+                    <tal:repeat tal:repeat="type_name member_types">
+                            <option tal:attributes="value type_name;
                                             selected python:type_name == default_type and 'selected' or nothing"
-                            tal:content="python:context.portal_types.getTypeInfo(type_name).Title()">
-                    </option>
+                            tal:define="type python:context.portal_types.getTypeInfo(type_name)"
+                            tal:content="python:type and type.Title() or type_name + '(type info missing)'" />
+                    </tal:repeat>
                   </select>
 
                   <input class="standalone add"
