@@ -21,7 +21,7 @@ if not type_name:
 
 id=context.generateUniqueId(type_name)
 
-mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id))
+mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (str(type_name), id))
 transaction_note('Initiated creation of %s with id %s in %s' % \
                  (mem.getTypeInfo().getId(),
                   id,
