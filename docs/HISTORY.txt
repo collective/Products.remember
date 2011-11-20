@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9b1 - current
+1.9b2 - current
 -----------------
 
 * Fix usergroups_usersoverview.pt view to open correctly instead of crashing
