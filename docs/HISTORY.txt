@@ -4,6 +4,9 @@ Changelog
 1.1 - Unreleased
 ----------------
 
+* Protect the password field of members so the hash can not be seen.
+  [maurits]
+
 * Added getUserId method, which is apparently needed for more recent
   Products.membrane versions.
   [maurits]
