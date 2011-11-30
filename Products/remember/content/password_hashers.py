@@ -1,4 +1,4 @@
-import sha  # BBB Python 2.4
+import hashlib
 import hmac
 
 from persistent.mapping import PersistentMapping
@@ -72,7 +72,7 @@ class SHAHash(BaseHash):
         """
         Return a hashed version of password using SHA
         """
-        return sha.new(password).hexdigest()
+        return hashlib.sha1(password).hexdigest()
 
 
 class HMACHash(BaseHash):
@@ -92,7 +92,8 @@ class HMACHash(BaseHash):
         """
         Return a hashed version of password using SHA
         """
-        return hmac.new(self.storage['hmac_key'], password, sha).hexdigest()
+        return hmac.new(self.storage['hmac_key'], password, hashlib.sha1
+                        ).hexdigest()
 
 
 class ZAuthHash(BaseHash):
