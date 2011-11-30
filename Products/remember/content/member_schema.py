@@ -242,6 +242,7 @@ security_schema = atapi.Schema((
         mutator='_setPassword',
         accessor='getPassword',
         mode='rw',
+        read_permission=permissions.VIEW_SECURITY_PERMISSION,
         write_permission=permissions.EDIT_PASSWORD_PERMISSION,
         regfield=1,
         user_property=True,

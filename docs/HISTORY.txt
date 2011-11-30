@@ -4,6 +4,9 @@ Changelog
 1.9b2 - current
 -----------------
 
+* Protect the password field of members so the hash can not be seen.
+  [maurits]
+
 * Fixed tests and uninstall.
   [maurits]
 
