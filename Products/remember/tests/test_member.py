@@ -1,6 +1,12 @@
 import unittest
 import hmac
-import hashlib  # BBB Python 2.4
+
+try:
+    import hashlib
+    sha = hashlib.sha1
+except ImportError:
+    # BBB Python 2.4
+    import sha
 
 from zope import component
 
@@ -226,7 +232,7 @@ class TestMember(RememberTestBase):
         request = self.portal.REQUEST
         request['_authenticator'] = hmac.new(
             component.getUtility(IKeyManager)[u"_system"][0],
-            mem.getUserName(), hashlib.sha1).hexdigest()
+            mem.getUserName(), sha).hexdigest()
         request['method'] = request.environ['REQUEST_METHOD'] = 'POST'
         mtool.setPassword(newpasswd, REQUEST=request)
         request['method'] = request.environ['REQUEST_METHOD'] = 'GET'
