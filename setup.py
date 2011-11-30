@@ -1,16 +1,18 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1b3'
+version = open(os.path.join('Products', 'remember', 'version.txt')).read()
 
 setup(name='Products.remember',
       version=version,
       description="A content-based implementation of Plone's default member infrastructure",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 3.2",
+        "Framework :: Plone :: 3.3",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
