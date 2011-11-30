@@ -1,12 +1,8 @@
 import unittest
 import hmac
-
-try:
-    import hashlib
-    sha = hashlib.sha1
-except ImportError:
-    # BBB Python 2.4
-    import sha
+# We only support Plone 4.0+, so Python 2.6+, so can use the newer
+# hashlib instead of the deprecated sha module.
+import hashlib
 
 from zope import component
 
@@ -232,7 +228,7 @@ class TestMember(RememberTestBase):
         request = self.portal.REQUEST
         request['_authenticator'] = hmac.new(
             component.getUtility(IKeyManager)[u"_system"][0],
-            mem.getUserName(), sha).hexdigest()
+            mem.getUserName(), hashlib.sha1).hexdigest()
         request['method'] = request.environ['REQUEST_METHOD'] = 'POST'
         mtool.setPassword(newpasswd, REQUEST=request)
         request['method'] = request.environ['REQUEST_METHOD'] = 'GET'
