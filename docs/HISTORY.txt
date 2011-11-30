@@ -1,8 +1,12 @@
 Changelog
 =========
 
-2.0 - Unreleased
+1.1 - Unreleased
 ----------------
+
+* Added getUserId method, which is apparently needed for more recent
+  Products.membrane versions.
+  [maurits]
 
 * Modernized GenericSetup configuration, moving the profile and import
   step registration from python code and xml to zcml, and creating
