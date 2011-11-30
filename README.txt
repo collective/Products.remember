@@ -22,8 +22,8 @@ provides a migration path for existing CMFMember-based sites.
 For questions and support, please see the Remember mailing list:
 http://www.openplans.org/projects/remember/lists/remember/
 
-Release Notes - 1.9b2
-=====================
+Release Notes - 1.9
+===================
 Tested with: Plone 4.1, Plone 4
 State: Final release
 License: GPL
