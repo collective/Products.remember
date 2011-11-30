@@ -16,11 +16,11 @@ like to migration to Plone 2.5.X and Remember.  For instructions on
 performing such migrations, please refer to the README.txt file in
 the cmfmember subdirectory.
 
-NOTE: This version of Remember requires Plone 3.0 or 3.1, it does NOT
-support Plone 2.5.  If you have a CMFMember-based Plone 2.1 solution,
-you should initially migrate to Remember 1.0 and Plone 2.5.  Once this
-is working correctly, then you can upgrade to Remember 1.1 and Plone 3
-with little problem.
+NOTE: This version of Remember requires Plone 3; it does NOT support
+Plone 2.5 or Plone 4.  If you have a CMFMember-based Plone 2.1
+solution, you should initially migrate to Remember 1.0 and Plone 2.5.
+Once this is working correctly, then you can upgrade to Remember 1.1
+and Plone 3 with little problem.
 
 For questions and support, please see the Remember mailing list:
 http://www.openplans.org/projects/remember/lists/remember/
@@ -45,7 +45,7 @@ REQUIREMENTS
 ============
 
 - Zope 2.10.X
-- Plone 3.0.X or 3.1.X
+- Plone 3 (tested with 3.3.5)
 - membrane 1.1
 
 Optional:
