@@ -5,11 +5,13 @@ Control Panels
 
 Install another remember member type.
 
-    >>> self.addProfile('remember:test')
+    >>> from Products.remember.tests.base import load_zcml_of_testing_profile
+    >>> load_zcml_of_testing_profile()
+    >>> self.addProfile('Products.remember:test')
 
 Log in as a Manager::
 
-    >>> from Products.Five.testbrowser import Browser
+    >>> from Testing.testbrowser import Browser
     >>> browser = Browser()
     >>> browser.handleErrors = False
 

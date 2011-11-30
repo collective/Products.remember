@@ -1,4 +1,6 @@
-from Testing                 import ZopeTestCase
+from Testing import ZopeTestCase
+from Zope2.App import zcml
+from Products.Five import fiveconfigure
 
 from Products.CMFCore.utils  import getToolByName
 
@@ -9,6 +11,7 @@ from collective.testcaselayer import ptc as tcl_ptc
 from collective.testcaselayer import mail
 
 import Products.remember.config as config
+import Products.remember
 from Products.remember.tools.memberdata import MemberDataContainer
 
 ZopeTestCase.installProduct("membrane")
@@ -18,10 +21,17 @@ ZopeTestCase.installProduct("remember")
 # the current version uses SecureMailHost, which is obsolete and causes test
 # failures.  this measure should still work fine when collective.testcaselayer
 # is fixed, but would best be retired then.
-from collective.testcaselayer import mail
 from Products.MailHost import MailHost
 #mail.MockMailHost.__bases__ = (MailHost.MailHost,)
 mail.dubiousMockMailHost = mail.MockMailHost
+
+
+def load_zcml_of_testing_profile():
+    fiveconfigure.debug_mode = True
+    zcml.load_config('testing.zcml', package=Products.remember)
+    fiveconfigure.debug_mode = False
+
+
 class fixedMockMailHost(MailHost.MailHost, mail.MockMailHost):
     """"Derive class to use MailHost instead of SecureMailHost methods."""
     def __init__(self, id):
@@ -80,7 +90,7 @@ def addMember(context, name, portal_type=config.DEFAULT_MEMBER_TYPE):
     req = context.REQUEST
     req.form['fullname'] = mem_data.get(name, {}).get('fullname', '')
     mdata = getToolByName(context, 'portal_memberdata')
-    mem   = makeContent(mdata, name, portal_type)
+    mem = makeContent(mdata, name, portal_type)
     # ensure ownership is properly assigned
     mem.setId(name)
     data = def_mem_data.copy()
@@ -142,7 +152,7 @@ class RememberProfileLayer(mail.MockMailHostLayer):
         uf = self.portal.acl_users
         uf.source_users.doAddUser(user_name, user_password)
         non_remember_member = uf.getUser(user_name)
-        non_remember_member._addRoles(['Member'])
+        non_remember_member._addRoles([user_role])
 
 remember_profile_layer = RememberProfileLayer([tcl_ptc.ptc_layer])
 

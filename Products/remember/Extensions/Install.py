@@ -1,8 +1,9 @@
 from Products.CMFCore.utils import getToolByName
 
+
 def uninstall(self, portal, reinstall=False):
     setup_tool = getToolByName(portal, 'portal_setup')
-    profile = "remember:uninstall"
+    profile = "Products.remember:uninstall"
 
     # Revert some setup tool settings to vanilla plone values, so the tools
     # work.  This is a flimsy, because the vanilla plone settings could change,
@@ -12,10 +13,10 @@ def uninstall(self, portal, reinstall=False):
     # http://plone.org/documentation/kb/manually-removing-local-persistent-utilities
 
     toolset = portal.portal_setup.getToolsetRegistry()
-    if toolset._required.has_key('portal_registration'):
+    if 'portal_registration' in toolset._required.keys():
         prdict = toolset._required['portal_registration']
         prdict['class'] = 'Products.CMFPlone.RegistrationTool.RegistrationTool'
-    if toolset._required.has_key('portal_memberdata'):
+    if 'portal_memberdata' in toolset._required.keys():
         pmdict = toolset._required['portal_memberdata']
         pmdict['class'] = 'Products.PlonePAS.tools.memberdata.MemberDataTool'
 

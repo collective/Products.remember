@@ -26,7 +26,7 @@ The workflow for a remember type can be changed safely.
 
 Users can still successfully register in the portal.
 
-    >>> from Products.Five.testbrowser import Browser
+    >>> from Testing.testbrowser import Browser
     >>> browser = Browser()
     >>> browser.handleErrors = False
     >>> browser.open(portal.absolute_url())
@@ -47,7 +47,6 @@ Users can still successfully register in the portal.
 Members in the approval workflow can be viewed by a member with review
 permissions.
 
-    >>> from Products.Five.testbrowser import Browser
     >>> from Products.PloneTestCase import ptc
     >>> owner_browser = Browser()
     >>> owner_browser.handleErrors = False

@@ -1,6 +1,7 @@
 import unittest
 
 from base import RememberTestBase
+from base import load_zcml_of_testing_profile
 
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
@@ -10,22 +11,11 @@ from Products.CMFFormController.ControllerState import ControllerState
 
 from Products.GenericSetup import interfaces
 from Products.GenericSetup.testing import DummySetupEnviron
-from Products.GenericSetup import profile_registry, EXTENSION
 
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.PloneTestCase import layer
 from Products.CMFPlone.tests import PloneTestCase
 
 from Products.remember.config import ANNOT_KEY
-
-# set up XML profile for testing
-profile_registry.registerProfile('test',
-                                 'remember',
-                                 'Testing extension profile for membrane',
-                                 'profiles/test',
-                                 'remember',
-                                 EXTENSION,
-                                 for_=IPloneSiteRoot)
 
 
 class TestRememberProfiles(PloneTestCase.PloneTestCase):
@@ -44,6 +34,7 @@ class TestRememberProfiles(PloneTestCase.PloneTestCase):
         test importing the hash from XML
         annotates membrane_tool
         """
+        load_zcml_of_testing_profile()
         app = self.app
         setup_tool = app.plone.portal_setup
         # ensure that membrane_tool does not yet exist
@@ -52,7 +43,8 @@ class TestRememberProfiles(PloneTestCase.PloneTestCase):
         # imports the xml file in the test profile
         setup_tool.runAllImportStepsFromProfile(
             'profile-Products.remember:default')
-        setup_tool.runAllImportStepsFromProfile('profile-remember:test')
+        setup_tool.runAllImportStepsFromProfile(
+            'profile-Products.remember:test')
 
         mbtool = self.portal.membrane_tool
         annot = IAnnotations(mbtool)

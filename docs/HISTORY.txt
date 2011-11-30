@@ -4,6 +4,9 @@ Changelog
 1.9b2 - current
 -----------------
 
+* Fixed tests and uninstall.
+  [maurits]
+
 * Fix usergroups_usersoverview.pt view to open correctly instead of crashing
   when you have member types without proper
   portal_type info available. This can be a case e.g. with abstract types.

@@ -18,7 +18,7 @@ Clear the registration message sent out for the test member.
 
 Open a browser.
 
-    >>> from Products.Five.testbrowser import Browser
+    >>> from Testing.testbrowser import Browser
     >>> browser = Browser()
     >>> browser.handleErrors = False
 

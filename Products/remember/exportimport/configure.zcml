@@ -1,12 +1,9 @@
 <configure
-   xmlns="http://namespaces.zope.org/zope"
-   xmlns:five="http://namespaces.zope.org/five"
-   >
+   xmlns="http://namespaces.zope.org/zope">
 
-  <five:implements
-     class="Products.membrane.tools.membrane.MembraneTool"
-     interface="..interfaces.IRememberMembraneTool"
-     />
+  <class class="Products.membrane.tools.membrane.MembraneTool">
+    <implements interface="..interfaces.IRememberMembraneTool" />
+  </class>
 
   <adapter
       factory=".membranetool.RememberMembraneToolXMLAdapter"

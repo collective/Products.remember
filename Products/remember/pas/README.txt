@@ -5,7 +5,7 @@ test setup
 ----------
 
     >>> from Testing.ZopeTestCase import user_password
-    >>> from Products.Five.testbrowser import Browser
+    >>> from Testing.testbrowser import Browser
     >>> browser = Browser()
 
 Plugin setup
