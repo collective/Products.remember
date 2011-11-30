@@ -4,6 +4,19 @@ Changelog
 1.1 - Unreleased
 ----------------
 
+* Added doChangeUser method to the BaseMember class.  This is not the
+  canonically correct place, but it is needed.
+  [maurits]
+
+* Introduce the 'remember: Can authenticate' permission instead of the
+  not existing 'membrane: Can authenticate' permission.  Check this
+  new permission in verifyCredentials.
+  [maurits]
+
+* Set default editor to Kupu (not TinyMCE) as this Products.remember
+  version should be Plone 3 compatible and the tests should pass.
+  [maurits]
+
 * Protect the password field of members so the hash can not be seen.
   [maurits]
 

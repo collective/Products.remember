@@ -1,6 +1,12 @@
 from zope.interface import implements
 
-from Products.membrane.interfaces import IMembraneUserChanger
+# name of IMembraneUserChangerAvail interface has been changed
+try:
+    from Products.membrane.interfaces.user import IMembraneUserChangerAvail \
+        as IMembraneUserChanger
+    IMembraneUserChanger  # pyflakes
+except:
+    from Products.membrane.interfaces.user import IMembraneUserChanger
 
 from Products.remember.interfaces import IRememberUserChanger
 

@@ -15,9 +15,10 @@ Log in as a Manager::
 
     >>> from Products.remember.tests.base import mem_password
     >>> browser.open('http://nohost/plone/login_form')
-    >>> browser.getControl('Login Name').value = 'admin_member'
-    >>> browser.getControl('Password').value = mem_password
-    >>> browser.getControl('Log in').click()
+    >>> browser.getControl('Login Name', index=0).value = 'admin_member'
+    >>> open('/tmp/test.html', 'w').write(browser.contents)
+    >>> browser.getControl('Password', index=0).value = mem_password
+    >>> browser.getControl('Log in', index=0).click()
     >>> print browser.contents
     <!DOCTYPE html PUBLIC...
     <h1...>You are now logged in</h1>
@@ -32,7 +33,7 @@ Open the users control panel::
 
 and click "Show all" users::
 
-    >>> browser.getControl('Show all').click()
+    >>> browser.getControl('Show all', index=0).click()
     >>> browser.getLink('blank_member')
     <Link text='...' url='http://nohost/plone/portal_memberdata/blank_member'>
     >>> browser.getLink('admin_member', index=1)
@@ -56,7 +57,7 @@ The links for remember and non-remember members work.
     ...
 
     >>> browser.open(users_url)
-    >>> browser.getControl('Show all').click()
+    >>> browser.getControl('Show all', index=0).click()
     >>> browser.getLink('non_remember_member').click()
     >>> print browser.contents
     <...
@@ -69,8 +70,8 @@ Searching for text in a member's full name will list only the matching
 members.
 
     >>> browser.open(users_url)
-    >>> browser.getControl(name="searchstring").value = 'Portal'
-    >>> browser.getControl(name="form.button.Search").click()
+    >>> browser.getControl(name="searchstring", index=0).value = 'Portal'
+    >>> browser.getControl(name="form.button.Search", index=0).click()
     >>> browser.getLink('blank_member')
     Traceback (most recent call last):
     LinkNotFoundError
@@ -89,15 +90,15 @@ members.
 Non-remember users can be successfully deleted using the control panel.
 
     >>> browser.open(users_url)
-    >>> browser.getControl('Show all').click()
-    >>> browser.getControl(name="delete:list").getControl(
-    ...     value='non_remember_member').selected = True
-    >>> browser.getControl('Apply Changes').click()
+    >>> browser.getControl('Show all', index=0).click()
+    >>> browser.getControl(name="delete:list", index=0).getControl(
+    ...     value='non_remember_member', index=0).selected = True
+    >>> browser.getControl('Apply Changes', index=0).click()
     >>> print browser.contents
     <...
                 <dd>Changes applied.</dd>
     ...
-    >>> browser.getControl('Show all').click()
+    >>> browser.getControl('Show all', index=0).click()
     >>> browser.getLink('non_remember_member')
     Traceback (most recent call last):
     LinkNotFoundError
@@ -119,26 +120,26 @@ The control panel supports adding multiple member types via a pulldown
 menu.
 
     >>> browser.open(users_url)
-    >>> browser.getControl(name='type_name').controls
+    >>> browser.getControl(name='type_name', index=0).controls
     [<ItemControl name='type_name' type='select' optionValue='Member'
     selected=True>,
     <ItemControl name='type_name' type='select'
     optionValue='AlternateMember' selected=False>]
-    >>> browser.getControl('Alternate Member').selected = True
+    >>> browser.getControl('Alternate Member', index=0).selected = True
 
 A member can be added using the control panel and an email will be sent.
 
-    >>> browser.getControl('Add New User').click()
+    >>> browser.getControl('Add New User', index=0).click()
     >>> try:
-    ...     browser.getControl("User Name").value = 'foo'
+    ...     browser.getControl("User Name", index=0).value = 'foo'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl(name="id").value = 'foo'
+    ...     browser.getControl(name="id", index=0).value = 'foo'
     >>> try:
-    ...     browser.getControl('Full Name').value = 'Foo Full Name'
+    ...     browser.getControl('Full Name', index=0).value = 'Foo Full Name'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl('Full name').value = 'Foo Full Name'
-    >>> browser.getControl('E-mail').value = 'foo@foo.com'
-    >>> browser.getControl('Register').click()
+    ...     browser.getControl('Full name', index=0).value = 'Foo Full Name'
+    >>> browser.getControl('E-mail', index=0).value = 'foo@foo.com'
+    >>> browser.getControl('Register', index=0).click()
     >>> portal.portal_memberdata.foo.getPortalTypeName()
     'AlternateMember'
 
@@ -147,7 +148,7 @@ A member can be added using the control panel and an email will be sent.
     0
     >>> print msg
         Welcome Foo Full Name,
-        your user account has been created. Please activate it by visiting
+        Your member account has been created. Please activate it by visiting
         http://nohost/plone/passwordreset/...?userid=foo
         You must activate your account within 168
         hours, so before ...
@@ -160,15 +161,15 @@ using portal_factory.  An email will be sent.
     >>> browser.url
     'http://nohost/plone/portal_memberdata/portal_factory/Member/.../edit'
     >>> try:
-    ...     browser.getControl("User Name").value = 'bar'
+    ...     browser.getControl("User Name", index=0).value = 'bar'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl(name="id").value = 'bar'
+    ...     browser.getControl(name="id", index=0).value = 'bar'
     >>> try:
-    ...     browser.getControl('Full Name').value = 'Bar Full Name'
+    ...     browser.getControl('Full Name', index=0).value = 'Bar Full Name'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl('Full name').value = 'Bar Full Name'
-    >>> browser.getControl('E-mail').value = 'bar@bar.com'
-    >>> browser.getControl('Save').click()
+    ...     browser.getControl('Full name', index=0).value = 'Bar Full Name'
+    >>> browser.getControl('E-mail', index=0).value = 'bar@bar.com'
+    >>> browser.getControl('Save', index=0).click()
     >>> print browser.contents
     <...
                 <dd>Changes saved.</dd>
@@ -182,7 +183,7 @@ using portal_factory.  An email will be sent.
     0
     >>> print msg
         Welcome Bar Full Name,
-        your user account has been created. Please activate it by visiting
+        Your member account has been created. Please activate it by visiting
         http://nohost/plone/passwordreset/...?userid=bar
         You must activate your account within 168
         hours, so before ...

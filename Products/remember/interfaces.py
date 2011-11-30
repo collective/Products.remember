@@ -3,15 +3,15 @@ from zope.interface import Interface
 from Products.Archetypes.interfaces import IReferenceable
 
 from Products.membrane.interfaces import IMembraneTool
-from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.at import interfaces as at_ifaces
 
 # name of IMembraneUserChangerAvail interface has been changed
 try:
-    from Products.membrane.interfaces.user import IMembraneUserChangerAvail as IMembraneUserChanger
+    from Products.membrane.interfaces.user import IMembraneUserChangerAvail \
+        as IMembraneUserChanger
+    IMembraneUserChanger  # pyflakes
 except:
     from Products.membrane.interfaces.user import IMembraneUserChanger
-
 
 
 class IReMember(Interface):
@@ -64,6 +64,7 @@ class IRememberMembraneTool(IMembraneTool):
     Create a new interface to allow configuration of remember on the
     membrane tool at setup time
     """
+
 
 class IRememberUserChanger(IReferenceable,
                            IMembraneUserChanger):

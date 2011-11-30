@@ -32,15 +32,15 @@ Users can still successfully register in the portal.
     >>> browser.open(portal.absolute_url())
     >>> browser.getLink('Register').click()
     >>> try:
-    ...     browser.getControl("User Name").value = 'foo'
+    ...     browser.getControl("User Name", index=0).value = 'foo'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl(name="id").value = 'foo'
+    ...     browser.getControl(name="id", index=0).value = 'foo'
     >>> try:
-    ...     browser.getControl('Full Name').value = 'Foo Full Name'
+    ...     browser.getControl('Full Name', index=0).value = 'Foo Full Name'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl('Full name').value = 'Foo Full Name'
-    >>> browser.getControl('E-mail').value = 'foo@foo.com'
-    >>> browser.getControl('Register').click()
+    ...     browser.getControl('Full name', index=0).value = 'Foo Full Name'
+    >>> browser.getControl('E-mail', index=0).value = 'foo@foo.com'
+    >>> browser.getControl('Register', index=0).click()
     >>> portal.portal_memberdata.foo
     <Member at /plone/portal_memberdata/foo>
 
@@ -53,9 +53,9 @@ permissions.
     >>> owner_browser.handleErrors = False
     >>> owner_browser.open(portal.absolute_url())
     >>> owner_browser.getLink('Log in').click()
-    >>> owner_browser.getControl('Login Name').value = ptc.portal_owner
-    >>> owner_browser.getControl('Password').value = ptc.default_password
-    >>> owner_browser.getControl('Log in').click()
+    >>> owner_browser.getControl('Login Name', index=0).value = ptc.portal_owner
+    >>> owner_browser.getControl('Password', index=0).value = ptc.default_password
+    >>> owner_browser.getControl('Log in', index=0).click()
     >>> owner_browser.open(portal.portal_memberdata.foo.absolute_url())
     >>> print owner_browser.contents
     <...

@@ -288,7 +288,7 @@ class TestMember(RememberTestBase):
         mh = rtool.MailHost
         mail_text = mh.pop().as_string()
         self.failUnless('Portal Member' in mail_text)
-        self.failUnless('your user account has been created'
+        self.failUnless('Your member account has been created'
                         in mail_text)
         self.assertEqual(len(mh), 0)
 

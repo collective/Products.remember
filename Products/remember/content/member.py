@@ -2,6 +2,7 @@ import sys
 import re
 
 from AccessControl import ClassSecurityInfo
+from AccessControl import SecurityManagement
 from AccessControl import Unauthorized
 from App.class_init import InitializeClass
 from Acquisition import aq_base
@@ -47,6 +48,7 @@ from Products.remember.config import ANNOT_KEY
 from Products.remember.config import HASHERS
 from Products.remember.utils import stringToList
 from Products.remember.utils import removeAutoRoles
+from Products.remember.permissions import CAN_AUTHENTICATE_PERMISSION
 from Products.remember.permissions import EDIT_PROPERTIES_PERMISSION
 from Products.remember.permissions import VIEW_PUBLIC_PERMISSION
 from Products.remember.Extensions.workflow import triggerAutomaticTransitions
@@ -483,17 +485,29 @@ class BaseMember(object):
     def verifyCredentials(self, credentials):
         login = credentials.get('login')
         password = credentials.get('password')
+        if not login or not password:
+            return False
+        if login != self.getUserName():
+            return False
         try:
             hash_type, hashed = self.getPassword().split(':', 1)
         except ValueError:
             raise ValueError('Error parsing hash type. '
                              'Please run migration')
         hasher = getAdapter(self, IHashPW, hash_type)
-        if login == self.getUserName() and \
-               hasher.validate(hashed, password):
-            return True
-        else:
+        if not hasher.validate(hashed, password):
             return False
+
+        orig_sm = SecurityManagement.getSecurityManager()
+        try:
+            SecurityManagement.newSecurityManager(None, self.getUser())
+            if not SecurityManagement.getSecurityManager(
+                ).checkPermission(CAN_AUTHENTICATE_PERMISSION, self):
+                return False
+        finally:
+            SecurityManagement.setSecurityManager(orig_sm)
+        # Cannot find anything wrong with the credentials.
+        return True
 
     #######################################################################
     # IManageCapabilities implementation
@@ -691,6 +705,18 @@ class BaseMember(object):
         Used for member searching. Check permissions on viewing the object
         """
         return _checkPermission(cmfpermissions.View, self)
+
+    def doChangeUser(self, login, password, **kwargs):
+        """change the password for a given user
+
+        XXX This should be handled by rememberuserchanger.py, but
+        somehow the Member object itself is found to provide the
+        Products.membrane.interfaces.user.IMembraneUserChanger
+        interface...  The easiest way out is then to simply implement
+        the required method here.  [maurits]
+        """
+        # currently ignore the kwargs, but can be useful in the future
+        self._setPassword(password)
 
 InitializeClass(BaseMember)
 

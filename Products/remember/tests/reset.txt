@@ -27,15 +27,15 @@ Register a new member.
     >>> browser.open(portal.absolute_url())
     >>> browser.getLink('Register').click()
     >>> try:
-    ...     browser.getControl("User Name").value = 'foo'
+    ...     browser.getControl("User Name", index=0).value = 'foo'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl(name="id").value = 'foo'
+    ...     browser.getControl(name="id", index=0).value = 'foo'
     >>> try:
-    ...     browser.getControl('Full Name').value = 'Foo Full Name'
+    ...     browser.getControl('Full Name', index=0).value = 'Foo Full Name'
     ... except LookupError: # BBB Plone 3
-    ...     browser.getControl('Full name').value = 'Foo Full Name'
-    >>> browser.getControl('E-mail').value = 'foo@foo.com'
-    >>> browser.getControl('Register').click()
+    ...     browser.getControl('Full name', index=0).value = 'Foo Full Name'
+    >>> browser.getControl('E-mail', index=0).value = 'foo@foo.com'
+    >>> browser.getControl('Register', index=0).click()
     >>> print browser.contents
     <...
     <p>You have been registered as a member.</p>...
@@ -48,7 +48,7 @@ reset link.
     0
     >>> print msg
         Welcome Foo Full Name,
-        your user account has been created. Please activate it by visiting
+        Your member account has been created. Please activate it by visiting
         http://nohost/plone/passwordreset/...?userid=foo
         You must activate your account within 168
         hours, so before ...
@@ -60,13 +60,13 @@ Visit the reset link and set the password.
 
     >>> from Products.PloneTestCase import ptc
     >>> browser.open(reset_link)
-    >>> browser.getControl(name="userid").value
+    >>> browser.getControl(name="userid", index=0).value
     'foo'
     >>> browser.getControl(
-    ...     'New password').value = ptc.default_password
+    ...     'New password', index=0).value = ptc.default_password
     >>> browser.getControl(
-    ...     name="password2").value = ptc.default_password
-    >>> browser.getControl('Set my password').click()
+    ...     name="password2", index=0).value = ptc.default_password
+    >>> browser.getControl('Set my password', index=0).click()
     >>> print browser.contents
     <...
             Your password has been set successfully. You may now log in with your
@@ -76,10 +76,10 @@ Log in using the new password.
 
     >>> browser.open(portal.absolute_url())
     >>> browser.getLink('Log in').click()
-    >>> browser.getControl('Login Name').value = 'foo'
+    >>> browser.getControl('Login Name', index=0).value = 'foo'
     >>> browser.getControl(
-    ...     'Password').value = ptc.default_password
-    >>> browser.getControl('Log in').click()
+    ...     'Password', index=0).value = ptc.default_password
+    >>> browser.getControl('Log in', index=0).click()
     >>> print browser.contents
     <...
     ...You are now logged in...
@@ -93,7 +93,7 @@ The password for a non-remember user can also be reset.
     >>> browser.getLink('Log in').click()
     >>> browser.getLink('we can send you a new one').click()
     >>> browser.getControl(name="userid").value = 'non_remember_member'
-    >>> browser.getControl('Start password reset').click()
+    >>> browser.getControl('Start password reset', index=0).click()
 
     >>> msg = portal.MailHost.pop().get_payload()
     >>> len(portal.MailHost)
@@ -101,12 +101,12 @@ The password for a non-remember user can also be reset.
     >>> reset_link = re.search(r'(http://.*)', msg).group()
 
     >>> browser.open(reset_link)
-    >>> browser.getControl(name="userid").value = 'non_remember_member'
+    >>> browser.getControl(name="userid", index=0).value = 'non_remember_member'
     >>> browser.getControl(
-    ...     'New password').value = ptc.default_password
+    ...     'New password', index=0).value = ptc.default_password
     >>> browser.getControl(
-    ...     name="password2").value = ptc.default_password
-    >>> browser.getControl('Set my password').click()
+    ...     name="password2", index=0).value = ptc.default_password
+    >>> browser.getControl('Set my password', index=0).click()
     >>> print browser.contents
     <...
             Your password has been set successfully. You may now log in with your
@@ -114,10 +114,10 @@ The password for a non-remember user can also be reset.
 
     >>> browser.open(portal.absolute_url())
     >>> browser.getLink('Log in').click()
-    >>> browser.getControl('Login Name').value = 'non_remember_member'
+    >>> browser.getControl('Login Name', index=0).value = 'non_remember_member'
     >>> browser.getControl(
-    ...     'Password').value = ptc.default_password
-    >>> browser.getControl('Log in').click()
+    ...     'Password', index=0).value = ptc.default_password
+    >>> browser.getControl('Log in', index=0).click()
     >>> print browser.contents
     <...
     ...You are now logged in...

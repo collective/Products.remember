@@ -3,6 +3,11 @@ from Products.CMFCore import permissions as cmfcore_permissions
 from Products.membrane import permissions as membrane_permissions
 import config
 
+# Manage this permission with your workflow to enable and disable the account:
+CAN_AUTHENTICATE_PERMISSION = 'remember: Can authenticate'
+cmfcore_permissions.setDefaultRoles(
+    CAN_AUTHENTICATE_PERMISSION, ('Manager', 'Authenticated'))
+
 # This file is used to set up permissions for your product.
 
 # Add a new member
