@@ -259,6 +259,7 @@ security_schema = atapi.Schema((
                 mutator='_setPassword',
                 accessor='getPassword',
                 mode='rw',
+                read_permission=VIEW_SECURITY_PERMISSION,
                 write_permission=EDIT_PASSWORD_PERMISSION,
                 widget=atapi.PasswordWidget(
                     label='Password',
