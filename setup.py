@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = open(os.path.join('Products', 'remember', 'version.txt')).read()
+version = open(os.path.join('Products', 'remember', 'version.txt')).read().strip()
 tests_require = ['collective.testcaselayer',
                  'zope.testbrowser>3.3']
 
