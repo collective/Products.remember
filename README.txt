@@ -20,7 +20,7 @@ contemporary Plone (2.5 and greater) installations.  Products.remember 1.1b3
 provides a migration path for existing CMFMember-based sites.
 
 For questions and support, please see the Remember mailing list:
-http://www.openplans.org/projects/remember/lists/remember/
+http://www.coactivate.org/projects/remember/lists/remember
 
 Release Notes - 1.9
 ===================
