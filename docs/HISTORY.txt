@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.1 (unreleased)
+1.2.1 (2011-12-08)
 ------------------
 
 - We are not in fact compatible with Products.membrane 1.1, but need a
