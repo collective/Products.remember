@@ -46,7 +46,7 @@ REQUIREMENTS
 
 - Zope 2.10.X
 - Plone 3 (tested with 3.3.5)
-- membrane 1.1 or higher (tested with 2.1.1)
+- membrane 2.0 or higher (tested with 2.1.1)
 
 Optional:
 

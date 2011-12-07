@@ -31,7 +31,7 @@ A content-based implementation of Plone's default member infrastructure""",
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'Products.membrane>=1.1dev',
+          'Products.membrane>=2.0dev',
           # -*- Extra requirements: -*-
       ],
       tests_require=tests_require,

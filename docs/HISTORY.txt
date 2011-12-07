@@ -4,7 +4,9 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- We are not in fact compatible with Products.membrane 1.1, but need a
+  2.x version.
+  [maurits]
 
 
 1.2 (2011-12-01)
