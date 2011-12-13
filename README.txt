@@ -19,7 +19,7 @@ Products.remember, eg 1.1b3, provide a migration path for existing
 CMFMember-based sites.
 
 For questions and support, please see the Remember mailing list:
-http://www.openplans.org/projects/remember/lists/remember/
+http://www.coactivate.org/projects/remember/lists/remember
 
 ============
 INSTALLATION
