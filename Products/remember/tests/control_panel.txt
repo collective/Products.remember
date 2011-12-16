@@ -54,8 +54,7 @@ The links for remember and non-remember members work.
                 Portal Member
     ...
                   <div class="field ArchetypesField-StringField"
-                       id="archetypes-fieldname-id">
-    ...
+                       id="archetypes-fieldname-id...
 
     >>> browser.open(users_url)
     >>> browser.getControl('Show all').click()
