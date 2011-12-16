@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9.1 (unreleased)
+1.9.1 (2011-12-16)
 ------------------
 
 - Added upgrade step to restore our portal_memberdata settings, as
