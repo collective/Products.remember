@@ -4,7 +4,9 @@ Changelog
 1.9.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added upgrade step to restore our portal_memberdata settings, as
+  they get destroyed by an upgrade to Plone 4.
+  [maurits]
 
 
 1.9 (2011-12-01)

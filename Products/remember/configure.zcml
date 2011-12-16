@@ -117,4 +117,20 @@
       handler="Products.remember.setuphandlers.setupEmailPASPlugin"
       profile="Products.remember:default" />
 
+  <genericsetup:upgradeStep
+      title="Import toolset, especially portal_memberdata"
+      description=""
+      source="1102"
+      destination="1103"
+      handler="Products.remember.setuphandlers.apply_toolset_step"
+      profile="Products.remember:default" />
+
+  <genericsetup:upgradeStep
+      title="Import portal_memberdata settings"
+      description="Upgrading to Plone 4 destroys our settings so we restore them here."
+      source="1103"
+      destination="1104"
+      handler="Products.remember.setuphandlers.apply_memberdata_properties_step"
+      profile="Products.remember:default" />
+
 </configure>

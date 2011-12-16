@@ -9,6 +9,7 @@ from zope.component import getUtility
 from Products.CMFCore.interfaces import ISiteRoot
 
 logger = logging.getLogger("Products.remember")
+PROFILE_ID = 'profile-Products.remember:default'
 
 
 def remove_old_import_steps(context):
@@ -67,8 +68,17 @@ def setupPlugins(context):
     # Install and activate the email login auth extraction handler:
     setupEmailPASPlugin(context)
 
+
 def setupEmailPASPlugin(context):
     """ Activate the email auth PAS plugin """
     pas_install.activate_pas_plugin(getUtility(ISiteRoot).acl_users,
                                     'remember_email_auth',
                                     "Remember Email User Authentication")
+
+
+def apply_toolset_step(context):
+    context.runImportStepFromProfile(PROFILE_ID, 'toolset')
+
+
+def apply_memberdata_properties_step(context):
+    context.runImportStepFromProfile(PROFILE_ID, 'memberdata-properties')
