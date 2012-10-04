@@ -4,7 +4,12 @@ Changelog
 1.9.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Removed deprecated prefs_users_overview.cpt plus metadata.  This is
+  not used anymore in standard Plone.  Our metadata gave a form
+  controller error and if we fixed that then the template would need
+  to be fixed too.
+  Fixes https://github.com/collective/Products.remember/issues/1
+  [maurits]
 
 
 1.9.1 (2011-12-16)
