@@ -21,7 +21,7 @@ Log in as a Manager::
     >>> browser.getControl('Password').value = mem_password
     >>> browser.getControl('Log in').click()
     >>> print browser.contents
-    <!DOCTYPE html PUBLIC...
+    <!DOCTYPE html...
     <h1...>You are now logged in</h1>
     ...</html>
 
