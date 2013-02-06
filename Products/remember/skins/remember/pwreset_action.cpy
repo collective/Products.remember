@@ -22,6 +22,8 @@ except 'InvalidRequestError':
     status = "invalid"
 except RuntimeError:
     status = "invalid"
+except ValueError:
+    status = "invalid"
 
 return state.set(status=status)
 
