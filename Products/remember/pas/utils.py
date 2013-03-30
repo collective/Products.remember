@@ -1,6 +1,6 @@
 import logging
 from AccessControl import Unauthorized
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.Catalog import CatalogSearchArgumentsMap
 from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin

@@ -4,6 +4,9 @@ Changelog
 1.9.2 (unreleased)
 ------------------
 
+- Made compatible with Plone 4.3.  Lost compatibility with Plone 4.0.
+  [maurits]
+
 - Removed deprecated prefs_users_overview.cpt plus metadata.  This is
   not used anymore in standard Plone.  Our metadata gave a form
   controller error and if we fixed that then the template would need

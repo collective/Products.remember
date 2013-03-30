@@ -15,8 +15,9 @@ A content-based implementation of Plone's default member infrastructure""",
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
           "Framework :: Plone",
-          "Framework :: Plone :: 4.0",
           "Framework :: Plone :: 4.1",
+          "Framework :: Plone :: 4.2",
+          "Framework :: Plone :: 4.3",
           "Environment :: Web Environment",
           "Programming Language :: Python",
           "Topic :: Software Development :: Libraries :: Python Modules",

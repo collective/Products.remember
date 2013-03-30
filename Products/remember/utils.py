@@ -18,7 +18,7 @@ from Products.membrane.interfaces import IUserAdder
 
 from config import AUTO_ROLES
 from config import ADDUSER_UTILITY_NAME
-from zope.app.container.interfaces import IObjectRemovedEvent
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
 
 security = ModuleSecurityInfo('Products.remember.utils')

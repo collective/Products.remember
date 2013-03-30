@@ -52,9 +52,8 @@
        />
 
   <subscriber for=".interfaces.IReMember
-  		   zope.app.container.interfaces.IObjectMovedEvent"
-  		handler=".utils.fixOwnership"
-  		/>
+                   zope.lifecycleevent.interfaces.IObjectMovedEvent"
+              handler=".utils.fixOwnership" />
 
   <!-- Avoid deprecation warnings for manage_afterAdd and friends. -->
   <five:deprecatedManageAddDelete
