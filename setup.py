@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '1.9.2dev'
 tests_require = ['collective.testcaselayer',
@@ -10,8 +9,8 @@ setup(name='Products.remember',
       version=version,
       description="""\
 A content-based implementation of Plone's default member infrastructure""",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=(open("README.txt").read() + "\n" +
+                        open("CHANGES.rst").read()),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
