@@ -38,7 +38,7 @@ class MemberPrefsUrl(object):
     def __call__(self):
         member = aq_parent(self.context)
         portal_url = getToolByName(self.context, 'portal_url')()
-        return "%s/prefs_user_details?%s" % (
+        return "%s/@@user-information?%s" % (
             portal_url, make_query(userid=member.getUserId()))
 
 
