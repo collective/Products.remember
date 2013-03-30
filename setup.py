@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.9.2.dev0'
+version = '1.9.2'
 tests_require = ['collective.testcaselayer',
                  'plone.browserlayer',
                  'zope.testbrowser>3.3']

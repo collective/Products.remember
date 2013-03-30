@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9.2 (unreleased)
+1.9.2 (2013-03-31)
 ------------------
 
 - Setting the user email through the users and groups control panel no
