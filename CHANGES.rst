@@ -4,6 +4,11 @@ Changelog
 1.9.2 (unreleased)
 ------------------
 
+- Setting the user email through the users and groups control panel no
+  longer destroys the password.
+  Fixes https://github.com/collective/Products.remember/issues/3
+  [maurits]
+
 - Made compatible with Plone 4.3.  Lost compatibility with Plone 4.0.
   [maurits]
 

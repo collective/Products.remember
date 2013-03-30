@@ -468,6 +468,11 @@ class BaseMember(object):
             hash_type = self._getHashType()
             if hash_type is None:
                 raise ValueError('Invalid hash_type: None')
+            if password.startswith(hash_type + ':'):
+                # Password is already hashed.  This happens when
+                # changing the email address in the user control
+                # panel.
+                return
             hasher = getAdapter(self, IHashPW, hash_type)
             hashed = hasher.hashPassword(password)
             hash_type_with_password = hash_type + ':' + hashed
