@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.9.2dev'
+version = '1.9.2.dev0'
 tests_require = ['collective.testcaselayer',
                  'plone.browserlayer',
                  'zope.testbrowser>3.3']
@@ -20,6 +20,8 @@ A content-based implementation of Plone's default member infrastructure""",
           "Framework :: Plone :: 4.3",
           "Environment :: Web Environment",
           "Programming Language :: Python",
+          "Programming Language :: Python :: 2.6",
+          "Programming Language :: Python :: 2.7",
           "Topic :: Software Development :: Libraries :: Python Modules",
           "Development Status :: 4 - Beta",
           "License :: OSI Approved :: GNU General Public License (GPL)",
