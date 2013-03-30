@@ -24,12 +24,13 @@ http://www.coactivate.org/projects/remember/lists/remember
 
 Release Notes - 1.9
 ===================
-Tested with: Plone 4.1, Plone 4
+
+Tested with: Plone 4.2
 State: Final release
 License: GPL
-Release Manager: Ken Manheimer
+Release Manager: Ken Manheimer, Maurits van Rees
 
-Compatible with/requires Plone 4+ and Products.membrane 2+.
+Compatible with/requires Plone 4.1+ and Products.membrane 2+.
 
 Products.remember is now undisruptive when present but not installed, not
 affecting operation of non-remember sites in the same instance.  Sites that
@@ -62,7 +63,7 @@ Plone's regular product installation interface.
 REQUIREMENTS
 ============
 
-- Plone 4+
+- Plone 4.1+
 - Products.membrane 2+
 
 Optional:
