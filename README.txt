@@ -22,12 +22,16 @@ provides a migration path for existing CMFMember-based sites.
 For questions and support, please see the Remember mailing list:
 http://www.coactivate.org/projects/remember/lists/remember
 
+
 Release Notes - 1.9
 ===================
 
 Tested with: Plone 4.2
+
 State: Final release
+
 License: GPL
+
 Release Manager: Ken Manheimer, Maurits van Rees
 
 Compatible with/requires Plone 4.1+ and Products.membrane 2+.
@@ -45,6 +49,7 @@ setting.
 Many internal changes for Plone 4 and Membrane 2 compatibility, JS
 schemata/filedsets, and modernized GenericSetup and update configuration.
 
+
 INSTALLATION
 ============
 
@@ -60,6 +65,7 @@ site by selecting remember from the list of available setup profiles
 when you are creating the site.  In an existing site, you can use
 Plone's regular product installation interface.
 
+
 REQUIREMENTS
 ============
 
@@ -68,5 +74,5 @@ REQUIREMENTS
 
 Optional:
 
-- py-bcrypt (http://www.mindrot.org/py-bcrypt.html or
-             http://cheeseshop.python.org/pypi/bcrypt/0.1)
+- py-bcrypt (http://code.google.com/p/py-bcrypt/ or
+  https://pypi.python.org/pypi/py-bcrypt/)
