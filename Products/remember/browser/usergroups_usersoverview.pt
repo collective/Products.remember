@@ -66,7 +66,7 @@
                 </p>
                 <p i18n:translate="user_role_note">
                   Note that roles set here apply directly to a user.
-                  The symbol <img i18n:name="image_link_icon" tal:replace="structure context/site_icon.gif" />
+                  The symbol <img i18n:name="image_link_icon" tal:replace="structure context/site_icon.png" />
                   indicates a role inherited from membership in a group.
                 </p>
                 <p i18n:translate="description_pas_users_listing"
@@ -201,7 +201,7 @@
                                          checked python:'checked' if user['roles'][portal_role]['explicit'] else nothing;
                                          disabled python:default if user['roles'][portal_role]['canAssign'] else 'disabled'" />
 
-                                  <img tal:condition="python:user['roles'][portal_role]['inherited']" tal:replace="structure context/site_icon.gif" />
+                                  <img tal:condition="python:user['roles'][portal_role]['inherited']" tal:replace="structure context/site_icon.png" />
 
                                 </td>
 
