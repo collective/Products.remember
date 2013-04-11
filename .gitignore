@@ -13,4 +13,5 @@ eggs
 fake-eggs
 local.cfg
 parts
+src
 var
