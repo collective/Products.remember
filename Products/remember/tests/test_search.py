@@ -55,9 +55,7 @@ class TestRememberSearching(RememberTestBase):
         # portal member is not in all list because is logged in
         self.assertEqual(len(results), all_mems - 1)
 
-    # XXX deactivating this test until the PlonePAS behaviour is
-    #     resolved
-    def xtestSearchForFailingLogin(self):
+    def testSearchForFailingLogin(self):
         """
         search for a login that is illegitimate.
         no members should be found
