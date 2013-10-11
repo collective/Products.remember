@@ -66,7 +66,7 @@ class RegistrationTool(BaseTool):
     # A replacement for portal_registration's mailPassword function
     # The replacement secures the mail password function with
     # MAIL_PASSWORD_PERMISSION so that members can be disabled.
-    def mailPassword(self, forgotten_userid, REQUEST, mail_template=None):
+    def mailPassword(self, forgotten_userid, REQUEST, mail_template=None, immediate=False):
         """ Email a forgotten password to a member.
 
         o Raise an exception if user ID is not found.
