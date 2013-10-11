@@ -4,7 +4,8 @@ Changelog
 1.9.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- mailPassword needs to accept immediate parameter
+  [vangheem]
 
 
 1.9.2 (2013-03-31)
