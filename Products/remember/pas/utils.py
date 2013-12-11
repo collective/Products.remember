@@ -2,7 +2,6 @@ import logging
 from AccessControl import Unauthorized
 from zope.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
-from Products.ZCatalog.Catalog import CatalogSearchArgumentsMap
 from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 
 logger = logging.getLogger('Products.remember.pas.utils')
@@ -33,8 +32,10 @@ def getBrainsForEmail(context, email, request=None):
         return []
 
     kw = dict(getEmail=email)
-    args = CatalogSearchArgumentsMap(request, kw)
-    users = user_catalog.search(args)
+
+    # this was using search(), but need to switch to Catalog.searchResults()
+    # because incompatibility with CatalogSearchArgumentsMap and hotfix 20131210
+    users = user_catalog.searchResults(request, **kw)
 
     # Searching for joe@example.org also returns john-joe@example.org.
     # But here we only want exact matches.
