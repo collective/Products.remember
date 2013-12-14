@@ -35,7 +35,7 @@ def getBrainsForEmail(context, email, request=None):
 
     # this was using search(), but need to switch to Catalog.searchResults()
     # because incompatibility with CatalogSearchArgumentsMap and hotfix 20131210
-    users = user_catalog.searchResults(request, **kw)
+    users = user_catalog.unrestrictedSearchResults(request, **kw)
 
     # Searching for joe@example.org also returns john-joe@example.org.
     # But here we only want exact matches.
