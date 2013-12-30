@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9.3 (unreleased)
+1.9.3 (2013-12-30)
 ------------------
 
 - Password reset did not work with Hotfix 2013-12-10.
