@@ -9,7 +9,7 @@ setup(name='Products.remember',
       version=version,
       description="""\
 A content-based implementation of Plone's default member infrastructure""",
-      long_description=(open("README.txt").read() + "\n" +
+      long_description=(open("README.rst").read() + "\n" +
                         open("CHANGES.rst").read()),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
