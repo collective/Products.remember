@@ -5,9 +5,11 @@ Changelog
 ------------------
 
 - Password reset did not work with Hotfix 2013-12-10.
+  Fixes issue https://github.com/collective/Products.remember/issues/6
   [miohtama]
 
 - mailPassword needs to accept immediate parameter
+  Fixes issue https://github.com/collective/Products.remember/issues/5
   [vangheem]
 
 
