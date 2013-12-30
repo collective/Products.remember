@@ -60,8 +60,7 @@ Visit the reset link and set the password.
 
     >>> from Products.PloneTestCase import ptc
     >>> browser.open(reset_link)
-    >>> browser.getControl(name="userid").value
-    'foo'
+    >>> browser.getControl(name="userid").value = 'foo'
     >>> browser.getControl(
     ...     'New password').value = ptc.default_password
     >>> browser.getControl(
