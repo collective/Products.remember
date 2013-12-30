@@ -4,6 +4,9 @@ Changelog
 1.9.3 (unreleased)
 ------------------
 
+- Password reset did not work with Hotfix 2013-12-10.
+  [miohtama]
+
 - mailPassword needs to accept immediate parameter
   [vangheem]
 
