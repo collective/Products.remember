@@ -1,0 +1,54 @@
+# Dutch (Nederlands) translation for Products.remember
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: Remember\n"
+"POT-Creation-Date: 2008-12-30 12:18+0000\n"
+"PO-Revision-Date: 2014-05-07 12:50+0200\n"
+"Last-Translator: Andreas Kaiser <kaiser@xo7.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: de\n"
+"Language-Name: Deutsch\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: remember\n"
+
+#: ./skins/remember/prefs_user_manage.cpy:51
+msgid "Changes applied."
+msgstr "Veränderungen gespeichert."
+
+#: ./browser/configlet.py:19
+msgid "Default Member Type"
+msgstr "Standard-Mitgliedstyp"
+
+#: ./skins/remember/prefs_user_manage.cpy:42
+msgid "Password update for %s failed. %s"
+msgstr "Die Änderung des Passworts für %s ist fehlgeschlagen. %s"
+
+#: ./browser/configlet.py:21
+msgid "This specifies the default member type for remember."
+msgstr "Dies gibt den Standard-Mitgliedstyp für remember an."
+
+#. Default: "As soon your registration is approved you will receive an email with instructions on how to activate your membership."
+#: ./skins/remember/pending.pt:14
+msgid "description_pending_activation"
+msgstr "Sobald Ihre Registrierung freigeschaltet ist, werden Sie eine Email mit weiteren Anweisungen zur Aktivierung erhalten."
+
+#. Default: "This is the Remember products configuration section."
+#: ./browser/configletform.pt:24
+msgid "description_remember_config"
+msgstr "Dies sind die Einstellungen für die Remember Produktkonfiguration."
+
+#. Default: "Remember Configuration"
+#: ./browser/configletform.pt:14
+msgid "heading_remember_config"
+msgstr "Remember Konfiguration"
+
+#. Default: "Welcome!"
+#: ./skins/remember/pending.pt:12
+msgid "heading_welcome"
+msgstr "Willkommen!"
+
