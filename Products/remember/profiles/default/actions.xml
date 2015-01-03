@@ -6,7 +6,7 @@
    <property name="title" i18n:translate="">Register</property>
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:${globals_view/navigationRootUrl}/join_form</property>
-   <property name="icon_expr">string:${portal_url}/group.gif</property>
+   <property name="icon_expr">string:${portal_url}/group.png</property>
    <property name="available_expr">python:member is None</property>
    <property name="permissions">
     <element value="Add portal member"/>

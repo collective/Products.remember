@@ -4,7 +4,9 @@ Changelog
 1.9.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Replace deprecated gif-icons with png-icons.
+  This fixes https://github.com/collective/Products.remember/issues/10
+  [WouterVH]
 
 
 1.9.3 (2013-12-30)
