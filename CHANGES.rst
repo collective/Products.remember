@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9.4 (unreleased)
+1.9.4 (2016-06-30)
 ------------------
 
 - Added Products.PloneTestCase to test requirements.  [maurits]
