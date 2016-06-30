@@ -26,7 +26,7 @@ Log in as a Manager::
     ...</html>
 
 Open the users control panel::
-  
+
     >>> browser.open('http://nohost/plone')
     >>> browser.getLink('Site Setup').click()
     >>> browser.getLink('Users and Groups').click()
@@ -154,7 +154,7 @@ using portal_factory.  An email will be sent.
     >>> browser.open(portal.portal_memberdata.absolute_url())
     >>> browser.getLink(url='createObject?type_name=Member').click()
     >>> browser.url
-    'http://nohost/plone/portal_memberdata/portal_factory/Member/.../edit'
+    'http://nohost/plone/portal_memberdata/portal_factory/Member/.../edit...'
     >>> try:
     ...     browser.getControl("User Name").value = 'bar'
     ... except LookupError: # BBB Plone 3
