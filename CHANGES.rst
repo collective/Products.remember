@@ -4,6 +4,8 @@ Changelog
 1.9.4 (unreleased)
 ------------------
 
+- Added Products.PloneTestCase to test requirements.  [maurits]
+
 - Replace deprecated gif-icons with png-icons.
   This fixes https://github.com/collective/Products.remember/issues/10
   [WouterVH]

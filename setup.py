@@ -1,9 +1,12 @@
 from setuptools import setup, find_packages
 
 version = '1.9.4.dev0'
-tests_require = ['collective.testcaselayer',
-                 'plone.browserlayer',
-                 'zope.testbrowser>3.3']
+tests_require = [
+    'collective.testcaselayer',
+    'plone.browserlayer',
+    'Products.PloneTestCase',
+    'zope.testbrowser>3.3',
+]
 
 setup(name='Products.remember',
       version=version,
@@ -12,7 +15,7 @@ A content-based implementation of Plone's default member infrastructure""",
       long_description=(open("README.rst").read() + "\n" +
                         open("CHANGES.rst").read()),
       # Get more strings from
-      # http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      # https://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
           "Framework :: Plone",
           "Framework :: Plone :: 4.1",
