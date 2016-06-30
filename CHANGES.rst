@@ -104,7 +104,7 @@ Changelog
   upgraded.
   [march 2011 ken manheimer]
 
-- Products.remember now depends on Products.membrane 2+ and Plone 4+.::
+- Products.remember now depends on Products.membrane 2+ and Plone 4+:
 
   - Removed and/or converted "I*Avail" interfaces
   - Added missing BaseMember.getUserId() method
