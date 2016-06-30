@@ -11,7 +11,7 @@ portal_memberdata tool.
 Products.remember 1.9+ works with Plone 4+ and Products.membrane 2+.  It
 does not suppport Plone 3 and Products.membrane 1 - for that, see instead
 versions of Products.remember before 1.9, eg 1.1b3.  Visit
-http://pypi.python.org/pypi/Products.remember for the index of all
+https://pypi.python.org/pypi/Products.remember for the index of all
 available Products.remember releases.
 
 Products.remember is a successor to CMFMember, which will not work with
@@ -26,7 +26,7 @@ http://www.coactivate.org/projects/remember/lists/remember
 Release Notes - 1.9
 ===================
 
-Tested with: Plone 4.2
+Tested with: Plone 4.2 and 4.3.
 
 State: Final release
 
