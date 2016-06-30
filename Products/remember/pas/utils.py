@@ -6,6 +6,7 @@ from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 
 logger = logging.getLogger('Products.remember.pas.utils')
 
+
 def getBrainsForEmail(context, email, request=None):
     """Anonymous users should be able to look for email addresses.
     Otherwise they cannot log in.
@@ -34,7 +35,8 @@ def getBrainsForEmail(context, email, request=None):
     kw = dict(getEmail=email)
 
     # this was using search(), but need to switch to Catalog.searchResults()
-    # because incompatibility with CatalogSearchArgumentsMap and hotfix 20131210
+    # because incompatibility with CatalogSearchArgumentsMap and hotfix
+    # 20131210
     users = user_catalog.unrestrictedSearchResults(request, **kw)
 
     # Searching for joe@example.org also returns john-joe@example.org.

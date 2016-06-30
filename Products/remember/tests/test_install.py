@@ -89,6 +89,7 @@ class TestRememberMembraneToolXMLAdapter(RememberTestBase):
                 return self.htype
 
         class Node(object):
+
             def __init__(self, htype='bcrypt'):
                 self.childNodes = [Child(htype)]
 
@@ -177,6 +178,7 @@ class TestSearchIndicesInstalled(RememberTestBase):
     """
     verify that the search indices for the membrane tool are installed
     """
+
     def testIndicesExist(self):
         """
         check the list of indices are present in membrane tool search indices

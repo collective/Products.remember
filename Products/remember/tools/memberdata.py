@@ -11,7 +11,7 @@ from Products.CMFCore import permissions as cmfcore_permissions
 from Products.CMFCore.utils import getToolByName
 
 from Products.PlonePAS.tools.memberdata import MemberDataTool \
-     as BaseTool
+    as BaseTool
 
 from Products.Archetypes import public as atapi
 from Products.remember.config import DEFAULT_MEMBER_TYPE
@@ -26,8 +26,8 @@ schema = atapi.BaseFolderSchema.copy() + atapi.Schema((
         default='Container for Members',
         widget=atapi.TextAreaWidget(rows=5),
         storage=atapi.MetadataStorage(),
-        ),
-    ))
+    ),
+))
 
 search_catalog = 'membrane_tool'
 
@@ -52,7 +52,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
     _description = None
 
     manage_options = atapi.BaseBTreeFolder.manage_options + \
-                     ActionProviderBase.manage_options
+        ActionProviderBase.manage_options
 
     def __init__(self, **kwargs):
         atapi.BaseBTreeFolder.__init__(self, self.id, **kwargs)
@@ -170,7 +170,7 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         mbtool = getToolByName(self, 'membrane_tool')
         return mbtool.listMembraneTypes()
 
-    def searchForMembers(self, REQUEST=None, **kw ):
+    def searchForMembers(self, REQUEST=None, **kw):
         """
         Do a catalog search on a sites members. If a 'brains' argument
         is set to a True value, search will return only member_catalog
@@ -208,15 +208,15 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         special_query = dict((
             ('DateIndex', dateindex_query),
             ('ZCTextIndex', zctextindex_query)
-            ))
+        ))
 
         if search_dict:
             # Make a indexname: fxToApply dict
-            idx_fx = dict(\
-                [(x.id, special_query[x.meta_type])\
-                 for x in catalog.Indexes.objectValues()\
-                 if (x.meta_type in special_query.keys() and x.id in indexes)]\
-                )
+            idx_fx = dict(
+                [(x.id, special_query[x.meta_type])
+                 for x in catalog.Indexes.objectValues()
+                 if (x.meta_type in special_query.keys() and x.id in indexes)]
+            )
 
             for i in indexes:
                 val = search_dict.get(i, None)
@@ -236,10 +236,10 @@ class MemberDataContainer(atapi.BaseBTreeFolder, BaseTool):
         results = catalog(query)
 
         # return objects by default
-        if results and not (search_dict.get('brains', False) or \
+        if results and not (search_dict.get('brains', False) or
                             REQUEST.get('brains', False)):
             if search_dict.get('portal_only', False) or \
-                   REQUEST.get('portal_only', False):
+                    REQUEST.get('portal_only', False):
                 res = []
                 for r in results:
                     mem = r.getObject()

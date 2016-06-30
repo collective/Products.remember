@@ -34,7 +34,7 @@ def getClassFromClassPath(classpath):
 
 
 class CMFMemberMigrator(TranslocatingInplaceMigrator,
-                       InplaceATItemMigrator):
+                        InplaceATItemMigrator):
     walkerClass = CatalogWalker
 
     def log(self, level, msg, *args, **kwargs):

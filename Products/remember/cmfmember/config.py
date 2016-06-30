@@ -48,12 +48,12 @@ workflow_ids: This should be an iterator containing the ids of the
 
 MIGRATION_MAP = {
     'Products.remember.content.Member':
-            {'atct_newTypeFor': {'portal_type': 'Member',
-                                 'meta_type': 'Member'},
-             'project_name': PROJECT_NAME,
-             'profile': 'profile-remember:default',
-             'replace_workflows': REPLACE_CMFMEMBER_WORKFLOWS,
-             'workflow_ids': ('member_auto_workflow',
-                              'member_approval_workflow'),
-             },
-    }
+    {'atct_newTypeFor': {'portal_type': 'Member',
+                         'meta_type': 'Member'},
+     'project_name': PROJECT_NAME,
+     'profile': 'profile-remember:default',
+     'replace_workflows': REPLACE_CMFMEMBER_WORKFLOWS,
+     'workflow_ids': ('member_auto_workflow',
+                      'member_approval_workflow'),
+     },
+}

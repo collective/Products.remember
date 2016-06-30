@@ -2,7 +2,7 @@ from zope.interface import Interface
 from zope import schema
 from zope.formlib import form
 from zope.i18nmessageid import MessageFactory
-_  = MessageFactory('remember')
+_ = MessageFactory('remember')
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 try:
@@ -21,7 +21,7 @@ class IRememberConfiglet(Interface):
         description=_(u'This specifies the default member type for remember.'),
         required=True,
         vocabulary='RememberTypes',
-        )
+    )
 
 
 class RememberConfiglet(PageForm):

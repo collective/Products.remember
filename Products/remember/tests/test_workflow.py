@@ -45,7 +45,7 @@ class TestWorkflow(RememberTestBase):
         mem = self.addMember('lammy')
         # check if new user state is pending
         self.assertEqual(wftool.getInfoFor(mem, 'review_state'),
-                                'pending')
+                         'pending')
 
         # save current state to revert back later
         rtool = getToolByName(self.portal, 'portal_registration')
@@ -82,7 +82,7 @@ class TestWorkflow(RememberTestBase):
         mem = self.addMember('lammy')
         # check if new user state is pending
         self.assertEqual(wftool.getInfoFor(mem, 'review_state'),
-                                'pending')
+                         'pending')
 
         # save current state to revert back later
         rtool = getToolByName(self.portal, 'portal_registration')
@@ -130,7 +130,6 @@ class TestWorkflow(RememberTestBase):
 
         user = uf.authenticate('lammy', 'secret', self.portal.REQUEST)
         self.failIf(user is None)
-
 
     def test_AutoWorkflowAuthentication(self):
         """A member controlled by the automatic workflow can 

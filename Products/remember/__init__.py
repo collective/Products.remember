@@ -37,7 +37,7 @@ if config.CMFMEMBER_MIGRATION_SUPPORT:
 
 # BBB from when we had a custom membership tool
 sys.modules['Products.remember.tools.membership'] = \
-        sys.modules['Products.PlonePAS.tools.membership']
+    sys.modules['Products.PlonePAS.tools.membership']
 
 # Register the skins directory
 registerDirectory(config.SKINS_DIR, config.GLOBALS)
@@ -81,7 +81,7 @@ def initialize(context):
             permission=permissions[atype.portal_type],
             extra_constructors=(constructor, ),
             fti=ftis,
-            ).initialize(context)
+        ).initialize(context)
 
     profile_registry.registerProfile('uninstall',
                                      'uninstall remember',

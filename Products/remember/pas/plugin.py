@@ -57,12 +57,12 @@ class RememberEmailAuth(BasePlugin):
 
         if ((not self.site_policy_allows_email_login())
             or (login_email == '')
-            or ('@' not in login_email)):
+                or ('@' not in login_email)):
             return {}
         login_name = self._get_username_from_email(request, login_email)
         if login_name is not None:
             request.set("__ac_name", login_name)
-            password=request.get("__ac_password", None)
+            password = request.get("__ac_password", None)
             return {"login": login_name, "password": password}
         return {}
 

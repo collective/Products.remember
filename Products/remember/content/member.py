@@ -107,7 +107,7 @@ class BaseMember(object):
         old_id = self.getId()
         self.base_archetype.setId(self, value)
 
-        #XXX: does it make sense this here?
+        # XXX: does it make sense this here?
         # Yes, makes sense to me. :-) [Maurits]
         self.fixOwnership(old_id)
     security.declarePrivate('setId')
@@ -204,6 +204,7 @@ class BaseMember(object):
     security.declarePrivate('validate_roles')
 
     security.declareProtected(EDIT_PROPERTIES_PERMISSION, 'validate_email')
+
     def validate_email(self, value):
         """Validate the uniqueness of the email address.
 
@@ -213,6 +214,7 @@ class BaseMember(object):
             return validate_unique_email(self, value)
 
     security.declareProtected(EDIT_PROPERTIES_PERMISSION, 'setEmail')
+
     def setEmail(self, value):
         """Set the email of this member.
 
@@ -223,6 +225,7 @@ class BaseMember(object):
         self.getField('email').set(self, value)
 
     security.declarePrivate('post_validate')
+
     def post_validate(self, REQUEST, errors):
         form = REQUEST.form
         if 'password' in form:
@@ -239,7 +242,7 @@ class BaseMember(object):
 
             if not errors.get('password', None):
                 if password and \
-                       (password == REQUEST.get('id', None) or \
+                    (password == REQUEST.get('id', None) or
                         password == self.id):
                     errors['password'] = self.translate(
                         'id_pass_same',
@@ -248,7 +251,7 @@ class BaseMember(object):
                         domain='remember-plone')
 
             if not (errors.get('password', None)) and \
-                   not (errors.get('confirm_password', None)):
+                    not (errors.get('confirm_password', None)):
                 if password != confirm:
                     errors['password'] = \
                         errors['confirm_password'] = \
@@ -371,8 +374,8 @@ class BaseMember(object):
             # have to check permissions by hand... ugh!
             field = self.getField(fieldname)
             if security_check and \
-                   field is not None and \
-                   not field.checkPermission("edit", self):
+                    field is not None and \
+                    not field.checkPermission("edit", self):
                 raise Unauthorized
 
         self.update(**mapping)
@@ -504,6 +507,7 @@ class BaseMember(object):
         on that, please.
         """
         return self.getId()
+
     def getUserId(self):
         """Return the user login id.
         """
@@ -519,7 +523,7 @@ class BaseMember(object):
                              'Please run migration')
         hasher = getAdapter(self, IHashPW, hash_type)
         if login == self.getUserName() and \
-               hasher.validate(hashed, password):
+                hasher.validate(hashed, password):
             return True
         else:
             return False
@@ -534,7 +538,7 @@ class BaseMember(object):
         try:
             SecurityManagement.newSecurityManager(None, self.getUser())
             if not SecurityManagement.getSecurityManager(
-                ).checkPermission(CAN_AUTHENTICATE_PERMISSION, self):
+            ).checkPermission(CAN_AUTHENTICATE_PERMISSION, self):
                 return None
         finally:
             SecurityManagement.setSecurityManager(orig_sm)
@@ -543,7 +547,6 @@ class BaseMember(object):
             login = credentials.get('login')
             userid = self.getUserId()
             return userid, login
-
 
     #######################################################################
     # IManageCapabilities implementation
@@ -642,7 +645,7 @@ class BaseMember(object):
                     return manager.allowRoleAssign(self.getId(), role_id)
         return 0
 
-    ## plugin getters
+    # plugin getters
 
     def _getPlugins(self):
         return self.acl_users.plugins
@@ -682,7 +685,8 @@ class BaseMember(object):
             return False
         for d in wft.getTransitionsFor(self):
             try:
-                if d['id'] == transition: return True
+                if d['id'] == transition:
+                    return True
             except KeyError:
                 pass
         return False

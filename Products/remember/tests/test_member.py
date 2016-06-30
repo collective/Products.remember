@@ -357,7 +357,7 @@ class TestMember(RememberTestBase):
         editor = mdatatool.getProperty(
             'wysiwyg_editor', getToolByName(
                 self, 'portal_properties'
-                ).site_properties.getProperty(
+            ).site_properties.getProperty(
                 'default_editor', 'Kupu'))
         self.failUnless(editor == member.getProperty('wysiwyg_editor'))
 

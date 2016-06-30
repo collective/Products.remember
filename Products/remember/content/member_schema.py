@@ -3,7 +3,7 @@ from Products.Archetypes import public as atapi
 from Products.remember import permissions
 
 ##############
-## ID_SCHEMA
+# ID_SCHEMA
 ##############
 id_schema = atapi.Schema((
     atapi.StringField(
@@ -42,11 +42,11 @@ id_schema = atapi.Schema((
         user_property=True,
         widget=atapi.ComputedWidget(label_msgid="label_title",
                                     i18n_domain="plone")),
-    ))
+))
 
 
 #################
-## CONTACT_SCHEMA
+# CONTACT_SCHEMA
 #################
 contact_schema = atapi.Schema((
     atapi.StringField(
@@ -68,7 +68,7 @@ contact_schema = atapi.Schema((
             description="Enter full name, eg. John Smith.",
             description_msgid='help_full_name_creation',
             i18n_domain='plone',
-            )),
+        )),
     atapi.StringField(
         'email',
         required=1,
@@ -92,10 +92,10 @@ contact_schema = atapi.Schema((
             "parties or expose it anywhere.",
             description_msgid='help_email_creation',
             i18n_domain='plone')),
-    ))
+))
 
 ###############
-## PLONE_SCHEMA
+# PLONE_SCHEMA
 ###############
 plone_schema = atapi.Schema((
     atapi.StringField(
@@ -144,14 +144,14 @@ plone_schema = atapi.Schema((
         required=0,
         user_property=True,
         widget=atapi.ImageWidget(
-           label='Portrait',
-           label_msgid='label_portrait',
-           description="To add or change the portrait: click the "
+            label='Portrait',
+            label_msgid='label_portrait',
+            description="To add or change the portrait: click the "
             "\"Browse\" button; select a picture of yourself. "
             "Recommended image size is 75 pixels wide by 100 "
             "pixels tall.",
-           description_msgid='help_portrait',
-           i18n_domain='plone')),
+            description_msgid='help_portrait',
+            i18n_domain='plone')),
     atapi.BooleanField(
         'visible_ids',
         default=0,
@@ -171,7 +171,7 @@ plone_schema = atapi.Schema((
             description_msgid='help_display_names',
             condition='object/isVisible_ids',
             visible={'edit': 'visible',
-              'view': 'visible'},
+                     'view': 'visible'},
             i18n_domain='plone')),
     atapi.StringField(
         'home_page',
@@ -228,10 +228,10 @@ plone_schema = atapi.Schema((
             'linked from the items you create.',
             description_msgid='help_biography',
             i18n_domain='plone')),
-    ))
+))
 
 ##################
-## SECURITY_SCHEMA
+# SECURITY_SCHEMA
 ##################
 
 # password fields show up (or not) by virtue of the
@@ -272,7 +272,7 @@ security_schema = atapi.Schema((
             i18n_domain='plone',
             visible={'view': 'invisible'},
             condition="object/showPasswordField")),
-   atapi.BooleanField(
+    atapi.BooleanField(
         'must_change_password',
         default=0,
         mode='rw',
@@ -289,7 +289,7 @@ security_schema = atapi.Schema((
             description='',
             i18n_domain='plone',
             condition="object/showPasswordField")),
-   atapi.BooleanField(
+    atapi.BooleanField(
         'mail_me',
         default=0,
         mode='rw',
@@ -310,7 +310,7 @@ security_schema = atapi.Schema((
         default_method='getDefaultRoles',
         mutator='setRoles',
         accessor='getRoles',
-        #edit_accessor='getFilteredRoles',
+        # edit_accessor='getFilteredRoles',
         mode='rw',
         read_permission=permissions.VIEW_SECURITY_PERMISSION,
         write_permission=permissions.EDIT_SECURITY_PERMISSION,
@@ -319,10 +319,10 @@ security_schema = atapi.Schema((
         index='membrane_tool/KeywordIndex:brains',
         user_property=True,
         widget=atapi.MultiSelectionWidget(label='Roles',
-              label_msgid='label_roles',
-              description="Select the security roles for this user",
-              description_msgid='help_select_member_role',
-              i18n_domain='plone')),
+                                          label_msgid='label_roles',
+                                          description="Select the security roles for this user",
+                                          description_msgid='help_select_member_role',
+                                          i18n_domain='plone')),
     atapi.LinesField(
         'groups',
         default=(),
@@ -338,12 +338,12 @@ security_schema = atapi.Schema((
         index='membrane_tool/KeywordIndex:brains',
         user_property=True,
         widget=atapi.MultiSelectionWidget(\
-           label='Groups',
-           label_msgid='label_groups',
-           description="Indicate the groups to which this member "
-           "belongs",
-           description_msgid='help_select_member_groups',
-           i18n_domain='plone')),
+            label='Groups',
+            label_msgid='label_groups',
+            description="Indicate the groups to which this member "
+            "belongs",
+            description_msgid='help_select_member_groups',
+            i18n_domain='plone')),
     atapi.LinesField(
         'domains',
         default=(),
@@ -355,13 +355,13 @@ security_schema = atapi.Schema((
         multivalued=1,
         user_property=True,
         widget=atapi.LinesWidget(label='Domains',
-             label_msgid='label_domains',
-             description="If you would like to restrict this user to "
-             "logging in only from certain domains, enter those "
-             "domains here.",
-             description_msgid='help_member_domains',
-             i18n_domain='plone')),
-     atapi.ComputedField(
+                                 label_msgid='label_domains',
+                                 description="If you would like to restrict this user to "
+                                 "logging in only from certain domains, enter those "
+                                 "domains here.",
+                                 description_msgid='help_member_domains',
+                                 i18n_domain='plone')),
+    atapi.ComputedField(
         'review_state',
         mode='r',
         read_permission=permissions.VIEW_SECURITY_PERMISSION,
@@ -395,10 +395,10 @@ context.portal_workflow.getInfoFor(context, 'review_state')""",
         searchable=1,
         accessor='getListedProperty',
         user_property=False),
-    ))
+))
 
 ####################
-## LOGIN_INFO_SCHEMA
+# LOGIN_INFO_SCHEMA
 ####################
 login_info_schema = atapi.Schema((
     atapi.DateTimeField(
@@ -428,8 +428,8 @@ login_info_schema = atapi.Schema((
             label="Last login time",
             modes=('view',),
             visible={'edit': 'invisible', 'view': 'visible'})),
-    ))
+))
 
 
 content_schema = id_schema + contact_schema + plone_schema + \
-          security_schema + login_info_schema
+    security_schema + login_info_schema

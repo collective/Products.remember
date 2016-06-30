@@ -25,7 +25,8 @@ class TestHasher(RememberTestBase):
         for htype in HASHERS:
             login_id = 'hashtest_%s' % htype
             member = self.portal_member
-            if not getAdapter(member, IHashPW, htype).isAvailable(): continue
+            if not getAdapter(member, IHashPW, htype).isAvailable():
+                continue
 
             mbtool = getToolByName(member, 'membrane_tool')
             annot = IAnnotations(mbtool)

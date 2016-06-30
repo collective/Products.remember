@@ -2,7 +2,7 @@ from Testing import ZopeTestCase
 from Zope2.App import zcml
 from Products.Five import fiveconfigure
 
-from Products.CMFCore.utils  import getToolByName
+from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.tests.PloneTestCase import PloneTestCase
 from Products.CMFPlone.tests.PloneTestCase import FunctionalTestCase
@@ -29,21 +29,21 @@ def_mem_data = {
     'email': 'noreply@xxxxxxxxyyyyyy.com',
     'password': mem_password,
     'confirm_password': mem_password,
-     }
+}
 
 mem_data = {
-        'portal_member':
+    'portal_member':
         {
-          'fullname': 'Portal Member',
-          'mail_me': True,
+            'fullname': 'Portal Member',
+            'mail_me': True,
         },
-        'admin_member':
+    'admin_member':
         {
-          'roles': ['Manager', 'Member']
+            'roles': ['Manager', 'Member']
         },
-        'blank_member':
+    'blank_member':
         {},
-    }
+}
 
 our_num_remem_mems = len(mem_data.items())
 # PortalTestCase creates a remember member during setup

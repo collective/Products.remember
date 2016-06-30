@@ -9,7 +9,7 @@ from zExceptions import BadRequest
 import plugin
 
 manage_add_pas_form = PageTemplateFile('browser/add_plugin',
-                            globals(), __name__='manage_add_pas_form')
+                                       globals(), __name__='manage_add_pas_form')
 
 
 def manage_add_remember_emaillogin_user_authentication(dispatcher, id,
@@ -37,11 +37,12 @@ def register_pas_plugin():
 
 def register_pas_plugin_class(context):
     context.registerClass(plugin.RememberEmailAuth,
-                          permission = manage_users,
-                          constructors = (manage_add_pas_form,
-                                          manage_add_remember_emaillogin_user_authentication),
-                          visibility = None,
+                          permission=manage_users,
+                          constructors=(manage_add_pas_form,
+                                        manage_add_remember_emaillogin_user_authentication),
+                          visibility=None,
                           icon='pas/browser/icon.gif')
+
 
 def activate_pas_plugin(context, id, title):
     try:

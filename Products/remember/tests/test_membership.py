@@ -11,6 +11,7 @@ class TestMembershipTool(RememberTestBase):
     MembershipTool.  (We're confirming that its removal isn't breaking
     anything.)
     """
+
     def afterSetUp(self):
         RememberTestBase.afterSetUp(self)
         self.mtool = self.portal.portal_membership
@@ -57,7 +58,7 @@ class TestMembershipTool(RememberTestBase):
             self.types.manage_copyObjects('Member'))
 
         self.types.manage_renameObject('copy_of_Member',
-            'AnotherMember')
+                                       'AnotherMember')
 
         # Add the "AnotherMember" type to PortalMemberdata's allowed types
         memberdatacontainer = self.types['MemberDataContainer']

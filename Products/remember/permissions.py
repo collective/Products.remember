@@ -51,6 +51,7 @@ MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 ADD_PERMISSIONS = {config.DEFAULT_MEMBER_TYPE: ADD_MEMBER_PERMISSION,
                    }
 
+
 def initialize():
     permissions = {}
     types = atapi.listTypes(config.PROJECT_NAME)

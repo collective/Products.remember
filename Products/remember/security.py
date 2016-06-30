@@ -4,7 +4,7 @@ from plone.app.controlpanel import security
 
 
 class SecurityControlPanelAdapter(
-    security.SecurityControlPanelAdapter):
+        security.SecurityControlPanelAdapter):
 
     def set_enable_self_reg(self, value):
         super(SecurityControlPanelAdapter, self

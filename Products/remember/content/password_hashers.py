@@ -68,6 +68,7 @@ class SHAHash(BaseHash):
     """
     Adapts from IAnnotatable to IHashPW. Uses SHA to hash the password
     """
+
     def hashPassword(self, password):
         """
         Return a hashed version of password using SHA
@@ -79,6 +80,7 @@ class HMACHash(BaseHash):
     """
     Adapts from IAnnotatable to IHashPW. Uses SHA to hash the password
     """
+
     def __init__(self, context):
         self.context = context
         key = str(context)
@@ -101,6 +103,7 @@ class ZAuthHash(BaseHash):
     Adapts from IAnnotatable to IHashPW. Uses Zope 2's
     AccessControl.AuthEncoding module to hash the password.
     """
+
     def hashPassword(self, password):
         """
         Delegate to AccessControl.AuthEncoding.

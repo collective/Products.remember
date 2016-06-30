@@ -2,7 +2,7 @@ import logging
 from Products.CMFCore.utils import getToolByName
 
 from Products.PluggableAuthService.interfaces.plugins \
-     import IUserAdderPlugin
+    import IUserAdderPlugin
 
 from Products.remember.pas import install as pas_install
 from zope.component import getUtility

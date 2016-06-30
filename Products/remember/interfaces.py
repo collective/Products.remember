@@ -19,6 +19,7 @@ class IRememberLayer(Interface):
 
     Installed via browserlayer.xml."""
 
+
 class IReMember(Interface):
     """
     A marker interface that declares the provider to be a Remember
@@ -38,6 +39,7 @@ class IRememberGroupsProvider(at_ifaces.IGroupsProvider):
     Marks member objects as using the 'groups' field for groups
     instead of the default, which is references to group objects.
     """
+
     def getGroups(self):
         """
         Returns the groups this member belongs to.
@@ -69,6 +71,7 @@ class IRememberMembraneTool(IMembraneTool):
     Create a new interface to allow configuration of remember on the
     membrane tool at setup time
     """
+
 
 class IRememberUserChanger(at_ifaces.IUserChanger):
     """
