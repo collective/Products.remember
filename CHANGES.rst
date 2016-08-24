@@ -4,6 +4,13 @@ Changelog
 1.9.5 (unreleased)
 ------------------
 
+- Fixed uninstall for newer Plone 4 versions.  You could get
+  "ValueError: The 'remove' keyword is not supported in
+  toolset.xml. Failed to remove 'portal_memberdata' from required
+  tools. Use an element 'forbidden' instead."  I replaced this by
+  requiring the original Plone tools in `uninstall/toolset.xml`.
+  It still works for older Plones as well.  [maurits]
+
 - Test with Travis.  [maurits]
 
 
