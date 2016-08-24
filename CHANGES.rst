@@ -4,7 +4,7 @@ Changelog
 1.9.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Test with Travis.  [maurits]
 
 
 1.9.4 (2016-06-30)
