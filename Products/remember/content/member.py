@@ -288,8 +288,9 @@ class BaseMember(object):
 
     # Vocabulary methods
     def editors(self):
+        # TODO: On Plone 5 we must use the registry.
         ptool = getToolByName(self, 'portal_properties')
-        return ptool.site_properties.available_editors
+        return ptool.site_properties.getProperty('available_editors', [])
 
     def filtered_valid_roles(self):
         """ return valid roles minus any automatic roles """

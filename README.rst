@@ -36,6 +36,14 @@ Release Manager: Ken Manheimer, Maurits van Rees
 
 Compatible with/requires Plone 4.1+ and Products.membrane 2+.
 
+There is *very preliminary* support for Plone 5 since version 1.9.5.
+At least Plone can now start without error.  And if you first install
+"Archetypes Content Types for Plone", then you can install
+Products.remember.  We cannot recommend it yet and do not support it,
+but if you are brave then you at least have a place to start.  But you
+may want to have a look at `dexterity.membrane
+<https://pypi.python.org/pypi/dexterity.membrane>`_ instead.
+
 Products.remember is now undisruptive when present but not installed, not
 affecting operation of non-remember sites in the same instance.  Sites that
 have Products.remember installed can now quick-uninstall to revert to plain

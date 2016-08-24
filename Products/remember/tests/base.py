@@ -4,8 +4,8 @@ from Products.Five import fiveconfigure
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.CMFPlone.tests.PloneTestCase import PloneTestCase
-from Products.CMFPlone.tests.PloneTestCase import FunctionalTestCase
+from Products.PloneTestCase.ptc import PloneTestCase
+from Products.PloneTestCase.ptc import FunctionalTestCase
 
 from collective.testcaselayer import ptc as tcl_ptc
 from collective.testcaselayer import mail
