@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9.5 (unreleased)
+1.9.5 (2016-08-25)
 ------------------
 
 - Added very preliminary support for Plone 5.  At least Plone can now
