@@ -4,6 +4,15 @@ Changelog
 1.9.5 (unreleased)
 ------------------
 
+- Added very preliminary support for Plone 5.  At least Plone can now
+  start without error.  And if you first install "Archetypes Content
+  Types for Plone", then you can install Products.remember.  We cannot
+  recommend it yet and do not support it, but if you are brave then
+  you at least have a place to start.  But you may want to have a look
+  at `dexterity.membrane
+  <https://pypi.python.org/pypi/dexterity.membrane>`_ instead.
+  [Martronic-SA, maurits]
+
 - Fixed uninstall for newer Plone 4 versions.  You could get
   "ValueError: The 'remove' keyword is not supported in
   toolset.xml. Failed to remove 'portal_memberdata' from required

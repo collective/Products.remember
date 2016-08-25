@@ -13,12 +13,12 @@ from Products.GenericSetup import interfaces
 from Products.GenericSetup.testing import DummySetupEnviron
 
 from Products.PloneTestCase import layer
-from Products.CMFPlone.tests import PloneTestCase
+from Products.PloneTestCase.ptc import PloneTestCase
 
 from Products.remember.config import ANNOT_KEY
 
 
-class TestRememberProfiles(PloneTestCase.PloneTestCase):
+class TestRememberProfiles(PloneTestCase):
     """
     Uses a different layer so the profile import can be tested.
     """
